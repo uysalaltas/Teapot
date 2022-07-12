@@ -16,6 +16,9 @@
     <ClInclude Include="src\Teapot\EntryPoint.h">
       <Filter>Teapot</Filter>
     </ClInclude>
+    <ClInclude Include="src\Teapot\Window.h">
+      <Filter>Teapot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Teapot\Application.cpp">

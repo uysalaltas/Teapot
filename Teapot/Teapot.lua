@@ -15,7 +15,14 @@ project "Teapot"
 
 	includedirs
 	{
-		"src"
+		"src",
+		"vendor/GLFW/include"
+	}
+
+	links
+	{
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"

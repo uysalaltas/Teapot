@@ -14,6 +14,7 @@ project "TeapotApp"
 	includedirs
 	{
 		"%{wks.location}/Teapot/src",
+		"%{wks.location}/Teapot/vendor/GLFW/include"
 	}
 
 	links

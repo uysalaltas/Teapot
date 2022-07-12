@@ -1,8 +1,7 @@
-#pragma once
-
 #include <iostream>
 
 #include "Core.h"
+#include <GLFW/glfw3.h>
 
 namespace Teapot 
 {
@@ -12,6 +11,7 @@ namespace Teapot
 		Application();
 		virtual ~Application();
 		void Run();
+		GLFWwindow* window;
 	};
 
 	Application* CreateApplication();
