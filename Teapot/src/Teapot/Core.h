@@ -6,4 +6,6 @@
 	#else
 		#define	TEAPOT_API __declspec(dllimport)
 	#endif
+#elif TEA_PLATFORM_LINUX
+	#define TEAPOT_API __attribute__((visibility("default")))
 #endif

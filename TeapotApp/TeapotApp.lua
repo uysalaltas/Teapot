@@ -31,6 +31,16 @@ project "TeapotApp"
 		{
 			"TEA_PLATFORM_WINDOWS"
 		}
+	
+	filter "system:linux"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines
+		{
+			"TEA_PLATFORM_LINUX"
+		}
 
 	filter "configurations:Debug"
 		defines "TEA_DEBUG"

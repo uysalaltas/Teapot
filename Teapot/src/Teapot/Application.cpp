@@ -5,6 +5,8 @@ namespace Teapot
 	Application::Application()
 	{
 		std::cout << "Hello From API" << std::endl;
+
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -14,9 +16,9 @@ namespace Teapot
 
 	void Application::Run()
 	{
-		while (true)
+		while (m_Running)
 		{
-			//std::cout << "Hello From API Loop" << std::endl;
+			m_Window->OnUpdate();
 		}
 	}	
 }

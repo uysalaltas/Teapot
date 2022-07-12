@@ -41,6 +41,21 @@ project "Teapot"
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/TeapotApp")
 		}
 
+	filter "system:linux"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		links 
+		{
+			"dl", "pthread" 
+		}
+		
+		defines
+		{
+			"TEA_PLATFORM_LINUX",
+		}
+
 	filter "configurations:Debug"
 		defines "TEA_DEBUG"
 		runtime "Debug"

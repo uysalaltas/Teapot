@@ -1,7 +1,8 @@
 #include <iostream>
+#include <GLFW/glfw3.h>
 
 #include "Core.h"
-#include <GLFW/glfw3.h>
+#include "Window.h"
 
 namespace Teapot 
 {
@@ -11,9 +12,12 @@ namespace Teapot
 		Application();
 		virtual ~Application();
 		void Run();
-		GLFWwindow* window;
-	};
 
-	Application* CreateApplication();
+		Window& GetWindow() { return *m_Window; }
+
+	private:
+		std::unique_ptr<Window> m_Window;
+		bool m_Running = true;
+	};
 }
 

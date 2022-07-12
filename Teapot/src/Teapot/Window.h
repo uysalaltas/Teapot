@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Teapot.h"
+#include "Core.h"
+#include <string>
 
 namespace Teapot
 {
