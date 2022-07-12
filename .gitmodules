@@ -1,3 +1,0 @@
-[submodule "Teapot/vendor"]
-	path = Teapot/vendor
-	url = https://github.com/uysalaltas/glfw.git
