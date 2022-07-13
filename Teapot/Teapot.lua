@@ -21,14 +21,18 @@ project "Teapot"
 
 	links
 	{
-		"GLFW",
-		"opengl32.lib"
+		"GLFW"
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+
+		links
+		{
+			"opengl32.lib"
+		}
 
 		defines
 		{
