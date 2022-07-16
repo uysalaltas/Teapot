@@ -21,11 +21,17 @@ namespace Teapot
 		m_Data.Height = props.Height;
 		m_Data.Width = props.Width;
 
+		glfwSetErrorCallback(error_callback);
+		
 		if (!s_GLFWInitialized)
 		{
 			int success = glfwInit();
 			s_GLFWInitialized = true;
 		}
+
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);

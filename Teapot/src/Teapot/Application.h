@@ -1,5 +1,6 @@
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include <memory>
 
 #include "Core.h"
 #include "Window.h"

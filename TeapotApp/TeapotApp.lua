@@ -37,6 +37,11 @@ project "TeapotApp"
 		staticruntime "On"
 		systemversion "latest"
 
+		links 
+		{
+			"GLFW", "Xrandr", "Xi", "GLU", "GL", "X11", "dl", "pthread", "stdc++fs"
+		}
+
 		defines
 		{
 			"TEA_PLATFORM_LINUX"

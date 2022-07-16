@@ -21,6 +21,11 @@ namespace Teapot
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
+		static void error_callback(int error, const char* description)
+		{
+			fprintf(stderr, "Error: %s\n", description);
+		}
+
 	private:
 		GLFWwindow* m_Window;
 		struct WindowData
