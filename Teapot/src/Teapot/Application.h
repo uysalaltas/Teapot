@@ -11,13 +11,11 @@ namespace Teapot
 	public:
 		Application();
 		virtual ~Application();
+		virtual void OnUpdate() = 0;
 		void Run();
-
 		Window& GetWindow() { return *m_Window; }
-
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 	};
 }
-

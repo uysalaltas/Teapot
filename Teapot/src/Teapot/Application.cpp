@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "EntryPoint.h"
 
 namespace Teapot
 {
@@ -19,6 +20,7 @@ namespace Teapot
 		while (m_Running)
 		{
 			m_Window->OnUpdate();
+			OnUpdate();
 		}
-	}	
+	}
 }

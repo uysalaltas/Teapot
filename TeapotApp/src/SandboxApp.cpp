@@ -1,26 +1,27 @@
 #include "Teapot.h"
 
-//class Sandbox : public Teapot::Application
-//{
-//public:
-//	Sandbox() 
-//	{
-//		std::cout << "Hello From Sandbox" << std::endl;
-//	}
-//	~Sandbox()
-//	{
-//		std::cout << "Hello From Sandbox" << std::endl;
-//	}
-//};
-//
-//Teapot::Application* Teapot::CreateApplication()
-//{
-//	return new Sandbox();
-//}
+class Sandbox : public Teapot::Application
+{
+public:
+	Sandbox() 
+	{
+		std::cout << "Sandbox Initialized" << std::endl;
+	}
+	~Sandbox()
+	{
+		std::cout << "Sandbox deinitialized" << std::endl;
+	}
+
+	void OnUpdate() override
+	{
+		std::cout << "Loop" << std::endl;
+	}
+};
 
 int main()
 {
-	Teapot::Application* app = new Teapot::Application();
-	app->Run();
-
+	Sandbox* s = new Sandbox();
+	s->Run();
+	s->OnUpdate();
+	delete(s);
 }
