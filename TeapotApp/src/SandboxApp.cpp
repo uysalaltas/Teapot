@@ -5,16 +5,16 @@ class Sandbox : public Teapot::Application
 public:
 	Sandbox() 
 	{
-		std::cout << "Sandbox Initialized" << std::endl;
+		//Contructor
 	}
 	~Sandbox()
 	{
-		std::cout << "Sandbox deinitialized" << std::endl;
+		//Destructor
 	}
 
 	void OnUpdate() override
 	{
-		std::cout << "Loop" << std::endl;
+		//Loop
 	}
 };
 
