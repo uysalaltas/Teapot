@@ -3,5 +3,5 @@ group "Dependencies"
 group ""
 
 group "Core"
-    include "Teapot"
+    include "Teapot/Teapot.lua"
 group ""

@@ -1,5 +1,5 @@
 project "Teapot"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
 	staticruntime "off"
@@ -40,10 +40,10 @@ project "Teapot"
 			"TEA_BUILD_DLL"
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/TeapotApp")
-		}
+		-- postbuildcommands
+		-- {
+		-- 	("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/TeapotApp")
+		-- }
 
 	filter "system:linux"
 		cppdialect "C++17"
