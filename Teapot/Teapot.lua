@@ -16,12 +16,14 @@ project "Teapot"
 	includedirs
 	{
 		"src",
-		"vendor/GLFW/include"
+		"vendor/GLFW/include",
+		"vendor/GLAD/include"
 	}
 
 	links
 	{
-		"GLFW"
+		"GLFW",
+		"GLAD"
 	}
 
 	filter "system:windows"
@@ -37,7 +39,8 @@ project "Teapot"
 		defines
 		{
 			"TEA_PLATFORM_WINDOWS",
-			"TEA_BUILD_DLL"
+			"TEA_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		-- postbuildcommands

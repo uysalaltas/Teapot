@@ -2,6 +2,7 @@
 
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <glad/glad.h>
 
 #include "Teapot/Window.h"
 

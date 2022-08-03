@@ -9,3 +9,4 @@ include "Teapot/Teapot.lua"
 include "TeapotApp/TeapotApp.lua"
 
 include "Teapot/vendor/GLFW"
+include "Teapot/vendor/GLAD"
