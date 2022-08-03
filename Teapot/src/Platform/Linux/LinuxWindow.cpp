@@ -43,10 +43,14 @@ namespace Teapot
 		}
 	}
 
-	void LinuxWindow::OnUpdate()
+	void LinuxWindow::OnFistUpdate()
 	{
-		glClearColor(0.8f, 0.5f, 0.5f, 1.0f);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
+	void LinuxWindow::OnLastUpdate()
+	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}

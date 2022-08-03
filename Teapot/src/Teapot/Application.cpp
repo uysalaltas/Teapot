@@ -19,8 +19,9 @@ namespace Teapot
 	{
 		while (m_Running)
 		{
-			m_Window->OnUpdate();
+			m_Window->OnFistUpdate();
 			OnUpdate();
+			m_Window->OnLastUpdate();
 		}
 	}
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
 #include <iostream>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "Teapot/Window.h"
 
@@ -14,7 +14,9 @@ namespace Teapot
 		LinuxWindow(const WindowProps& props);
 		virtual ~LinuxWindow();
 
-		void OnUpdate() override;
+		void OnFistUpdate() override;
+		void OnLastUpdate() override;
+
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeigth() const override { return m_Data.Height; }
 
