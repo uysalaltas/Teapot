@@ -1,2 +1,2 @@
 # Teapot
-Basic Imgui Project
+OpenGL Template for applications
