@@ -15,6 +15,12 @@ public:
 	void OnUpdate() override
 	{
 		//Loop
+
+		//Key Press Example
+		if (Teapot::Input::IsKeyPressed(TEA_KEY_A))
+		{
+			std::cout << "A Pressed" << std::endl;
+		}
 	}
 };
 

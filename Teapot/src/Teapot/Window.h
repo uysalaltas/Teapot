@@ -31,6 +31,8 @@ namespace Teapot
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeigth() const = 0;
 
+		virtual void* GetNativeWindow() const = 0;
+
 		static Window* Create(const WindowProps& props = WindowProps());
 	};
 }

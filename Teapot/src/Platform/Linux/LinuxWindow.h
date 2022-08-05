@@ -20,6 +20,7 @@ namespace Teapot
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeigth() const override { return m_Data.Height; }
 
+		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
