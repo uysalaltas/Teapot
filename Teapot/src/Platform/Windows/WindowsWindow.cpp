@@ -26,6 +26,7 @@ namespace Teapot
 			s_GLFWInitialized = true;
 		}
 
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -34,6 +35,8 @@ namespace Teapot
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
+
+		sceneBuffer = new FrameBuffer(props.Width, props.Height);
 	}
 
 	void WindowsWindow::OnFistUpdate()
@@ -46,6 +49,12 @@ namespace Teapot
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
+	}
+
+	void WindowsWindow::UpdateViewport()
+	{
+		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
 	}
 
 	void WindowsWindow::Shutdown()

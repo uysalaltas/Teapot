@@ -41,6 +41,8 @@ namespace Teapot
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
+
+		sceneBuffer = new FrameBuffer(props.Width, props.Height);
 	}
 
 	void LinuxWindow::OnFistUpdate()
@@ -53,6 +55,12 @@ namespace Teapot
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
+	}
+
+	void LinuxWindow::UpdateViewport()
+	{
+		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
 	}
 
 	void LinuxWindow::Shutdown()

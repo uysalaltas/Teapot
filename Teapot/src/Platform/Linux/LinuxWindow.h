@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Teapot/Window.h"
+#include "Renderer/FrameBuffer.h"
 
 namespace Teapot
 {
@@ -20,6 +21,11 @@ namespace Teapot
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeigth() const override { return m_Data.Height; }
 
+		void UpdateViewport() override;
+
+		inline unsigned int* GetWidthRef() override { return &m_Data.Width; }
+		inline unsigned int* GetHeigthRef() override { return &m_Data.Height; }
+
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
 		virtual void Init(const WindowProps& props);
@@ -31,7 +37,9 @@ namespace Teapot
 		}
 
 	private:
+		FrameBuffer* sceneBuffer;
 		GLFWwindow* m_Window;
+
 		struct WindowData
 		{
 			std::string Title;

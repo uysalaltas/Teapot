@@ -11,13 +11,18 @@ project "Teapot"
 	{
 		"src/**.h",
 		"src/**.cpp",
+		"vendor/glm/glm/**.hpp",
+		"vendor/glm/glm/**.inl",
 	}
 
 	includedirs
 	{
 		"src",
 		"vendor/GLFW/include",
-		"vendor/GLAD/include"
+		"vendor/GLAD/include",
+		"vendor/glm",
+		"vendor/stb_image",
+		"vendor/assimp/include"
 	}
 
 	links
@@ -31,9 +36,15 @@ project "Teapot"
 		staticruntime "On"
 		systemversion "latest"
 
+		libdirs
+		{
+			"vendor/assimp/lib"
+		}
+
 		links
 		{
-			"opengl32.lib"
+			"opengl32.lib",
+			"assimp-vc142-mtd.lib"
 		}
 
 		defines
@@ -42,11 +53,6 @@ project "Teapot"
 			"TEA_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
-
-		-- postbuildcommands
-		-- {
-		-- 	("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/TeapotApp")
-		-- }
 
 	filter "system:linux"
 		cppdialect "C++17"

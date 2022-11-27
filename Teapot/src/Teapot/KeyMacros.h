@@ -1,5 +1,7 @@
 #pragma once
 
+#define TEA_MOUSE_MIDDLE           2
+
 #define TEA_KEY_SPACE              32
 #define TEA_KEY_APOSTROPHE         39  
 #define TEA_KEY_COMMA              44  
