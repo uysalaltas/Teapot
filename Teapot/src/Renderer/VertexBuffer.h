@@ -17,16 +17,19 @@ struct Vertex
 	float m_Weights[MAX_BONE_INFLUENCE];
 };
 
-class VertexBuffer
+namespace Teapot
 {
-public:
-	VertexBuffer(std::vector<Vertex>& vertices);
-	~VertexBuffer();
+	class VertexBuffer
+	{
+	public:
+		VertexBuffer(std::vector<Vertex>& vertices);
+		~VertexBuffer();
 
-	void BufferDataModification(std::vector<Vertex>& vertices);
-	void Bind() const;
-	void Unbind() const;
-private:
-	unsigned int m_RendererID;
+		void BufferDataModification(std::vector<Vertex>& vertices);
+		void Bind() const;
+		void Unbind() const;
+	private:
+		unsigned int m_RendererID;
 
-};
+	};
+}

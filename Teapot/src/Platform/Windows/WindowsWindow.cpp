@@ -35,8 +35,6 @@ namespace Teapot
 		{
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
-
-		sceneBuffer = new FrameBuffer(props.Width, props.Height);
 	}
 
 	void WindowsWindow::OnFistUpdate()
@@ -54,7 +52,6 @@ namespace Teapot
 	void WindowsWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_Data.Width, m_Data.Height);
-		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
 	}
 
 	void WindowsWindow::Shutdown()

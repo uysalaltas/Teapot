@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Engine/Core.h"
+#include "Teapot/Core.h"
 #include "Event.h"
 
 #include <sstream>
 
-namespace OpenGLEngine {
+namespace Teapot {
 
-	class OPENGL_API WindowResizeEvent : public Event
+	class TEAPOT_API WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
@@ -29,7 +29,7 @@ namespace OpenGLEngine {
 		unsigned int m_Width, m_Height;
 	};
 
-	class OPENGL_API WindowCloseEvent : public Event
+	class TEAPOT_API WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent() {}
@@ -38,7 +38,7 @@ namespace OpenGLEngine {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class OPENGL_API AppTickEvent : public Event
+	class TEAPOT_API AppTickEvent : public Event
 	{
 	public:
 		AppTickEvent() {}
@@ -47,7 +47,7 @@ namespace OpenGLEngine {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class OPENGL_API AppUpdateEvent : public Event
+	class TEAPOT_API AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() {}
@@ -56,7 +56,7 @@ namespace OpenGLEngine {
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class OPENGL_API AppRenderEvent : public Event
+	class TEAPOT_API AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() {}

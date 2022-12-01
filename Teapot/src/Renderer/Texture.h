@@ -6,24 +6,26 @@
 
 #include "Shader.h"
 
-class Texture
+namespace Teapot
 {
-public:
-	GLuint ID;
-	std::string type;
-	GLuint unit;
-	std::string path;
+	class Texture
+	{
+	public:
+		GLuint ID;
+		std::string type;
+		GLuint unit;
+		std::string path;
 
-	Texture(const char* filepath, std::string texType, GLuint unitType);
-	~Texture();
+		Texture(const char* filepath, std::string texType, GLuint unitType);
+		~Texture();
 
-	void texUnit(Shader& shader, const char* uniform, GLuint _unit);
-	void Bind();
-	void Unbind();
-	void Delete();
+		void texUnit(Shader& shader, const char* uniform, GLuint _unit);
+		void Bind();
+		void Unbind();
+		void Delete();
 
-private:
+	private:
 
 
-};
-
+	};
+}

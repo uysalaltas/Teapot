@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Engine/Core.h"
+#include "Teapot/Core.h"
 
 #include <GLFW/glfw3.h>
 #include <string>
@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <unordered_set>
 
-namespace OpenGLEngine
+namespace Teapot
 {
 	enum class EventType
 	{
@@ -41,7 +41,7 @@ namespace OpenGLEngine
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class OPENGL_API Event
+	class TEAPOT_API Event
 	{
 		friend class EventDispatcher;
 	public:

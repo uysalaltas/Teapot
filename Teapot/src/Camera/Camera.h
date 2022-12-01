@@ -83,7 +83,7 @@ namespace Teapot
 
         void UpdateProjMatrix()
         {
-            m_projMatrix = glm::perspective(glm::radians(m_fov), (float) * m_width / *m_height, 0.1f, 200.0f * 20);
+            m_projMatrix = glm::perspective(glm::radians(m_fov), (float) *m_width / *m_height, 0.1f, 200.0f * 20);
         }
 
         void SetCameraView(glm::vec3 eye, glm::vec3 lookat, glm::vec3 up)

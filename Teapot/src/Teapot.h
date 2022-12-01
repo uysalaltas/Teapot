@@ -6,3 +6,4 @@
 #include "Teapot/KeyMacros.h"
 #include "Camera/Camera.h"
 #include "Renderer/Model.h"
+#include "ShadowMapping/ShadowMapping.h"

@@ -1,4 +1,5 @@
 #include "Model.h"
+#include <glm/gtx/string_cast.hpp>
 
 namespace Teapot
 {
@@ -9,9 +10,22 @@ namespace Teapot
         LoadModel(path);
     }
 
-    Model::Model(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::string nameObject)
+    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string nameObject)
     {
         std::vector<Texture> textures;
+        std::vector<Vertex> vertices;
+        for (int i = 0; i < positions.size(); i++)
+        {
+            Vertex temp;
+            temp.position = positions[i];
+            temp.color = colors[i];
+            temp.normal = normals[i];
+
+            vertices.push_back(temp);
+        }
+
+        std::cout << positions.size() << std::endl;
+
         meshes.push_back(new Renderer(vertices, indices, textures));
     }
 
@@ -25,6 +39,8 @@ namespace Teapot
 
     void Model::Draw(Shader& shader)
     {
+        shader.SetUniformMat4f("model", objModel);
+
         for (int i = 0; i < meshes.size(); i++)
         {
             meshes[i]->DrawTriangle(shader);

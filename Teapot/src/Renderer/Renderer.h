@@ -7,27 +7,30 @@
 #include "Shader.h"
 #include "Texture.h"
 
-class Renderer
+namespace Teapot
 {
-public:
-	std::vector<Vertex> vertices;
-	std::vector<GLuint> indices;
-	std::vector<Texture> textures;
-
-	Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture> textures);
-	~Renderer()
+	class Renderer
 	{
-		std::cout << "Renderer Deconstructor" << std::endl;
-		delete vb;
-		delete ib;
-	}
+	public:
+		std::vector<Vertex> vertices;
+		std::vector<GLuint> indices;
+		std::vector<Texture> textures;
 
-	void Clear();
-	void DrawShape(uint8_t renderType);
-	void DrawTriangle(Shader& shader);
+		Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture> textures);
+		~Renderer()
+		{
+			std::cout << "Renderer Deconstructor" << std::endl;
+			delete vb;
+			delete ib;
+		}
 
-private:
-	VertexArray va;
-	VertexBuffer* vb;
-	IndexBuffer* ib;
-};
+		void Clear();
+		void DrawShape(uint8_t renderType);
+		void DrawTriangle(Shader& shader);
+
+	private:
+		VertexArray va;
+		VertexBuffer* vb;
+		IndexBuffer* ib;
+	};
+}

@@ -3,14 +3,17 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-class IndexBuffer
+namespace Teapot
 {
-public:
-	IndexBuffer(std::vector<GLuint>& indices);
-	~IndexBuffer();
-	void Bind() const;
-	void Unbind() const;
+	class IndexBuffer
+	{
+	public:
+		IndexBuffer(std::vector<GLuint>& indices);
+		~IndexBuffer();
+		void Bind() const;
+		void Unbind() const;
 
-private:
-	unsigned int m_RendererID;
-};
+	private:
+		unsigned int m_RendererID;
+	};
+}

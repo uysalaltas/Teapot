@@ -32,7 +32,7 @@ namespace Teapot
 		virtual void Shutdown();
 
 	private:
-		FrameBuffer* sceneBuffer;
+		//FrameBuffer* sceneBuffer;
 		GLFWwindow* m_Window;
 
 		struct WindowData
