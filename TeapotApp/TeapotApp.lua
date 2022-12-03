@@ -14,7 +14,12 @@ project "TeapotApp"
 	includedirs
 	{
 		"%{wks.location}/Teapot/src",
-		"%{wks.location}/Teapot/vendor/GLFW/include"
+		"%{wks.location}/Teapot/vendor/GLFW/include",
+		"%{wks.location}/Teapot/vendor/GLAD/include",
+		"%{wks.location}/Teapot/vendor/ImGui",
+		"%{wks.location}/Teapot/vendor/glm",
+		"%{wks.location}/Teapot/vendor/stb_image",
+		"%{wks.location}/Teapot/vendor/assimp/include"
 	}
 
 	links

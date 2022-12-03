@@ -13,6 +13,7 @@ project "Teapot"
 		"src/**.cpp",
 		"vendor/glm/glm/**.hpp",
 		"vendor/glm/glm/**.inl",
+		"ImGuiBuild.cpp"
 	}
 
 	includedirs
@@ -20,6 +21,7 @@ project "Teapot"
 		"src",
 		"vendor/GLFW/include",
 		"vendor/GLAD/include",
+		"vendor/ImGui",
 		"vendor/glm",
 		"vendor/stb_image",
 		"vendor/assimp/include"
@@ -28,7 +30,8 @@ project "Teapot"
 	links
 	{
 		"GLFW",
-		"GLAD"
+		"GLAD",
+		"ImGui"
 	}
 
 	filter "system:windows"
