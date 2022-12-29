@@ -76,12 +76,34 @@ namespace Teapot
 		ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 		ImGui::End();
 
+		//sceneBuffer->Bind();
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	void WindowsWindow::OnLastUpdate()
 	{
+		//sceneBuffer->Unbind();
+		//glClear(GL_COLOR_BUFFER_BIT);
+
+		ImGui::Begin("Scene");
+		{
+			float width = ImGui::GetContentRegionAvail().x;
+			float height = ImGui::GetContentRegionAvail().y;
+			m_Data.Height = height;
+			m_Data.Width = width;
+			ImGui::BeginChild("GameRender");
+			ImGui::Image(
+				(ImTextureID)sceneBuffer->getFrameTexture(),
+				ImGui::GetContentRegionAvail(),
+				ImVec2(0, 1),
+				ImVec2(1, 0)
+			);
+		}
+		ImGui::EndChild();
+		ImGui::End();
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -92,6 +114,12 @@ namespace Teapot
 	void WindowsWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
+	}
+
+	void WindowsWindow::RenderSceneOnImGuiWindow()
+	{
+		sceneBuffer = new Teapot::FrameBuffer(m_Data.Width, m_Data.Height);
 	}
 
 	void WindowsWindow::Shutdown()
@@ -101,5 +129,6 @@ namespace Teapot
 		ImGui::DestroyContext();
 
 		glfwDestroyWindow(m_Window);
+		delete(sceneBuffer);
 	}
 }

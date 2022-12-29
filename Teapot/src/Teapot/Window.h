@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Core.h"
 #include <string>
+
+#include "Renderer/FrameBuffer.h"
+#include "Core.h"
 
 namespace Teapot
 {
@@ -32,10 +34,17 @@ namespace Teapot
 		virtual unsigned int GetHeigth() const = 0;
 		virtual void UpdateViewport() = 0;
 
+		virtual void RenderSceneOnImGuiWindow() = 0;
+		inline void BindFrameBuffer() { sceneBuffer->Bind(); }
+		inline void UnbindFrameBuffer() { sceneBuffer->Unbind(); }
+
 		virtual void* GetNativeWindow() const = 0;
 		virtual unsigned int* GetWidthRef() = 0;
 		virtual unsigned int* GetHeigthRef() = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
+	
+	public:
+		FrameBuffer* sceneBuffer;
 	};
 }

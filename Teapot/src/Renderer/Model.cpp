@@ -24,7 +24,7 @@ namespace Teapot
             vertices.push_back(temp);
         }
 
-        std::cout << positions.size() << std::endl;
+        std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
 
         meshes.push_back(new Renderer(vertices, indices, textures));
     }

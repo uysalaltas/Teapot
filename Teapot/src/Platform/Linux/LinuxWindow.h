@@ -17,16 +17,15 @@ namespace Teapot
 
 		void OnFistUpdate() override;
 		void OnLastUpdate() override;
+		void UpdateViewport() override;
+		void RenderSceneOnImGuiWindow() override;
+
+		inline virtual void* GetNativeWindow() const { return m_Window; }
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeigth() const override { return m_Data.Height; }
-
-		void UpdateViewport() override;
-
 		inline unsigned int* GetWidthRef() override { return &m_Data.Width; }
 		inline unsigned int* GetHeigthRef() override { return &m_Data.Height; }
-
-		inline virtual void* GetNativeWindow() const { return m_Window; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
@@ -37,7 +36,7 @@ namespace Teapot
 		}
 
 	private:
-		FrameBuffer* sceneBuffer;
+		//FrameBuffer* sceneBuffer;
 		GLFWwindow* m_Window;
 
 		struct WindowData

@@ -20,6 +20,8 @@ namespace Teapot
 
 	void Application::Run()
 	{
+		m_Window->RenderSceneOnImGuiWindow();
+
 		while (m_Running)
 		{
 			m_Window->OnFistUpdate();
