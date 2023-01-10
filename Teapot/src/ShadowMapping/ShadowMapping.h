@@ -26,7 +26,7 @@ namespace Teapot
 		GLuint depthMapTexture;
 		GLuint quadVAO = 0;
 		GLuint quadVBO = 0;
-		int shadowWidth = 2048;
-		int shadowHeigth = 2048;
+		int shadowWidth = 4096;
+		int shadowHeigth = 4096;
 	};
 }
