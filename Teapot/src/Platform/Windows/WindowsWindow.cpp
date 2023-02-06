@@ -80,6 +80,7 @@ namespace Teapot
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 	void WindowsWindow::OnLastUpdate()
@@ -114,6 +115,8 @@ namespace Teapot
 	void WindowsWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
 	}
 

@@ -13,7 +13,7 @@ namespace Teapot
 		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
-	Application::~Application()
+	Application::~Application()	
 	{
 		std::cout << "Destructed API" << std::endl;
 	}
@@ -25,7 +25,11 @@ namespace Teapot
 		while (m_Running)
 		{
 			m_Window->OnFistUpdate();
+			OnUpdateAwake();
+			GetWindow().BindFrameBuffer();
+			m_Window->UpdateViewport();
 			OnUpdate();
+			GetWindow().UnbindFrameBuffer();
 			m_Window->OnLastUpdate();
 		}
 	}

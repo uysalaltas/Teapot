@@ -13,6 +13,7 @@ namespace Teapot
 		Application();
 		virtual ~Application();
 		virtual void OnUpdate() = 0;
+		virtual void OnUpdateAwake() = 0;
 		void Run();
 		Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
