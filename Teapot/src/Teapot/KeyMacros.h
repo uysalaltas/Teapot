@@ -1,5 +1,7 @@
 #pragma once
 
+#define TEA_MOUSE_LEFT	           0
+#define TEA_MOUSE_RIGHT	           1
 #define TEA_MOUSE_MIDDLE           2
 
 #define TEA_KEY_SPACE              32

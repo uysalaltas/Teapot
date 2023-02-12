@@ -40,7 +40,7 @@ namespace Teapot
 
         void CalculateArcballCamera()
         {
-            if (Input::IsMouseButtonPressed(TEA_MOUSE_MIDDLE))
+            if (Input::IsMouseButtonPressed(TEA_MOUSE_LEFT))
             {
                 if (firstMouseClick)
                 {
@@ -56,6 +56,27 @@ namespace Teapot
             else
             {
                 firstMouseClick = true;
+            }
+        }
+
+        void CalculatePanCamera()
+        {
+            if (Input::IsMouseButtonPressed(TEA_MOUSE_RIGHT))
+            {
+                if (firstRightMouseClick)
+                {
+                    lastMousePosRightClick.x = Input::GetMouseX();
+                    lastMousePosRightClick.y = Input::GetMouseY();
+                    firstRightMouseClick = false;
+                }
+
+                PanCamera((Input::GetMouseX() - lastMousePosRightClick.x), (lastMousePosRightClick.y - Input::GetMouseY()));
+                lastMousePosRightClick.x = Input::GetMouseX();
+                lastMousePosRightClick.y = Input::GetMouseY();
+            }
+            else
+            {
+                firstRightMouseClick = true;
             }
         }
 
@@ -94,36 +115,6 @@ namespace Teapot
             UpdateViewMatrix();
         }
 
-        void PanCamera(glm::vec2 deltaMouse)
-        {
-            glm::vec3 from_lookat_to_eye = m_eye - m_lookAt;
-
-            float to_eye_len = glm::length(from_lookat_to_eye);
-
-            glm::vec3 to_eye = {
-                from_lookat_to_eye[0] / to_eye_len,
-                from_lookat_to_eye[1] / to_eye_len,
-                from_lookat_to_eye[2] / to_eye_len
-            };
-
-            glm::vec3 across = {
-                -(to_eye[1] * m_upVector[2] - to_eye[2] * m_upVector[1]),
-                -(to_eye[2] * m_upVector[0] - to_eye[0] * m_upVector[2]),
-                -(to_eye[0] * m_upVector[1] - to_eye[1] * m_upVector[0])
-            };
-
-            glm::vec3 pan_delta = {
-                pan_speed * (deltaMouse.x * across[0] + deltaMouse.y * m_upVector[0]),
-                pan_speed * (deltaMouse.x * across[1] + deltaMouse.y * m_upVector[1]),
-                pan_speed * (deltaMouse.x * across[2] + deltaMouse.y * m_upVector[2]),
-            };
-
-            m_lookAt = m_lookAt + pan_delta;
-            m_eye = m_eye + pan_delta;
-
-            UpdateViewMatrix();
-        }
-
         void ProcessMouseScroll(float yoffset)
         {
             m_fov -= (float)yoffset;
@@ -143,8 +134,11 @@ namespace Teapot
         int* m_height;
         float m_fov = 45;
         float pan_speed = .5f;
+        float m_yaw = 0.0f;
+        float m_pitch = 0.0f;
 
         bool firstMouseClick;
+        bool firstRightMouseClick;
         glm::vec2 lastMousePosRightClick = glm::vec2(0.0f, 0.0f);
 
     private:
@@ -170,6 +164,19 @@ namespace Teapot
             glm::vec3 finalPosition = (rotationMatrixY * (position - pivot)) + pivot;
 
             SetCameraView(finalPosition, GetLookAt(), m_upVector);
+        }
+
+        void PanCamera(float deltaX, float deltaY)
+        {
+            deltaX *= 0.05f;
+            deltaY *= 0.05f;
+            glm::vec3 cameraFront = glm::normalize(m_lookAt - m_eye);
+            glm::vec3 right = glm::normalize(glm::cross(cameraFront, m_upVector));
+            glm::vec3 up = glm::normalize(m_upVector);
+            m_eye -= deltaX * right + deltaY * up;
+            m_lookAt -= deltaX * right + deltaY * up;
+
+            UpdateViewMatrix();
         }
 
     };
