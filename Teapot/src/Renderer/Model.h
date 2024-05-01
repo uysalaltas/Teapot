@@ -16,7 +16,7 @@ namespace Teapot
 
 		~Model();
 		void Draw(Shader& shader);
-		void Translate(glm::vec3 translation);
+		void Translate(const glm::vec3& translation);
 		void LoadTextureToModel(std::string textureType, std::string texturePath, int unit);
 
 	public:

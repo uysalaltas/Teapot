@@ -5,12 +5,12 @@ namespace Teapot
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(const Teapot::WindowProps& props)
 	{
 		s_Instance = this;
 		std::cout << "Hello From API" << std::endl;
 
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window = std::unique_ptr<Window>(Window::Create(props));
 	}
 
 	Application::~Application()	

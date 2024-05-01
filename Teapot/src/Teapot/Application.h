@@ -10,7 +10,7 @@ namespace Teapot
 	class TEAPOT_API Application
 	{
 	public:
-		Application();
+		Application(const Teapot::WindowProps& props);
 		virtual ~Application();
 		virtual void OnUpdate() = 0;
 		virtual void OnUpdateAwake() = 0;

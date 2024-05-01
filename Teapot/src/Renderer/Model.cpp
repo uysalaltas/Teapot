@@ -47,7 +47,7 @@ namespace Teapot
         }
     }
 
-    void Model::Translate(glm::vec3 translation)
+    void Model::Translate(const glm::vec3& translation)
     {
         objTranslation = translation;
         objModel = glm::translate(glm::mat4(1.0f), objTranslation);
