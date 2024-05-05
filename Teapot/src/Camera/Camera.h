@@ -40,7 +40,7 @@ namespace Teapot
 
         void CalculateArcballCamera()
         {
-            if (Input::IsMouseButtonPressed(TEA_MOUSE_LEFT))
+            if (Input::IsMouseButtonPressed(TEA_MOUSE_RIGHT))
             {
                 if (firstMouseClick)
                 {
