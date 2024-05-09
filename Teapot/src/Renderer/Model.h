@@ -15,7 +15,8 @@ namespace Teapot
 		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string nameObject);
 
 		~Model();
-		void Draw(Shader& shader);
+		void Draw();
+		void DrawShadow();
 		void Translate(const glm::vec3& translation);
 		void LoadTextureToModel(std::string textureType, std::string texturePath, int unit);
 
@@ -28,6 +29,8 @@ namespace Teapot
 		glm::vec3 objScale = glm::vec3(0.0f);
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<Renderer*> meshes;
+
+		inline static std::vector<Model*> models;
 
 	private:
 		void LoadModel(std::string path);

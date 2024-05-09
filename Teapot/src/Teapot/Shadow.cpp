@@ -28,7 +28,7 @@ namespace Teapot
 		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
 		for (int i = 0; i < models.size(); i++)
 		{
-			models[i]->Draw(m_shaderDepth);
+			models[i]->DrawShadow();
 		}
 
 		shadowMapping->UnbindFrameBuffer();

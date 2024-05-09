@@ -1,5 +1,6 @@
 #include "Model.h"
 #include <glm/gtx/string_cast.hpp>
+#include "Renderer/ShaderManager.h"
 
 namespace Teapot
 {
@@ -27,6 +28,7 @@ namespace Teapot
         std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
 
         meshes.push_back(new Renderer(vertices, indices, textures));
+        models.push_back(this);
     }
 
     Model::~Model()
@@ -37,13 +39,25 @@ namespace Teapot
         }
     }
 
-    void Model::Draw(Shader& shader)
+    void Model::Draw()
     {
+        auto& shader = ShaderManager::GetInstance()->GetShader();
         shader.SetUniformMat4f("model", objModel);
 
         for (int i = 0; i < meshes.size(); i++)
         {
             meshes[i]->DrawTriangle(shader);
+        }
+    }
+
+    void Model::DrawShadow()
+    {
+        auto& shaderShadow = ShaderManager::GetInstance()->GetShadowShader();
+        shaderShadow.SetUniformMat4f("model", objModel);
+
+        for (int i = 0; i < meshes.size(); i++)
+        {
+            meshes[i]->DrawTriangle(shaderShadow);
         }
     }
 

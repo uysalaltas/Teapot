@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "Window.h"
+#include "Renderer/ShaderManager.h"
 
 namespace Teapot 
 {
@@ -17,6 +18,8 @@ namespace Teapot
 		void Run();
 		Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
+	protected:
+		ShaderManager* shaderManager;
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;

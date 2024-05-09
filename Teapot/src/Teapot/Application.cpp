@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "EntryPoint.h"
+#include "Renderer/ShaderManager.h"
 
 namespace Teapot
 {
@@ -11,6 +12,7 @@ namespace Teapot
 		std::cout << "Hello From API" << std::endl;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
+		shaderManager = Teapot::ShaderManager::GetInstance();
 	}
 
 	Application::~Application()	
@@ -26,6 +28,7 @@ namespace Teapot
 		{
 			m_Window->OnFistUpdate();
 			OnUpdateAwake();
+			ShaderManager::GetInstance()->RenderShadow();
 			GetWindow().BindFrameBuffer();
 			m_Window->UpdateViewport();
 			OnUpdate();

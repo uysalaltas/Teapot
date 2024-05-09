@@ -7,5 +7,6 @@
 #include "Teapot/Shadow.h"
 
 #include "Camera/Camera.h"
+#include "Renderer/ShaderManager.h"
 #include "Renderer/Model.h"
 #include "ShadowMapping/ShadowMapping.h"

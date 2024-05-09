@@ -26,8 +26,8 @@ namespace Teapot
 
 		inline unsigned int GetWidth() const override { return m_Data.Width; }
 		inline unsigned int GetHeigth() const override { return m_Data.Height; }
-		inline unsigned int* GetWidthRef() override { return &m_Data.Width; }
-		inline unsigned int* GetHeigthRef() override { return &m_Data.Height; }
+		inline unsigned int& GetWidthRef() override { return m_Data.Width; }
+		inline unsigned int& GetHeigthRef() override { return m_Data.Height; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();

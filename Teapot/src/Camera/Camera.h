@@ -19,10 +19,10 @@ namespace Teapot
     {
     public:
 
-        Camera(glm::vec3& eye, glm::vec3& lookat, glm::vec3& upVector, int* width, int* height)
-            : m_eye(std::move(eye))
-            , m_lookAt(std::move(lookat))
-            , m_upVector(std::move(upVector))
+        Camera(glm::vec3& eye, glm::vec3& lookat, glm::vec3& upVector, unsigned int& width, unsigned int& height)
+            : m_eye(eye)
+            , m_lookAt(lookat)
+            , m_upVector(upVector)
             , m_width(width)
             , m_height(height)
         {
@@ -61,7 +61,7 @@ namespace Teapot
 
         void CalculatePanCamera()
         {
-            if (Input::IsMouseButtonPressed(TEA_MOUSE_RIGHT))
+            if (Input::IsMouseButtonPressed(TEA_MOUSE_MIDDLE))
             {
                 if (firstRightMouseClick)
                 {
@@ -104,34 +104,34 @@ namespace Teapot
 
         void UpdateProjMatrix()
         {
-            m_projMatrix = glm::perspective(glm::radians(m_fov), (float) *m_width / *m_height, 0.1f, 200.0f * 20);
+            m_projMatrix = glm::perspective(glm::radians(m_fov), (float) m_width / m_height, 0.1f, 200.0f * 20);
         }
 
-        void SetCameraView(glm::vec3 eye, glm::vec3 lookat, glm::vec3 up)
+        void SetCameraView(glm::vec3& eye, glm::vec3& lookat, glm::vec3& up)
         {
-            m_eye = std::move(eye);
-            m_lookAt = std::move(lookat);
-            m_upVector = std::move(up);
+            m_eye = eye;
+            m_lookAt = lookat;
+            m_upVector = up;
             UpdateViewMatrix();
         }
 
         void ProcessMouseScroll(float yoffset)
         {
             m_fov -= (float)yoffset;
-            if (m_fov < 1.0f)
-                m_fov = 1.0f;
-            if (m_fov > 45.0f)
-                m_fov = 45.0f;
+            if (m_fov < 0.1f)
+                m_fov = 0.1f;
+            if (m_fov > 90.0f)
+                m_fov = 90.0f;
         }
 
     private:
-        glm::mat4x4 m_viewMatrix;
-        glm::mat4x4 m_projMatrix;
-        glm::vec3& m_eye;                // Camera position in 3D
-        glm::vec3& m_lookAt;             // Point that the camera is looking at
-        glm::vec3& m_upVector;           // Orientation of the camera
-        int* m_width;
-        int* m_height;
+        glm::mat4x4 m_viewMatrix{};
+        glm::mat4x4 m_projMatrix{};
+        glm::vec3 m_eye{};                // Camera position in 3D
+        glm::vec3 m_lookAt{};             // Point that the camera is looking at
+        glm::vec3 m_upVector{};           // Orientation of the camera
+        unsigned int& m_width;
+        unsigned int& m_height;
         float m_fov = 45;
         float pan_speed = .5f;
         float m_yaw = 0.0f;
@@ -146,8 +146,8 @@ namespace Teapot
         {
             glm::vec4 position(GetEye().x, GetEye().y, GetEye().z, 1);
             glm::vec4 pivot(GetLookAt().x, GetLookAt().y, GetLookAt().z, 1);
-            float deltaAngleX = (2 * M_PI / *m_width);
-            float deltaAngleY = (M_PI / *m_height);
+            float deltaAngleX = (2 * M_PI / m_width);
+            float deltaAngleY = (M_PI / m_height);
             float xAngle = deltaX * deltaAngleX;
             float yAngle = deltaY * deltaAngleY;
 
