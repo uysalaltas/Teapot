@@ -26,11 +26,12 @@ namespace Teapot
 
 		while (m_Running)
 		{
-			m_Window->OnFistUpdate();
+			m_Window->OnFistUpdate();		
 			OnUpdateAwake();
-			ShaderManager::GetInstance()->RenderShadow();
+			shaderManager->RenderShadow();
 			GetWindow().BindFrameBuffer();
 			m_Window->UpdateViewport();
+			shaderManager->RunShader();
 			OnUpdate();
 			GetWindow().UnbindFrameBuffer();
 			m_Window->OnLastUpdate();
