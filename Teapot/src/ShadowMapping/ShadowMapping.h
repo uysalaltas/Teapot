@@ -13,6 +13,7 @@ namespace Teapot
 		ShadowMapping();
 		~ShadowMapping();
 
+		inline unsigned int GetShadowMapTexture() { return depthMapTexture; }
 		void RenderShadow(Shader& shader, glm::mat4& lightSpaceMatrix);
 		void BindTexture() const;
 		void UnbindFrameBuffer() const;

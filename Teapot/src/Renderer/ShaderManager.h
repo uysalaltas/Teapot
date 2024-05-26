@@ -12,6 +12,7 @@ namespace Teapot
 {
 	struct DirectionalLight
 	{
+		glm::vec3 position { 0.0f, 0.0f, 5.0f };
 		glm::vec3 direction{ 0.5f, -0.4f, -0.4f };
 		glm::vec3 ambient  { 0.1f };
 		glm::vec3 diffuse  { 0.4f };
@@ -61,13 +62,14 @@ namespace Teapot
 	public:
 		inline Teapot::Shader& GetShader() { return m_Shader; }
 		inline Teapot::Shader& GetShadowShader() { return m_ShaderDepthBasic; }
-		inline void RenderShadow() { m_Shadow->RenderShadow(glm::vec3{0.0f}, Model::models); }
 
 	// Functions
 	public:
 		void CreateDirectionalLight(DirectionalLight& directionalLight);
 		void CreateSpotLight(SpotLight& spotLight);
 		void CreatePointLight(PointLight& pointLight);
+		
+		void RenderShadow();
 		
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();
@@ -78,14 +80,12 @@ namespace Teapot
 
 		Teapot::Shader m_ShaderDepthBasic;
 		Teapot::Shader m_Shader;
-		Teapot::Shadow* m_Shadow;
 
+		std::vector<Shadow*> m_Shadows;
+
+		std::vector<DirectionalLight> m_DirectionalLights;
 		std::vector<PointLight> m_pointLights;
-		DirectionalLight* m_DirectionalLight;
-		SpotLight* m_SpotLight;
-
-		bool IsDirectionalLightCreated{ false };
-		bool IsSpotLightCreated{ false };
+		std::vector<SpotLight> m_SpotLights;
 
 		Camera* m_Camera{};
 	};

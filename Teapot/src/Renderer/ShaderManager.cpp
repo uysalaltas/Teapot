@@ -18,12 +18,15 @@ namespace Teapot
 		: m_ShaderDepthBasic("../vendor/Teapot/Teapot/shaders/BasicDepth.shader")
 		, m_Shader("../vendor/Teapot/Teapot/shaders/MaterialShader.shader")
 	{
-		m_Shadow = new Teapot::Shadow(m_Shader, m_ShaderDepthBasic);
+
 	}
 
 	ShaderManager::~ShaderManager()
 	{
-		delete m_Shadow;
+		for (int i = 0; i < m_Shadows.size(); i++)
+		{
+			delete m_Shadows[i];
+		}
 	}
 
 	void ShaderManager::SetShaderValues(Camera& camera)
@@ -45,18 +48,15 @@ namespace Teapot
         m_Shader.SetUniform1i("material.specular" , 1    );
 		m_Shader.SetUniform1f("material.shininess", 32.0f);
 
-		if (IsDirectionalLightCreated)
+		auto directionalLightCount = m_DirectionalLights.size();
+		m_Shader.SetUniform1i("directionalLightCount", directionalLightCount);
+		for (int i = 0; i < directionalLightCount; i++)
 		{
-			m_Shader.SetUniform1i("DirLightActive", 1);
-			// directional light
-			m_Shader.SetUniformVec3f("dirLight.direction", m_DirectionalLight->direction);
-			m_Shader.SetUniformVec3f("dirLight.ambient"  , m_DirectionalLight->ambient  );
-			m_Shader.SetUniformVec3f("dirLight.diffuse"  , m_DirectionalLight->diffuse  );
-			m_Shader.SetUniformVec3f("dirLight.specular" , m_DirectionalLight->specular );
-		}
-		else
-		{
-			m_Shader.SetUniform1i("DirLightActive", 0);
+			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].position" , m_DirectionalLights[i].position );
+			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].direction", m_DirectionalLights[i].direction);
+			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].ambient"  , m_DirectionalLights[i].ambient  );
+			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].diffuse"  , m_DirectionalLights[i].diffuse  );
+			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].specular" , m_DirectionalLights[i].specular );
 		}
 
 		auto pointLightCount = m_pointLights.size();
@@ -72,66 +72,83 @@ namespace Teapot
 			m_Shader.SetUniform1f("pointLights[" + std::to_string(i) + "].quadratic", m_pointLights[i].quadratic);
         }
 
-		if (IsSpotLightCreated)
+		auto spotLightCount = m_SpotLights.size();
+		m_Shader.SetUniform1i("spotLightCount", spotLightCount);
+		for (int i = 0; i < spotLightCount; i++)
 		{
-			m_Shader.SetUniform1i("SpotLightActive", 1);
-			// spotLight
-			m_Shader.SetUniformVec3f("spotLight.position" , m_SpotLight->position   );
-			m_Shader.SetUniformVec3f("spotLight.direction", m_SpotLight->direction  );
-			m_Shader.SetUniformVec3f("spotLight.ambient"  , m_SpotLight->ambient    );
-			m_Shader.SetUniformVec3f("spotLight.diffuse"  , m_SpotLight->diffuse    );
-			m_Shader.SetUniformVec3f("spotLight.specular" , m_SpotLight->specular   );
-			m_Shader.SetUniform1f("spotLight.constant"    , m_SpotLight->constant   );
-			m_Shader.SetUniform1f("spotLight.linear"      , m_SpotLight->linear     );
-			m_Shader.SetUniform1f("spotLight.quadratic"   , m_SpotLight->quadratic  );
-			m_Shader.SetUniform1f("spotLight.cutOff"      , m_SpotLight->cutOff     );
-			m_Shader.SetUniform1f("spotLight.outerCutOff" , m_SpotLight->outerCutOff);
-		}
-		else
-		{
-			m_Shader.SetUniform1i("SpotLightActive", 0);
+			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].position" , m_SpotLights[i].position   );
+			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].direction", m_SpotLights[i].direction  );
+			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].ambient"  , m_SpotLights[i].ambient    );
+			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].diffuse"  , m_SpotLights[i].diffuse    );
+			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].specular" , m_SpotLights[i].specular   );
+			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].constant"    , m_SpotLights[i].constant   );
+			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].linear"      , m_SpotLights[i].linear     );
+			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].quadratic"   , m_SpotLights[i].quadratic  );
+			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].cutOff"      , m_SpotLights[i].cutOff     );
+			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].outerCutOff" , m_SpotLights[i].outerCutOff);
 		}
 
-		m_Shader.SetUniformMat4f("view"            , m_Camera->GetViewMatrix());
-		m_Shader.SetUniformMat4f("projection"      , m_Camera->GetProjMatrix());
-		m_Shader.SetUniformMat4f("lightSpaceMatrix", m_Shadow->GetLightSpaceMatrix());
-		m_Shader.SetUniformVec3f("camPos"          , m_Camera->GetEye());
+		m_Shader.SetUniformMat4f("view"      , m_Camera->GetViewMatrix());
+		m_Shader.SetUniformMat4f("projection", m_Camera->GetProjMatrix());
+		m_Shader.SetUniformVec3f("camPos"    , m_Camera->GetEye());
 
-		m_Shadow->BindShadow();
+		for (int i = 0; i < m_Shadows.size(); i++)
+		{
+			m_Shader.SetUniformMat4f("lightSpaceMatrix[" + std::to_string(i) + "]", m_Shadows[i]->GetLightSpaceMatrix());
+			m_Shadows[i]->BindShadow();
+		}
 	}
 
 	void ShaderManager::CreateDirectionalLight(DirectionalLight& directionalLight)
 	{
-		IsDirectionalLightCreated = true;
-		m_DirectionalLight = &directionalLight;
+		m_DirectionalLights.push_back(directionalLight);
+		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
 	}
 
 	void ShaderManager::CreateSpotLight(SpotLight& spotLight)
 	{
-		IsSpotLightCreated = true;
-		m_SpotLight = &spotLight;
+		m_SpotLights.push_back(spotLight);
+		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
 	}
 
 	void ShaderManager::CreatePointLight(PointLight& pointLight)
     {
         m_pointLights.push_back(pointLight);
     }
+
+	void ShaderManager::RenderShadow()
+	{
+		//if(IsSpotLightCreated)
+		//{
+		//	m_Shadows[1]->RenderShadow(m_SpotLight->position, Model::models, Shadow::RenderType::Perspective);
+		//}
+
+		//if (IsDirectionalLightCreated)
+		//{
+		//	m_Shadows[0]->RenderShadow(m_DirectionalLight->position, Model::models, Shadow::RenderType::Ortho);
+		//}
+	}
 	
 	void ShaderManager::UIModifyDirectionLight()
 	{
-		ImGui::Begin("Direction Light", NULL, 0);
-		ImGui::SliderFloat3("Light Direction", &m_DirectionalLight->direction[0], 0.0f, 1.0f);
-		ImGui::SliderFloat("Ambient " , &m_DirectionalLight->ambient[0] , 0.0f, 1.0f);
-		ImGui::SliderFloat("Specular" , &m_DirectionalLight->specular[0], 0.0f, 1.0f);
-		ImGui::SliderFloat("Diffuse " , &m_DirectionalLight->diffuse[0] , 0.0f, 1.0f);
-		ImGui::End();
+		for (int i = 0; i < m_DirectionalLights.size(); i++)
+		{
+			auto title = "Directional Light " + std::to_string(i);
+			ImGui::Begin(title.c_str(), NULL, 0);
+			ImGui::SliderFloat3("Light Position" , &m_DirectionalLights[i].position[0] , -10.0f, 10.0f);
+			ImGui::SliderFloat3("Light Direction", &m_DirectionalLights[i].direction[0], -1.0f , 1.0f);
+			ImGui::SliderFloat("Ambient ", &m_DirectionalLights[i].ambient[0] , 0.0f, 1.0f);
+			ImGui::SliderFloat("Specular", &m_DirectionalLights[i].specular[0], 0.0f, 1.0f);
+			ImGui::SliderFloat("Diffuse ", &m_DirectionalLights[i].diffuse[0] , 0.0f, 1.0f);
+			ImGui::End();
 
-		m_DirectionalLight->ambient[1]  = m_DirectionalLight->ambient[0];
-		m_DirectionalLight->ambient[2]  = m_DirectionalLight->ambient[0];
-		m_DirectionalLight->specular[1] = m_DirectionalLight->specular[0];
-		m_DirectionalLight->specular[2] = m_DirectionalLight->specular[0];
-		m_DirectionalLight->diffuse[1]  = m_DirectionalLight->diffuse[0];
-		m_DirectionalLight->diffuse[2]  = m_DirectionalLight->diffuse[0];
+			m_DirectionalLights[i].ambient[1]  = m_DirectionalLights[i].ambient[0];
+			m_DirectionalLights[i].ambient[2]  = m_DirectionalLights[i].ambient[0];
+			m_DirectionalLights[i].specular[1] = m_DirectionalLights[i].specular[0];
+			m_DirectionalLights[i].specular[2] = m_DirectionalLights[i].specular[0];
+			m_DirectionalLights[i].diffuse[1]  = m_DirectionalLights[i].diffuse[0];
+			m_DirectionalLights[i].diffuse[2]  = m_DirectionalLights[i].diffuse[0];
+		}
 	}
 	
 	void ShaderManager::UIModifyPointLight()
@@ -160,22 +177,26 @@ namespace Teapot
 
 	void ShaderManager::UIModifySpotLight()
 	{
-		ImGui::Begin("Spot Light", NULL, 0);
-		ImGui::SliderFloat3("Light Position"  , &m_SpotLight->position[0] , -10.0f, 10.0f);
-		ImGui::SliderFloat3("Light Direction" , &m_SpotLight->direction[0],  0.0f , 1.0f );
-		ImGui::SliderFloat("Ambient " , &m_SpotLight->ambient[0] , 0.0f , 1.0f );
-		ImGui::SliderFloat("Specular ", &m_SpotLight->specular[0], 0.0f , 1.0f );
-		ImGui::SliderFloat("Diffuse " , &m_SpotLight->diffuse[0] , 0.0f , 1.0f );
-		ImGui::SliderFloat("constant" , &m_SpotLight->constant   , 0.0f , 1.0f );
-		ImGui::SliderFloat("linear"   , &m_SpotLight->linear     , 0.0f , 1.0f );
-		ImGui::SliderFloat("quadratic", &m_SpotLight->quadratic  , 0.0f , 1.0f );
-		ImGui::End();
+		for (int i = 0; i < m_SpotLights.size(); i++)
+		{
+			auto title = "Spot Light " + std::to_string(i);
+			ImGui::Begin(title.c_str(), NULL, 0);
+			ImGui::SliderFloat3("Light Position"  , &m_SpotLights[i].position[0] , -10.0f, 10.0f);
+			ImGui::SliderFloat3("Light Direction" , &m_SpotLights[i].direction[0], -1.0f , 1.0f );
+			ImGui::SliderFloat("Ambient " , &m_SpotLights[i].ambient[0] , 0.0f, 1.0f );
+			ImGui::SliderFloat("Specular ", &m_SpotLights[i].specular[0], 0.0f, 1.0f );
+			ImGui::SliderFloat("Diffuse " , &m_SpotLights[i].diffuse[0] , 0.0f, 1.0f );
+			ImGui::SliderFloat("constant" , &m_SpotLights[i].constant   , 0.0f, 1.0f );
+			ImGui::SliderFloat("linear"   , &m_SpotLights[i].linear     , 0.0f, 1.0f );
+			ImGui::SliderFloat("quadratic", &m_SpotLights[i].quadratic  , 0.0f, 1.0f );
+			ImGui::End();
 
-		m_SpotLight->ambient[1]  = m_SpotLight->ambient[0];
-		m_SpotLight->ambient[2]  = m_SpotLight->ambient[0];
-		m_SpotLight->specular[1] = m_SpotLight->specular[0];
-		m_SpotLight->specular[2] = m_SpotLight->specular[0];
-		m_SpotLight->diffuse[1]  = m_SpotLight->diffuse[0];
-		m_SpotLight->diffuse[2]  = m_SpotLight->diffuse[0];
+			m_SpotLights[i].ambient[1]  = m_SpotLights[i].ambient[0];
+			m_SpotLights[i].ambient[2]  = m_SpotLights[i].ambient[0];
+			m_SpotLights[i].specular[1] = m_SpotLights[i].specular[0];
+			m_SpotLights[i].specular[2] = m_SpotLights[i].specular[0];
+			m_SpotLights[i].diffuse[1]  = m_SpotLights[i].diffuse[0];
+			m_SpotLights[i].diffuse[2]  = m_SpotLights[i].diffuse[0];
+		}
 	}
 }
