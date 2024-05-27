@@ -4,14 +4,14 @@
 
 namespace Teapot
 {
-    Model::Model(std::string pathObject, std::string nameObject)
+    Model::Model(std::string& pathObject, std::string& nameObject)
         : path(pathObject)
         , name(nameObject)
     {
         LoadModel(path);
     }
 
-    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string nameObject)
+    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject)
     {
         std::vector<Texture> textures;
         std::vector<Vertex> vertices;

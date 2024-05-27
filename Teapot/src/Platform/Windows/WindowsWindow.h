@@ -14,8 +14,10 @@ namespace Teapot
 	class WindowsWindow : public Window
 	{
 	public:
-		WindowsWindow(const WindowProps& props);
+		explicit WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
+		WindowsWindow(WindowsWindow const&) = delete;
+		WindowsWindow& operator=(WindowsWindow const&) = delete;
 
 		void OnFistUpdate() override;
 		void OnLastUpdate() override;
@@ -32,13 +34,13 @@ namespace Teapot
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
-	private:
 		GLFWwindow* m_Window;
 
 		struct WindowData
 		{
 			std::string Title;
-			unsigned int Width, Height;
+			unsigned int Width;
+			unsigned int Height;
 		};
 		WindowData m_Data;
 	};
