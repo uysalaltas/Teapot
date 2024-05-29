@@ -66,7 +66,7 @@ namespace Teapot
 		void CreateSpotLight(const SpotLight& spotLight);
 		void CreatePointLight(const PointLight& pointLight);
 		
-		void RenderShadow();
+		void RenderShadow() const;
 		
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();

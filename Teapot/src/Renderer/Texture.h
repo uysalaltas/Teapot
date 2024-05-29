@@ -13,10 +13,10 @@ namespace Teapot
 	public:
 		GLuint ID;
 		std::string type;
-		GLuint unit;
 		std::string path;
+		GLuint unit;
 
-		Texture(const char* filepath, std::string& texType, GLuint unitType);
+		Texture(const char* filepath, const std::string& texType, GLuint unitType);
 		~Texture();
 
 		void TexUnit(Shader& shader, const char* uniform, GLuint _unit) const;

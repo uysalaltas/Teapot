@@ -19,7 +19,7 @@ namespace Teapot
 		Shadow(const Shader& shaderShadow, const Shader& shaderDepth);
 		~Shadow();
 
-		void RenderShadow(const glm::vec3& lightPos, std::vector<Model*>& models, RenderType renderType);
+		void RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType);
 
 		inline void BindShadow() const { shadowMapping->BindTexture(); };
 		inline glm::mat4 GetLightSpaceMatrix() const { return lightSpaceMatrix; };

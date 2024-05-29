@@ -16,7 +16,7 @@ namespace Teapot
 		std::vector<GLuint> indices;
 		std::vector<Texture> textures;
 
-		Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture>& textures);
+		Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::vector<Texture>& textures);
 
 		void Clear() const;
 		void DrawShape(uint8_t renderType) const;

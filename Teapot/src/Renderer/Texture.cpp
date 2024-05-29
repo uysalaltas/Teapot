@@ -3,7 +3,7 @@
 
 namespace Teapot
 {
-	Texture::Texture(const char* filepath, std::string& texType, GLuint unitType)
+	Texture::Texture(const char* filepath, const std::string& texType, GLuint unitType)
 		: type(texType)
 		, path(filepath)
 		, unit(unitType)

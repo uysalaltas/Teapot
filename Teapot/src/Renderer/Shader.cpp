@@ -134,7 +134,7 @@ namespace Teapot
         return id;
     }
 
-    unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader)
+    unsigned int Shader::CreateShader(const std::string& vertexShader, const std::string& fragmentShader) const
     {
         // create a shader program
         unsigned int program = glCreateProgram();

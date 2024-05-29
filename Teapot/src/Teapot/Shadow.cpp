@@ -16,7 +16,7 @@ namespace Teapot
 		delete shadowMapping;
 	}
 
-	void Shadow::RenderShadow(const glm::vec3& lightPos, std::vector<Model*>& models, RenderType renderType)
+	void Shadow::RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType)
 	{
 		glCullFace(GL_FRONT);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));

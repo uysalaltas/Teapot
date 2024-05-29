@@ -20,12 +20,9 @@ namespace Teapot
 		m_Data.Height = props.Height;
 		m_Data.Width = props.Width;
 
-		if (!s_GLFWInitialized)
+		if (!s_GLFWInitialized && glfwInit())
 		{
-			if (glfwInit())
-			{
-				s_GLFWInitialized = true;
-			}
+			s_GLFWInitialized = true;
 		}
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);

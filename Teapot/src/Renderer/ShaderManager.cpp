@@ -101,7 +101,7 @@ namespace Teapot
         m_pointLights.push_back(pointLight);
     }
 
-	void ShaderManager::RenderShadow()
+	void ShaderManager::RenderShadow() const
 	{
 		//if(IsSpotLightCreated)
 		//{

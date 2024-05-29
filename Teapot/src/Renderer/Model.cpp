@@ -4,7 +4,7 @@
 
 namespace Teapot
 {
-    Model::Model(std::string& pathObject, std::string& nameObject)
+    Model::Model(const std::string& pathObject,const std::string& nameObject)
         : path(pathObject)
         , name(nameObject)
     {
@@ -39,23 +39,23 @@ namespace Teapot
     //    }
     //}
 
-    void Model::Draw()
+    void Model::Draw() const
     {
         auto& shader = ShaderManager::GetInstance()->GetShader();
         shader.SetUniformMat4f("model", objModel);
 
-        for (auto& mesh : meshes)
+        for (const auto& mesh : meshes)
         {
             mesh->DrawTriangle(shader);
         }
     }
 
-    void Model::DrawShadow()
+    void Model::DrawShadow() const
     {
         auto& shaderShadow = ShaderManager::GetInstance()->GetShadowShader();
         shaderShadow.SetUniformMat4f("model", objModel);
 
-        for (auto& mesh : meshes)
+        for (const auto& mesh : meshes)
         {
             mesh->DrawTriangle(shaderShadow);
         }
@@ -67,13 +67,13 @@ namespace Teapot
         objModel = glm::translate(glm::mat4(1.0f), objTranslation);
     }
 
-    void Model::LoadTextureToModel(std::string& textureType, std::string& texturePath, int unit)
+    void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
         Texture texture(texturePath.c_str(), textureType, unit);
         meshes[0]->textures.push_back(texture);
     }
 
-    void Model::LoadModel(std::string& path)
+    void Model::LoadModel(const std::string& path)
     {
         Assimp::Importer importer;
         unsigned int importOptions = aiProcess_Triangulate
@@ -107,7 +107,7 @@ namespace Teapot
         }
     }
 
-    Renderer Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+    Renderer Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) const
     {
         // data to fill
         std::vector<Vertex> vertices;
