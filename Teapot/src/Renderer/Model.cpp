@@ -4,14 +4,14 @@
 
 namespace Teapot
 {
-    Model::Model(std::string pathObject, std::string nameObject)
+    Model::Model(const std::string& pathObject,const std::string& nameObject)
         : path(pathObject)
         , name(nameObject)
     {
         LoadModel(path);
     }
 
-    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string nameObject)
+    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject)
     {
         std::vector<Texture> textures;
         std::vector<Vertex> vertices;
@@ -27,37 +27,37 @@ namespace Teapot
 
         std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
 
-        meshes.push_back(new Renderer(vertices, indices, textures));
+        meshes.push_back(std::make_unique<Renderer>(vertices, indices, textures));
         models.push_back(this);
     }
 
-    Model::~Model()
-    {
-        for (int i = 0; i < meshes.size(); i++)
-        {
-            delete(meshes[i]);
-        }
-    }
+    //Model::~Model()
+    //{
+    //    for (auto mesh : meshes)
+    //    {
+    //        delete(mesh);
+    //    }
+    //}
 
-    void Model::Draw()
+    void Model::Draw() const
     {
         auto& shader = ShaderManager::GetInstance()->GetShader();
         shader.SetUniformMat4f("model", objModel);
 
-        for (int i = 0; i < meshes.size(); i++)
+        for (const auto& mesh : meshes)
         {
-            meshes[i]->DrawTriangle(shader);
+            mesh->DrawTriangle(shader);
         }
     }
 
-    void Model::DrawShadow()
+    void Model::DrawShadow() const
     {
         auto& shaderShadow = ShaderManager::GetInstance()->GetShadowShader();
         shaderShadow.SetUniformMat4f("model", objModel);
 
-        for (int i = 0; i < meshes.size(); i++)
+        for (const auto& mesh : meshes)
         {
-            meshes[i]->DrawTriangle(shaderShadow);
+            mesh->DrawTriangle(shaderShadow);
         }
     }
 
@@ -67,25 +67,30 @@ namespace Teapot
         objModel = glm::translate(glm::mat4(1.0f), objTranslation);
     }
 
-    void Model::LoadTextureToModel(std::string textureType, std::string texturePath, int unit)
+    void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
         Texture texture(texturePath.c_str(), textureType, unit);
         meshes[0]->textures.push_back(texture);
     }
 
-    void Model::LoadModel(std::string path)
+    void Model::LoadModel(const std::string& path)
     {
-        Assimp::Importer import;
+        Assimp::Importer importer;
         unsigned int importOptions = aiProcess_Triangulate
             | aiProcess_OptimizeMeshes
             | aiProcess_JoinIdenticalVertices
             | aiProcess_Triangulate
             | aiProcess_CalcTangentSpace;
-        const aiScene* scene = import.ReadFile(path, importOptions);
+        const aiScene* scene = importer.ReadFile(path, importOptions);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            std::cout << "ERROR::ASSIMP::" << import.GetErrorString() << std::endl;
+            std::cout 
+                << "ERROR::ASSIMP:: Failed to load model from path: "
+                << path 
+                << " with error: " 
+                << importer.GetErrorString() 
+                << std::endl;
             return;
         }
         directory = path.substr(0, path.find_last_of('/'));
@@ -93,12 +98,12 @@ namespace Teapot
         ProcessNode(scene->mRootNode, scene);
     }
 
-    void Model::ProcessNode(aiNode* node, const aiScene* scene)
+    void Model::ProcessNode(const aiNode* node, const aiScene* scene)
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            meshes.push_back(ProcessMesh(mesh, scene));
+            meshes.push_back(std::make_unique<Renderer>(ProcessMesh(mesh, scene)));
         }
 
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -107,7 +112,7 @@ namespace Teapot
         }
     }
 
-    Renderer* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+    Renderer Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) const
     {
         // data to fill
         std::vector<Vertex> vertices;
@@ -183,10 +188,10 @@ namespace Teapot
         //std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-        return new Renderer(vertices, indices, textures);
+        return Renderer(vertices, indices, textures);
     }
 
-    std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
+    std::vector<Texture> Model::LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName)
     {
         std::vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -195,12 +200,12 @@ namespace Teapot
             mat->GetTexture(type, i, &str);
             bool skip = false;
 
-            for (unsigned int j = 0; j < texturesLoaded.size(); j++)
+            for (const auto& textureLoaded : texturesLoaded)
             {
-                if (std::strcmp(texturesLoaded[j].path.c_str(), str.C_Str()) == 0)
+                if (std::strcmp(textureLoaded.path.c_str(), str.C_Str()) == 0)
                 {
                     std::cout << "SAME PATH " << std::endl;
-                    textures.push_back(texturesLoaded[j]);
+                    textures.push_back(textureLoaded);
                     skip = true;
                     break;
                 }

@@ -48,10 +48,7 @@ namespace Teapot
 	{
 	// Core functions
 	public:
-		ShaderManager();
-		ShaderManager(ShaderManager& other) = delete;
-		void operator=(const ShaderManager&) = delete;
-		~ShaderManager();
+		ShaderManager() = default;
 
 		void SetShaderValues(Camera& camera);
 		void RunShader();
@@ -65,11 +62,11 @@ namespace Teapot
 
 	// Functions
 	public:
-		void CreateDirectionalLight(DirectionalLight& directionalLight);
-		void CreateSpotLight(SpotLight& spotLight);
-		void CreatePointLight(PointLight& pointLight);
+		void CreateDirectionalLight(const DirectionalLight& directionalLight);
+		void CreateSpotLight(const SpotLight& spotLight);
+		void CreatePointLight(const PointLight& pointLight);
 		
-		void RenderShadow();
+		void RenderShadow() const;
 		
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();
@@ -78,10 +75,10 @@ namespace Teapot
 	private:
 		static ShaderManager* s_ShaderManager;
 
-		Teapot::Shader m_ShaderDepthBasic;
-		Teapot::Shader m_Shader;
+		Teapot::Shader m_ShaderDepthBasic{"../vendor/Teapot/Teapot/shaders/BasicDepth.shader"};
+		Teapot::Shader m_Shader{ "../vendor/Teapot/Teapot/shaders/MaterialShader.shader" };
 
-		std::vector<Shadow*> m_Shadows;
+		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 
 		std::vector<DirectionalLight> m_DirectionalLights;
 		std::vector<PointLight> m_pointLights;

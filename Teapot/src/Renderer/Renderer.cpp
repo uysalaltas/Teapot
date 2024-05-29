@@ -3,15 +3,15 @@
 
 namespace Teapot
 {
-	Renderer::Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture> textures)
+	Renderer::Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::vector<Texture>& textures)
 		: vertices(vertices)
 		, indices(indices)
 		, textures(textures)
 	{
 		va.Bind();
 
-		vb = new VertexBuffer(vertices);
-		ib = new IndexBuffer(indices);
+		vb = std::make_unique<VertexBuffer>(vertices);
+		ib = std::make_unique<IndexBuffer>(indices);
 
 		va.AddBuffer(*vb, 0, 3, sizeof(Vertex), (void*)0);
 		va.AddBuffer(*vb, 1, 3, sizeof(Vertex), (void*)offsetof(Vertex, color));
@@ -27,12 +27,12 @@ namespace Teapot
 		ib->Unbind();
 	}
 
-	void Renderer::Clear()
+	void Renderer::Clear() const
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void Renderer::DrawShape(uint8_t renderType)
+	void Renderer::DrawShape(uint8_t renderType) const
 	{
 		va.Bind();
 		//shader.Bind();
@@ -56,7 +56,7 @@ namespace Teapot
 		{
 			std::string type = textures[i].type;
 			textures[i].Bind();
-			textures[i].texUnit(shader, (type).c_str(), i);
+			textures[i].TexUnit(shader, type.c_str(), i);
 		}
 
 		//vb->BufferDataModification(vertices);

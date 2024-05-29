@@ -16,21 +16,15 @@ namespace Teapot
 		std::vector<GLuint> indices;
 		std::vector<Texture> textures;
 
-		Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::vector<Texture> textures);
-		~Renderer()
-		{
-			std::cout << "Renderer Deconstructor" << std::endl;
-			delete vb;
-			delete ib;
-		}
+		Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::vector<Texture>& textures);
 
-		void Clear();
-		void DrawShape(uint8_t renderType);
+		void Clear() const;
+		void DrawShape(uint8_t renderType) const;
 		void DrawTriangle(Shader& shader);
 
 	private:
 		VertexArray va;
-		VertexBuffer* vb;
-		IndexBuffer* ib;
+		std::unique_ptr<VertexBuffer> vb;
+		std::unique_ptr<IndexBuffer> ib;
 	};
 }

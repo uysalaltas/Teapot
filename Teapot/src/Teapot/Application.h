@@ -11,14 +11,13 @@ namespace Teapot
 	class TEAPOT_API Application
 	{
 	public:
-		Application(const Teapot::WindowProps& props);
+		explicit Application(const Teapot::WindowProps& props);
 		virtual ~Application();
 		virtual void OnUpdate() = 0;
 		virtual void OnUpdateAwake() = 0;
 		void Run();
 		Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
-	protected:
 		ShaderManager* shaderManager;
 	private:
 		std::unique_ptr<Window> m_Window;

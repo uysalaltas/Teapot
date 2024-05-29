@@ -20,9 +20,8 @@ namespace Teapot
 		m_Data.Height = props.Height;
 		m_Data.Width = props.Width;
 
-		if (!s_GLFWInitialized)
+		if (!s_GLFWInitialized && glfwInit())
 		{
-			int success = glfwInit();
 			s_GLFWInitialized = true;
 		}
 
@@ -60,7 +59,7 @@ namespace Teapot
 			ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus |
 			ImGuiWindowFlags_NoBackground;
 
-		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(viewport->Pos);
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
@@ -96,7 +95,7 @@ namespace Teapot
 			m_Data.Width = width;
 			ImGui::BeginChild("GameRender");
 			ImGui::Image(
-				(ImTextureID)sceneBuffer->getFrameTexture(),
+				(ImTextureID)sceneBuffer->GetFrameTexture(),
 				ImGui::GetContentRegionAvail(),
 				ImVec2(0, 1),
 				ImVec2(1, 0)

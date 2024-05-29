@@ -10,8 +10,6 @@
 #include "Teapot/Input.h"
 #include "Teapot/KeyMacros.h"
 
-# define M_PI           3.14159265358979323846  /* pi */
-
 
 namespace Teapot
 {
@@ -19,7 +17,7 @@ namespace Teapot
     {
     public:
 
-        Camera(glm::vec3& eye, glm::vec3& lookat, glm::vec3& upVector, unsigned int& width, unsigned int& height)
+        Camera(const glm::vec3& eye, const glm::vec3& lookat, const glm::vec3& upVector, unsigned int& width, unsigned int& height)
             : m_eye(eye)
             , m_lookAt(lookat)
             , m_upVector(upVector)
@@ -107,7 +105,7 @@ namespace Teapot
             m_projMatrix = glm::perspective(glm::radians(m_fov), (float) m_width / m_height, 0.1f, 200.0f * 20);
         }
 
-        void SetCameraView(glm::vec3& eye, glm::vec3& lookat, glm::vec3& up)
+        void SetCameraView(const glm::vec3& eye, const glm::vec3& lookat, const glm::vec3& up)
         {
             m_eye = eye;
             m_lookAt = lookat;
@@ -117,7 +115,7 @@ namespace Teapot
 
         void ProcessMouseScroll(float yoffset)
         {
-            m_fov -= (float)yoffset;
+            m_fov -= yoffset;
             if (m_fov < 0.1f)
                 m_fov = 0.1f;
             if (m_fov > 90.0f)
@@ -146,8 +144,8 @@ namespace Teapot
         {
             glm::vec4 position(GetEye().x, GetEye().y, GetEye().z, 1);
             glm::vec4 pivot(GetLookAt().x, GetLookAt().y, GetLookAt().z, 1);
-            float deltaAngleX = (2 * M_PI / m_width);
-            float deltaAngleY = (M_PI / m_height);
+            float deltaAngleX = (2 * glm::pi<float>() / m_width);
+            float deltaAngleY = (glm::pi<float>() / m_height);
             float xAngle = deltaX * deltaAngleX;
             float yAngle = deltaY * deltaAngleY;
 

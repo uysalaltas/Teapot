@@ -8,7 +8,7 @@ namespace Teapot
 	class IndexBuffer
 	{
 	public:
-		IndexBuffer(std::vector<GLuint>& indices);
+		explicit IndexBuffer(std::vector<GLuint>& indices);
 		~IndexBuffer();
 		void Bind() const;
 		void Unbind() const;

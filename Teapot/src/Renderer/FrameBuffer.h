@@ -10,8 +10,8 @@ namespace Teapot
 	public:
 		FrameBuffer(float width, float height);
 		~FrameBuffer();
-		unsigned int getFrameTexture();
-		void RescaleFrameBuffer(float width, float height);
+		unsigned int GetFrameTexture() const;
+		void RescaleFrameBuffer(float width, float height) const;
 		void Bind() const;
 		void Unbind() const;
 	private:
