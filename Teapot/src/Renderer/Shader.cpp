@@ -4,11 +4,12 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <array>
 
 namespace Teapot
 {
     Shader::Shader(const std::string& filepath)
-        : m_Filepath(filepath), m_RendererID(0)
+        : m_Filepath(filepath)
     {
         ShaderProgramSource source = ParseShader(filepath);
         //std::cout << "VERTEX" << std::endl << source.VertexSource << std::endl;
@@ -21,7 +22,7 @@ namespace Teapot
         glDeleteProgram(m_RendererID);
     }
 
-    ShaderProgramSource Shader::ParseShader(const std::string& filepath)
+    ShaderProgramSource Shader::ParseShader(const std::string& filepath) const
     {
         enum class ShaderType
         {
@@ -30,7 +31,7 @@ namespace Teapot
 
         std::ifstream stream(filepath);
         std::string line;
-        std::stringstream ss[2];
+        std::array<std::stringstream, 2> ss{};
         ShaderType type = ShaderType::NONE;
 
         while (getline(stream, line))
@@ -103,7 +104,7 @@ namespace Teapot
         return location;
     }
 
-    unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
+    unsigned int Shader::CompileShader(unsigned int type, const std::string& source) const
     {
         unsigned int id = glCreateShader(type);
         const char* src = source.c_str();
@@ -118,7 +119,7 @@ namespace Teapot
         {
             int length;
             glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-            char* message = (char*)alloca(length * sizeof(char));
+            auto message = (char*)alloca(length * sizeof(char));
             glGetShaderInfoLog(id, length, &length, message);
             std::cout
                 << "Failed to compile "

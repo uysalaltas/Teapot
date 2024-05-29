@@ -12,7 +12,7 @@ namespace Teapot
         glDeleteVertexArrays(1, &m_RendererID);
     }
 
-    void VertexArray::AddBuffer(const VertexBuffer& vb, GLuint layout, GLuint numComponents, GLsizeiptr stride, void* offset)
+    void VertexArray::AddBuffer(const VertexBuffer& vb, GLuint layout, GLuint numComponents, GLsizeiptr stride, const void* offset) const
     {
         vb.Bind();
         glVertexAttribPointer(layout, numComponents, GL_FLOAT, GL_FALSE, (GLsizei)stride, offset);

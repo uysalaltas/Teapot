@@ -3,7 +3,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#define MAX_BONE_INFLUENCE 4
+constexpr size_t MAX_BONE_INFLUENCE = 4;
 
 struct Vertex
 {
@@ -25,7 +25,7 @@ namespace Teapot
 		VertexBuffer(std::vector<Vertex>& vertices);
 		~VertexBuffer();
 
-		void BufferDataModification(std::vector<Vertex>& vertices);
+		void BufferDataModification(std::vector<Vertex>& vertices) const;
 		void Bind() const;
 		void Unbind() const;
 	private:

@@ -7,7 +7,7 @@ namespace Teapot
 	{
 		glGenTextures(1, &depthMapTexture);
 		glBindTexture(GL_TEXTURE_2D, depthMapTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeigth, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, shadowWidth, shadowHeigth, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -22,11 +22,7 @@ namespace Teapot
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	ShadowMapping::~ShadowMapping()
-	{
-	}
-
-	void ShadowMapping::RenderShadow(Shader& shader, glm::mat4& lightSpaceMatrix)
+	void ShadowMapping::RenderShadow(Shader& shader, const glm::mat4& lightSpaceMatrix) const
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		shader.Bind();
@@ -50,7 +46,7 @@ namespace Teapot
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void ShadowMapping::DebugShadow(Shader& shader)
+	void ShadowMapping::DebugShadow(const Shader& shader)
 	{
 		shader.Bind();
 		glActiveTexture(GL_TEXTURE0);

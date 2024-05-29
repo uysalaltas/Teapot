@@ -35,8 +35,8 @@ namespace Teapot
 		virtual void UpdateViewport() = 0;
 
 		virtual void RenderSceneOnImGuiWindow() = 0;
-		inline void BindFrameBuffer() { sceneBuffer->Bind(); }
-		inline void UnbindFrameBuffer() { sceneBuffer->Unbind(); }
+		inline void BindFrameBuffer() const { sceneBuffer->Bind(); }
+		inline void UnbindFrameBuffer() const { sceneBuffer->Unbind(); }
 
 		virtual void* GetNativeWindow() const = 0;
 		virtual unsigned int& GetWidthRef() = 0;

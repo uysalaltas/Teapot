@@ -2,7 +2,7 @@
 
 namespace Teapot
 {
-	Shadow::Shadow(Shader& shaderShadow, Shader& shaderDepth)
+	Shadow::Shadow(const Shader& shaderShadow, const Shader& shaderDepth)
 		: m_shaderShadow(shaderShadow)
 		, m_shaderDepth(shaderDepth)
 	{
@@ -16,7 +16,7 @@ namespace Teapot
 		delete shadowMapping;
 	}
 
-	void Shadow::RenderShadow(glm::vec3& lightPos, std::vector<Model*>& models, RenderType renderType)
+	void Shadow::RenderShadow(const glm::vec3& lightPos, std::vector<Model*>& models, RenderType renderType)
 	{
 		glCullFace(GL_FRONT);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -34,9 +34,9 @@ namespace Teapot
 		lightSpaceMatrix = lightProjection * lightView;
 
 		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
-		for (int i = 0; i < models.size(); i++)
+		for (const auto model : models)
 		{
-			models[i]->DrawShadow();
+			model->DrawShadow();
 		}
 
 		shadowMapping->UnbindFrameBuffer();

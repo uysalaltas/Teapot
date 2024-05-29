@@ -11,13 +11,13 @@ namespace Teapot
 	{
 	public:
 		ShadowMapping();
-		~ShadowMapping();
+		~ShadowMapping() = default;
 
-		inline unsigned int GetShadowMapTexture() { return depthMapTexture; }
-		void RenderShadow(Shader& shader, glm::mat4& lightSpaceMatrix);
+		inline unsigned int GetShadowMapTexture() const { return depthMapTexture; }
+		void RenderShadow(Shader& shader, const glm::mat4& lightSpaceMatrix) const;
 		void BindTexture() const;
 		void UnbindFrameBuffer() const;
-		void DebugShadow(Shader& shader);
+		void DebugShadow(const Shader& shader);
 
 	private:
 		void RenderQuad();

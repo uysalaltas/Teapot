@@ -14,21 +14,6 @@ namespace Teapot
 		return s_ShaderManager;
 	}
 
-	ShaderManager::ShaderManager()
-		: m_ShaderDepthBasic("../vendor/Teapot/Teapot/shaders/BasicDepth.shader")
-		, m_Shader("../vendor/Teapot/Teapot/shaders/MaterialShader.shader")
-	{
-
-	}
-
-	ShaderManager::~ShaderManager()
-	{
-		for (int i = 0; i < m_Shadows.size(); i++)
-		{
-			delete m_Shadows[i];
-		}
-	}
-
 	void ShaderManager::SetShaderValues(Camera& camera)
 	{
 		m_Camera = &camera;
@@ -99,19 +84,19 @@ namespace Teapot
 		}
 	}
 
-	void ShaderManager::CreateDirectionalLight(DirectionalLight& directionalLight)
+	void ShaderManager::CreateDirectionalLight(const DirectionalLight& directionalLight)
 	{
 		m_DirectionalLights.push_back(directionalLight);
 		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
 	}
 
-	void ShaderManager::CreateSpotLight(SpotLight& spotLight)
+	void ShaderManager::CreateSpotLight(const SpotLight& spotLight)
 	{
 		m_SpotLights.push_back(spotLight);
 		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
 	}
 
-	void ShaderManager::CreatePointLight(PointLight& pointLight)
+	void ShaderManager::CreatePointLight(const PointLight& pointLight)
     {
         m_pointLights.push_back(pointLight);
     }
@@ -134,7 +119,7 @@ namespace Teapot
 		for (int i = 0; i < m_DirectionalLights.size(); i++)
 		{
 			auto title = "Directional Light " + std::to_string(i);
-			ImGui::Begin(title.c_str(), NULL, 0);
+			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position" , &m_DirectionalLights[i].position[0] , -10.0f, 10.0f);
 			ImGui::SliderFloat3("Light Direction", &m_DirectionalLights[i].direction[0], -1.0f , 1.0f);
 			ImGui::SliderFloat("Ambient ", &m_DirectionalLights[i].ambient[0] , 0.0f, 1.0f);
@@ -156,7 +141,7 @@ namespace Teapot
 		for (int i = 0; i < m_pointLights.size(); i++)
 		{
 			auto title = "Point Light " + std::to_string(i);
-			ImGui::Begin(title.c_str(), NULL, 0);
+			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position", &m_pointLights[i].position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("Ambient " , &m_pointLights[i].ambient[0] , 0.0f, 1.0f);
 			ImGui::SliderFloat("Specular ", &m_pointLights[i].specular[0], 0.0f, 1.0f);
@@ -180,7 +165,7 @@ namespace Teapot
 		for (int i = 0; i < m_SpotLights.size(); i++)
 		{
 			auto title = "Spot Light " + std::to_string(i);
-			ImGui::Begin(title.c_str(), NULL, 0);
+			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position"  , &m_SpotLights[i].position[0] , -10.0f, 10.0f);
 			ImGui::SliderFloat3("Light Direction" , &m_SpotLights[i].direction[0], -1.0f , 1.0f );
 			ImGui::SliderFloat("Ambient " , &m_SpotLights[i].ambient[0] , 0.0f, 1.0f );

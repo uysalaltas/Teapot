@@ -3,19 +3,20 @@
 
 namespace Teapot
 {
-	Texture::Texture(const char* filepath, std::string texType, GLuint unitType)
+	Texture::Texture(const char* filepath, std::string& texType, GLuint unitType)
+		: type(texType)
+		, path(filepath)
+		, unit(unitType)
 	{
-		//std::cout << "Texture Constructor" << std::endl;
-		type = texType;
-		path = filepath;
-		unit = unitType;
-
 		std::string filename = path;
 		std::cout << "Path Adress: " << filename << " Texture Type: " << texType << std::endl;
 
 		glGenTextures(1, &ID);
 
-		int width, height, nrComponents;
+		int width{};
+		int height{};
+		int nrComponents{};
+
 		stbi_set_flip_vertically_on_load(true);
 		unsigned char* bytes = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 		if (bytes)
@@ -48,28 +49,27 @@ namespace Teapot
 
 	Texture::~Texture()
 	{
-		//std::cout << "Texture Deconstructor" << std::endl;
 		//glDeleteTextures(1, &ID);
 	}
 
-	void Texture::texUnit(Shader& shader, const char* uniform, GLuint _unit)
+	void Texture::TexUnit(Shader& shader, const char* uniform, GLuint _unit) const
 	{
 		//shader.Bind();
 		shader.SetUniform1i(uniform, unit);
 	}
 
-	void Texture::Bind()
+	void Texture::Bind() const
 	{
 		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, ID);
 	}
 
-	void Texture::Unbind()
+	void Texture::Unbind() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	void Texture::Delete()
+	void Texture::Delete() const
 	{
 		glDeleteTextures(1, &ID);
 	}

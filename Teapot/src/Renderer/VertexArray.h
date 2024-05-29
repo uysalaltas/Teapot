@@ -13,7 +13,7 @@ namespace Teapot
 		VertexArray();
 		~VertexArray();
 
-		void AddBuffer(const VertexBuffer& vb, GLuint layout, GLuint numComponents, GLsizeiptr stride, void* offset);
+		void AddBuffer(const VertexBuffer& vb, GLuint layout, GLuint numComponents, GLsizeiptr stride, const void* offset) const;
 		void Bind() const;
 		void Unbind() const;
 

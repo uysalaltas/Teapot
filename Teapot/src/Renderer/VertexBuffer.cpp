@@ -15,7 +15,7 @@ namespace Teapot
         glDeleteBuffers(1, &m_RendererID);
     }
 
-    void VertexBuffer::BufferDataModification(std::vector<Vertex>& vertices)
+    void VertexBuffer::BufferDataModification(std::vector<Vertex>& vertices) const
     {
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
         glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_DYNAMIC_DRAW);

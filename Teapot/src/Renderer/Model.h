@@ -14,11 +14,11 @@ namespace Teapot
 		Model(std::string& pathObject, std::string& nameObject);
 		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject);
 
-		~Model();
+		//~Model();
 		void Draw();
 		void DrawShadow();
 		void Translate(const glm::vec3& translation);
-		void LoadTextureToModel(std::string textureType, std::string texturePath, int unit);
+		void LoadTextureToModel(std::string& textureType, std::string& texturePath, int unit);
 
 	public:
 		std::string path;
@@ -28,15 +28,15 @@ namespace Teapot
 		glm::vec3 objRotation = glm::vec3(0.0f);
 		glm::vec3 objScale = glm::vec3(0.0f);
 		glm::vec3 objTranslation = glm::vec3(0.0f);
-		std::vector<Renderer*> meshes;
+		std::vector<std::unique_ptr<Renderer>> meshes;
 
 		inline static std::vector<Model*> models;
 
 	private:
-		void LoadModel(std::string path);
-		void ProcessNode(aiNode* node, const aiScene* scene);
-		Renderer* ProcessMesh(aiMesh* mesh, const aiScene* scene);
-		std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
+		void LoadModel(std::string& path);
+		void ProcessNode(const aiNode* node, const aiScene* scene);
+		Renderer ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		std::vector<Texture> LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, std::string& typeName);
 
 	private:
 		std::string directory;
