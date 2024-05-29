@@ -85,7 +85,12 @@ namespace Teapot
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
-            std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+            std::cout 
+                << "ERROR::ASSIMP:: Failed to load model from path: "
+                << path 
+                << " with error: " 
+                << importer.GetErrorString() 
+                << std::endl;
             return;
         }
         directory = path.substr(0, path.find_last_of('/'));
@@ -186,7 +191,7 @@ namespace Teapot
         return Renderer(vertices, indices, textures);
     }
 
-    std::vector<Texture> Model::LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, std::string& typeName)
+    std::vector<Texture> Model::LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName)
     {
         std::vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)

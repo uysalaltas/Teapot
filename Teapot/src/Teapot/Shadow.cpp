@@ -34,7 +34,7 @@ namespace Teapot
 		lightSpaceMatrix = lightProjection * lightView;
 
 		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
-		for (const auto model : models)
+		for (const auto& model : models)
 		{
 			model->DrawShadow();
 		}
