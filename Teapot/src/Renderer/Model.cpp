@@ -31,17 +31,9 @@ namespace Teapot
         models.push_back(this);
     }
 
-    //Model::~Model()
-    //{
-    //    for (auto mesh : meshes)
-    //    {
-    //        delete(mesh);
-    //    }
-    //}
-
     void Model::Draw() const
     {
-        auto& shader = ShaderManager::GetInstance()->GetShader();
+        auto& shader = ShaderManager::GetInstance()->GetShader(m_HasTexture);
         shader.SetUniformMat4f("model", objModel);
 
         for (const auto& mesh : meshes)
@@ -103,7 +95,7 @@ namespace Teapot
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            meshes.push_back(std::make_unique<Renderer>(ProcessMesh(mesh, scene)));
+            meshes.push_back(ProcessMesh(mesh, scene));
         }
 
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -112,7 +104,7 @@ namespace Teapot
         }
     }
 
-    Renderer Model::ProcessMesh(aiMesh* mesh, const aiScene* scene) const
+    std::unique_ptr<Renderer> Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
         std::vector<Vertex> vertices;
@@ -178,22 +170,22 @@ namespace Teapot
             }
         }
 
-        //aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        //std::vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-        //textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        //std::vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+        //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
         //textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-        //std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
+        //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
         //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-        //std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+        //std::vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
-        return Renderer(vertices, indices, textures);
+        return std::make_unique<Renderer>(vertices, indices, textures);
     }
 
     std::vector<Texture> Model::LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName)
     {
-        std::vector<Texture> textures;
+        std::vector<Texture> textures{};
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
@@ -213,12 +205,10 @@ namespace Teapot
             if (!skip)
             {
                 Texture texture(str.C_Str(), typeName, i);
-
                 textures.push_back(texture);
                 texturesLoaded.push_back(texture);
             }
         }
-
         return textures;
     }
 }
