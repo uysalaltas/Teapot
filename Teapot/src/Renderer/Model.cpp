@@ -8,6 +8,7 @@ namespace Teapot
         : path(pathObject)
         , name(nameObject)
     {
+        m_HasTexture = true;
         LoadModel(path);
     }
 
@@ -17,10 +18,11 @@ namespace Teapot
         std::vector<Vertex> vertices;
         for (int i = 0; i < positions.size(); i++)
         {
-            Vertex temp;
+            Vertex temp{};
             temp.position = positions[i];
             temp.color = colors[i];
             temp.normal = normals[i];
+            temp.texUV = glm::vec2(0.0f, 0.0f);
 
             vertices.push_back(temp);
         }
@@ -33,9 +35,9 @@ namespace Teapot
 
     void Model::Draw() const
     {
-        auto& shader = ShaderManager::GetInstance()->GetShader(m_HasTexture);
+        auto& shader = ShaderManager::GetInstance()->GetShader();
         shader.SetUniformMat4f("model", objModel);
-
+        shader.SetUniform1i("hasTexture", m_HasTexture);
         for (const auto& mesh : meshes)
         {
             mesh->DrawTriangle(shader);
@@ -171,9 +173,9 @@ namespace Teapot
         }
 
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+        std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "material.diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+        //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "material.specular");
         //textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
         //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
         //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());

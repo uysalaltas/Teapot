@@ -53,15 +53,11 @@ namespace Teapot
 		void SetShaderValues(Camera& camera);
 		void RunShader();
 
-		static ShaderManager* GetInstance();
+		static std::shared_ptr<ShaderManager> GetInstance();
 
 	// Inline functions
 	public:
-		inline Teapot::Shader& GetShader(bool hasTexture) 
-		{ 
-			if (hasTexture) return m_Shader;
-			else return m_ShaderTexture;
-		}
+		inline Teapot::Shader& GetShader() { return m_Shader; }
 		inline Teapot::Shader& GetShadowShader() { return m_ShaderDepthBasic; }
 
 	// Functions
@@ -77,11 +73,10 @@ namespace Teapot
 		void UIModifySpotLight();
 
 	private:
-		static ShaderManager* s_ShaderManager;
+		static std::shared_ptr<ShaderManager> s_ShaderManager;
 
 		Teapot::Shader m_ShaderDepthBasic{"../vendor/Teapot/Teapot/shaders/BasicDepth.shader"};
-		Teapot::Shader m_Shader{ "../vendor/Teapot/Teapot/shaders/MaterialShader.shader" };
-		Teapot::Shader m_ShaderTexture{ "../vendor/Teapot/Teapot/shaders/MaterialShaderTexture.shader" };
+		Teapot::Shader m_Shader { "../vendor/Teapot/Teapot/shaders/MaterialShader.shader" };;
 
 		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 

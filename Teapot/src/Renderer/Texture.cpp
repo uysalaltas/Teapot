@@ -52,10 +52,9 @@ namespace Teapot
 		//glDeleteTextures(1, &ID);
 	}
 
-	void Texture::TexUnit(Shader& shader, const char* uniform, GLuint _unit) const
+	void Texture::TexUnit(Shader& shader) const
 	{
-		//shader.Bind();
-		shader.SetUniform1i(uniform, unit);
+		shader.SetUniform1i(type.c_str(), unit);
 	}
 
 	void Texture::Bind() const

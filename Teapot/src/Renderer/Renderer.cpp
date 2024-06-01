@@ -52,11 +52,10 @@ namespace Teapot
 		//shader.Bind();
 		va.Bind();
 
-		for (unsigned int i = 0; i < textures.size(); i++)
+		for (const auto& texture : textures)
 		{
-			std::string type = textures[i].type;
-			textures[i].Bind();
-			textures[i].TexUnit(shader, type.c_str(), i);
+			texture.Bind();
+			texture.TexUnit(shader);
 		}
 
 		//vb->BufferDataModification(vertices);
