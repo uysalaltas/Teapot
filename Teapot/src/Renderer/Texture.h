@@ -19,7 +19,7 @@ namespace Teapot
 		Texture(const char* filepath, const std::string& texType, GLuint unitType);
 		~Texture();
 
-		void TexUnit(Shader& shader, const char* uniform, GLuint _unit) const;
+		void TexUnit(Shader& shader) const;
 		void Bind() const;
 		void Unbind() const;
 		void Delete() const;

@@ -14,7 +14,6 @@ namespace Teapot
 		Model(const std::string& pathObject, const std::string& nameObject);
 		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject);
 
-		//~Model();
 		void Draw() const;
 		void DrawShadow() const;
 		void Translate(const glm::vec3& translation);
@@ -35,11 +34,12 @@ namespace Teapot
 	private:
 		void LoadModel(const std::string& path);
 		void ProcessNode(const aiNode* node, const aiScene* scene);
-		Renderer ProcessMesh(aiMesh* mesh, const aiScene* scene) const;
+		std::unique_ptr<Renderer> ProcessMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName);
 
 	private:
 		std::string directory;
 		std::vector<Texture> texturesLoaded;
+		bool m_HasTexture{false};
 	};
 }

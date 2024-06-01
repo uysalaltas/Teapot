@@ -16,7 +16,7 @@ namespace Teapot
 		va.AddBuffer(*vb, 0, 3, sizeof(Vertex), (void*)0);
 		va.AddBuffer(*vb, 1, 3, sizeof(Vertex), (void*)offsetof(Vertex, color));
 		va.AddBuffer(*vb, 2, 3, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-		//va.AddBuffer(*vb, 3, 2, sizeof(Vertex), (void*)offsetof(Vertex, texUV));
+		va.AddBuffer(*vb, 3, 2, sizeof(Vertex), (void*)offsetof(Vertex, texUV));
 		//va.AddBuffer(*vb, 4, 3, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 		//va.AddBuffer(*vb, 5, 3, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 		//va.AddBuffer(*vb, 6, 4, sizeof(Vertex), (void*)offsetof(Vertex, m_BoneIDs));
@@ -52,11 +52,10 @@ namespace Teapot
 		//shader.Bind();
 		va.Bind();
 
-		for (unsigned int i = 0; i < textures.size(); i++)
+		for (const auto& texture : textures)
 		{
-			std::string type = textures[i].type;
-			textures[i].Bind();
-			textures[i].TexUnit(shader, type.c_str(), i);
+			texture.Bind();
+			texture.TexUnit(shader);
 		}
 
 		//vb->BufferDataModification(vertices);

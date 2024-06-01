@@ -45,6 +45,6 @@ namespace Teapot
 		static Window* Create(const WindowProps& props = WindowProps());
 	
 	public:
-		FrameBuffer* sceneBuffer;
+		std::unique_ptr <FrameBuffer> sceneBuffer;
 	};
 }

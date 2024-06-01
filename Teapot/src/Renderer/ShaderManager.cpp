@@ -3,13 +3,13 @@
 
 namespace Teapot
 {
-	ShaderManager* ShaderManager::s_ShaderManager = nullptr;
+	std::shared_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
 
-	ShaderManager* ShaderManager::GetInstance()
+	std::shared_ptr<ShaderManager> ShaderManager::GetInstance()
 	{
 		if (s_ShaderManager == nullptr) {
 			std::cout << "ShaderManager Created!\n";
-			s_ShaderManager = new ShaderManager();
+			s_ShaderManager = std::make_unique<ShaderManager>();
 		}
 		return s_ShaderManager;
 	}

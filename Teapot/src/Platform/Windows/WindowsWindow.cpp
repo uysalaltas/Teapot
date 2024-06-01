@@ -121,7 +121,7 @@ namespace Teapot
 
 	void WindowsWindow::RenderSceneOnImGuiWindow()
 	{
-		sceneBuffer = new Teapot::FrameBuffer(m_Data.Width, m_Data.Height);
+		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_Data.Width, m_Data.Height);
 	}
 
 	void WindowsWindow::Shutdown()
@@ -131,6 +131,5 @@ namespace Teapot
 		ImGui::DestroyContext();
 
 		glfwDestroyWindow(m_Window);
-		delete(sceneBuffer);
 	}
 }

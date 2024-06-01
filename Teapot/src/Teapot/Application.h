@@ -18,7 +18,7 @@ namespace Teapot
 		void Run();
 		Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
-		ShaderManager* shaderManager;
+		std::shared_ptr<ShaderManager> shaderManager;
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
