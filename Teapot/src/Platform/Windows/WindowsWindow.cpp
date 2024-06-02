@@ -142,7 +142,7 @@ namespace Teapot
 				glm::value_ptr(m_camera->GetProjMatrix()),
 				ImGuizmo::OPERATION::TRANSLATE,
 				ImGuizmo::MODE::LOCAL,
-				glm::value_ptr(Model::s_Models[0]->objModel)
+				glm::value_ptr(Model::s_Models[Model::s_SelectedModel]->objModel)
 			);
 		}
 	}

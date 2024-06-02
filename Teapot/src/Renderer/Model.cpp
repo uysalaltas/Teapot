@@ -10,6 +10,7 @@ namespace Teapot
     {
         m_HasTexture = true;
         LoadModel(path);
+        s_Models.push_back(this);
     }
 
     Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject)

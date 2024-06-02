@@ -51,6 +51,5 @@ namespace Teapot
 		WindowData m_WindowData;
 
 		std::shared_ptr<Camera> m_camera;
-		bool IsGizmoActive{ false };
 	};
 }

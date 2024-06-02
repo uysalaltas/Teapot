@@ -49,5 +49,6 @@ namespace Teapot
 	
 	public:
 		std::unique_ptr <FrameBuffer> sceneBuffer;
+		bool IsGizmoActive{ false };
 	};
 }
