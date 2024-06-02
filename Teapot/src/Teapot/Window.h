@@ -4,6 +4,7 @@
 
 #include "Renderer/FrameBuffer.h"
 #include "Core.h"
+#include "Camera/Camera.h"
 
 namespace Teapot
 {
@@ -41,6 +42,8 @@ namespace Teapot
 		virtual void* GetNativeWindow() const = 0;
 		virtual unsigned int& GetWidthRef() = 0;
 		virtual unsigned int& GetHeigthRef() = 0;
+
+		virtual void ActivateGizmo(std::shared_ptr<Camera> camera) = 0;
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	

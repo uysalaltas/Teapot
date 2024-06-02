@@ -16,9 +16,9 @@ namespace Teapot
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
-		m_Data.Title = props.Title;
-		m_Data.Height = props.Height;
-		m_Data.Width = props.Width;
+		m_WindowData.Title = props.Title;
+		m_WindowData.Height = props.Height;
+		m_WindowData.Width = props.Width;
 
 		if (!s_GLFWInitialized && glfwInit())
 		{
@@ -26,9 +26,9 @@ namespace Teapot
 		}
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, &m_Data);
+		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -75,6 +75,9 @@ namespace Teapot
 		ImGui::DockSpace(dockSpaceId, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
 		ImGui::End();
 
+		ImGuizmo::SetOrthographic(false);
+		ImGuizmo::BeginFrame();
+
 		//sceneBuffer->Bind();
 
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -91,8 +94,8 @@ namespace Teapot
 		{
 			float width = ImGui::GetContentRegionAvail().x;
 			float height = ImGui::GetContentRegionAvail().y;
-			m_Data.Height = height;
-			m_Data.Width = width;
+			m_WindowData.Height = height;
+			m_WindowData.Width = width;
 			ImGui::BeginChild("GameRender");
 			ImGui::Image(
 				(ImTextureID)sceneBuffer->GetFrameTexture(),
@@ -100,6 +103,8 @@ namespace Teapot
 				ImVec2(0, 1),
 				ImVec2(1, 0)
 			);
+
+			RenderGizmo();
 		}
 		ImGui::EndChild();
 		ImGui::End();
@@ -109,19 +114,43 @@ namespace Teapot
 
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
+
+		//std::cout << width << " " << (float)ImGui::GetWindowWidth() << " " << ImGui::GetWindowPos().x << std::endl;
 	}
 
 	void WindowsWindow::UpdateViewport()
 	{
-		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
+		sceneBuffer->RescaleFrameBuffer(m_WindowData.Width, m_WindowData.Height);
 	}
 
 	void WindowsWindow::RenderSceneOnImGuiWindow()
 	{
-		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_Data.Width, m_Data.Height);
+		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_WindowData.Width, m_WindowData.Height);
+	}
+
+	void WindowsWindow::RenderGizmo()
+	{
+		if (IsGizmoActive)
+		{
+			ImGuizmo::SetDrawlist();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, m_WindowData.Width, m_WindowData.Height);
+			ImGuizmo::Manipulate(
+				glm::value_ptr(m_camera->GetViewMatrix()),
+				glm::value_ptr(m_camera->GetProjMatrix()),
+				ImGuizmo::OPERATION::TRANSLATE,
+				ImGuizmo::MODE::LOCAL,
+				glm::value_ptr(Model::s_Models[0]->objModel)
+			);
+		}
+	}
+
+	void WindowsWindow::ActivateGizmo(std::shared_ptr<Camera> camera)
+	{
+		m_camera = camera;
+		IsGizmoActive = true;
 	}
 
 	void WindowsWindow::Shutdown()
