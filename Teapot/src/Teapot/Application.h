@@ -4,6 +4,7 @@
 
 #include "Core.h"
 #include "Window.h"
+#include "Teapot/WindowControlUI.h"
 #include "Renderer/ShaderManager.h"
 
 namespace Teapot 
@@ -25,11 +26,11 @@ namespace Teapot
 		glm::vec3 cameraUp{ 0.0f, 0.0f, 1.0f };
 
 		std::shared_ptr<Teapot::Camera> camera;
+		std::unique_ptr<Teapot::WindowControlUI> windowUI;
 
 	private:
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		static Application* s_Instance;
-
 	};
 }

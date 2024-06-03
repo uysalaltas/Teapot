@@ -17,6 +17,8 @@ namespace Teapot
 		m_Window->ActivateGizmo(camera);
 		shaderManager = Teapot::ShaderManager::GetInstance();
 		shaderManager->SetShaderValues(*camera);
+
+		windowUI = std::make_unique<Teapot::WindowControlUI>(*m_Window);
 	}
 
 	Application::~Application()	

@@ -114,8 +114,6 @@ namespace Teapot
 
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
-
-		//std::cout << width << " " << (float)ImGui::GetWindowWidth() << " " << ImGui::GetWindowPos().x << std::endl;
 	}
 
 	void WindowsWindow::UpdateViewport()
@@ -131,7 +129,7 @@ namespace Teapot
 		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_WindowData.Width, m_WindowData.Height);
 	}
 
-	void WindowsWindow::RenderGizmo()
+	void WindowsWindow::RenderGizmo() const
 	{
 		if (IsGizmoActive)
 		{

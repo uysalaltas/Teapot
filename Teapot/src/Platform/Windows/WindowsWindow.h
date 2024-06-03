@@ -26,7 +26,7 @@ namespace Teapot
 		void OnLastUpdate() override;
 		void UpdateViewport() override;
 		void RenderSceneOnImGuiWindow() override;
-		void RenderGizmo();
+		void RenderGizmo() const;
 		void ActivateGizmo(std::shared_ptr<Camera> camera) override;
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }

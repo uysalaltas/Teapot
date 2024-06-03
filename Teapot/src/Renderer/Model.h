@@ -12,7 +12,7 @@ namespace Teapot
 	{
 	public:
 		Model(const std::string& pathObject, const std::string& nameObject);
-		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject);
+		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
 
 		void Draw() const;
 		void DrawShadow() const;

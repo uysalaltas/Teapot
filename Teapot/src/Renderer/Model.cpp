@@ -13,7 +13,8 @@ namespace Teapot
         s_Models.push_back(this);
     }
 
-    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject)
+    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
+        : name(nameObject)
     {
         std::vector<Texture> textures;
         std::vector<Vertex> vertices;
