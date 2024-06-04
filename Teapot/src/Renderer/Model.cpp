@@ -1,6 +1,6 @@
 #include "Model.h"
 #include <glm/gtx/string_cast.hpp>
-#include "Renderer/ShaderManager.h"
+#include "Shader/ShaderManager.h"
 
 namespace Teapot
 {

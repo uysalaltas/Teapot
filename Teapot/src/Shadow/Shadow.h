@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ShadowMapping/ShadowMapping.h"
+#include "ShadowMapping.h"
 #include "Renderer/Model.h"
 #include <glm/glm.hpp>
 

@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "EntryPoint.h"
-#include "Renderer/ShaderManager.h"
+#include "Shader/ShaderManager.h"
 
 namespace Teapot
 {

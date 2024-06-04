@@ -1,7 +1,7 @@
 #pragma once
 #include <imgui.h>
 
-#include "Window.h"
+#include "Teapot/Window.h"
 #include "Renderer/Model.h"
 
 namespace Teapot
@@ -9,16 +9,18 @@ namespace Teapot
 	class WindowControlUI
 	{
 	public:
-		WindowControlUI(Window& window) :m_window(window) {};
+		explicit WindowControlUI(Window& window) :m_window(window) {};
 
 		void UIGizmos()
 		{
-			ImGui::Begin("Control", NULL, 0);
+			ImGui::Begin("Control", nullptr, 0);
 			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 			ImGui::Checkbox("Activate Gizmo", &m_window.IsGizmoActive);
 
 			const char* combo_preview_value = Model::s_Models[Model::s_SelectedModel]->name.c_str();  // Pass in the preview value visible before opening the combo (it could be anything)
 			
+			ImGui::InputFloat3("Object Translation", &Model::s_Models[Model::s_SelectedModel]->objTranslation[0]);
+
 			if (ImGui::BeginCombo("Objects", combo_preview_value))
 			{
 				for (int n = 0; n < Model::s_Models.size(); n++)

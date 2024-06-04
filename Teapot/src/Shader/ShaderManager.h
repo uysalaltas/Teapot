@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Renderer/Shader.h"
+#include "Shader.h"
 #include "Renderer/Model.h"
-#include "Teapot/Shadow.h"
+#include "Shadow/Shadow.h"
 #include "Camera/Camera.h"
 
 #include <imgui.h>

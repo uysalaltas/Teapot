@@ -4,8 +4,8 @@
 
 #include "Core.h"
 #include "Window.h"
-#include "Teapot/WindowControlUI.h"
-#include "Renderer/ShaderManager.h"
+#include "Ui/WindowControlUI.h"
+#include "Shader/ShaderManager.h"
 
 namespace Teapot 
 {

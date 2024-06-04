@@ -3,7 +3,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#include "Renderer/Shader.h"
+#include "Shader/Shader.h"
 
 namespace Teapot
 {

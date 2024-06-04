@@ -4,7 +4,7 @@
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"
-#include "Shader.h"
+#include "Shader/Shader.h"
 #include "Texture.h"
 
 namespace Teapot
