@@ -105,12 +105,12 @@ namespace Teapot
 	{
 		//if(IsSpotLightCreated)
 		//{
-		//	m_Shadows[1]->RenderShadow(m_SpotLight->position, Model::models, Shadow::RenderType::Perspective);
+		//	m_Shadows[1]->RenderShadow(m_SpotLight->position, Model::s_Models, Shadow::RenderType::Perspective);
 		//}
 
 		//if (IsDirectionalLightCreated)
 		//{
-		//	m_Shadows[0]->RenderShadow(m_DirectionalLight->position, Model::models, Shadow::RenderType::Ortho);
+		//	m_Shadows[0]->RenderShadow(m_DirectionalLight->position, Model::s_Models, Shadow::RenderType::Ortho);
 		//}
 	}
 	

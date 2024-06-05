@@ -17,9 +17,9 @@ namespace Teapot
 	void LinuxWindow::Init(const WindowProps& props)
 	{
 		std::cout << "Linux Window Init" << std::endl;
-		m_Data.Title = props.Title;
-		m_Data.Height = props.Height;
-		m_Data.Width = props.Width;
+		m_WindowData.Title = props.Title;
+		m_WindowData.Height = props.Height;
+		m_WindowData.Width = props.Width;
 
 		glfwSetErrorCallback(error_callback);
 		
@@ -33,9 +33,9 @@ namespace Teapot
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, &m_Data);
+		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -59,7 +59,7 @@ namespace Teapot
 
 	void LinuxWindow::UpdateViewport()
 	{
-		glViewport(0, 0, m_Data.Width, m_Data.Height);
+		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
 		//sceneBuffer->RescaleFrameBuffer(m_Data.Width, m_Data.Height);
 	}
 

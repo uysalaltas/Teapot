@@ -4,7 +4,7 @@
 #include <stb_image.h>
 #include <stdexcept>
 
-#include "Shader.h"
+#include "Shader/Shader.h"
 
 namespace Teapot
 {

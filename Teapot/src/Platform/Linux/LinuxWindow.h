@@ -19,13 +19,14 @@ namespace Teapot
 		void OnLastUpdate() override;
 		void UpdateViewport() override;
 		void RenderSceneOnImGuiWindow() override;
+		void ActivateGizmo(std::shared_ptr<Camera> camera) override {};
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 
-		inline unsigned int GetWidth() const override { return m_Data.Width; }
-		inline unsigned int GetHeigth() const override { return m_Data.Height; }
-		inline unsigned int& GetWidthRef() override { return m_Data.Width; }
-		inline unsigned int& GetHeigthRef() override { return m_Data.Height; }
+		inline unsigned int GetWidth() const override { return m_WindowData.Width; }
+		inline unsigned int GetHeigth() const override { return m_WindowData.Height; }
+		inline unsigned int& GetWidthRef() override { return m_WindowData.Width; }
+		inline unsigned int& GetHeigthRef() override { return m_WindowData.Height; }
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
@@ -44,6 +45,6 @@ namespace Teapot
 			std::string Title;
 			unsigned int Width, Height;
 		};
-		WindowData m_Data;
+		WindowData m_WindowData;
 	};
 }

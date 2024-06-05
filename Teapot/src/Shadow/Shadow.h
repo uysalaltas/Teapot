@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ShadowMapping/ShadowMapping.h"
+#include "ShadowMapping.h"
 #include "Renderer/Model.h"
 #include <glm/glm.hpp>
 
@@ -17,14 +17,12 @@ namespace Teapot
 
 	public:
 		Shadow(const Shader& shaderShadow, const Shader& shaderDepth);
-		~Shadow();
-
 		void RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType);
 
 		inline void BindShadow() const { shadowMapping->BindTexture(); };
 		inline glm::mat4 GetLightSpaceMatrix() const { return lightSpaceMatrix; };
 	private:
-		ShadowMapping* shadowMapping;
+		std::unique_ptr<ShadowMapping> shadowMapping;
 		Shader m_shaderShadow;
 		Shader m_shaderDepth;
 

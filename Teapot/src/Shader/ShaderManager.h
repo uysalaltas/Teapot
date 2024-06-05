@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Renderer/Shader.h"
+#include "Shader.h"
 #include "Renderer/Model.h"
-#include "Teapot/Shadow.h"
+#include "Shadow/Shadow.h"
 #include "Camera/Camera.h"
 
 #include <imgui.h>
@@ -14,7 +14,7 @@ namespace Teapot
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
 		glm::vec3 direction{ 0.5f, -0.4f, -0.4f };
-		glm::vec3 ambient  { 0.1f };
+		glm::vec3 ambient  { 0.5f };
 		glm::vec3 diffuse  { 0.4f };
 		glm::vec3 specular { 0.5f };
 	};

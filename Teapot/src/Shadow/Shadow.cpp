@@ -6,14 +6,9 @@ namespace Teapot
 		: m_shaderShadow(shaderShadow)
 		, m_shaderDepth(shaderDepth)
 	{
-		shadowMapping = new ShadowMapping();
+		shadowMapping = std::make_unique<ShadowMapping>();
 		m_shaderShadow.Bind();
 		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapping->GetShadowMapTexture() - 1) + "]", shadowMapping->GetShadowMapTexture());
-	}
-
-	Shadow::~Shadow()
-	{
-		delete shadowMapping;
 	}
 
 	void Shadow::RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType)

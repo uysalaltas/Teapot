@@ -12,11 +12,13 @@ namespace Teapot
 	{
 	public:
 		Model(const std::string& pathObject, const std::string& nameObject);
-		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, std::string&& nameObject);
+		Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
 
 		void Draw() const;
 		void DrawShadow() const;
 		void Translate(const glm::vec3& translation);
+		void Rotate(const glm::vec3& rotation);
+		void Scale(const glm::vec3& scale);
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
 	public:
@@ -29,7 +31,8 @@ namespace Teapot
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<std::unique_ptr<Renderer>> meshes;
 
-		inline static std::vector<Model*> models;
+		inline static std::vector<Model*> s_Models;
+		inline static int s_SelectedModel{ 0 };
 
 	private:
 		void LoadModel(const std::string& path);

@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "EntryPoint.h"
-#include "Renderer/ShaderManager.h"
+#include "Shader/ShaderManager.h"
 
 namespace Teapot
 {
@@ -12,7 +12,13 @@ namespace Teapot
 		std::cout << "Hello From API" << std::endl;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
+		camera = std::make_shared<Teapot::Camera>(cameraPos, cameraCenter, cameraUp, GetWindow().GetWidthRef(), GetWindow().GetHeigthRef());
+
+		m_Window->ActivateGizmo(camera);
 		shaderManager = Teapot::ShaderManager::GetInstance();
+		shaderManager->SetShaderValues(*camera);
+
+		windowUI = std::make_unique<Teapot::WindowControlUI>(*m_Window);
 	}
 
 	Application::~Application()	
