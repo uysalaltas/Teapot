@@ -143,14 +143,14 @@ namespace Teapot
 				glm::value_ptr(Model::s_Models[Model::s_SelectedModel]->objModel)
 			);
 
-			float viewManipulateRight = ImGui::GetWindowPos().x + (float)ImGui::GetContentRegionAvail().x;
+			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
 			float viewManipulateTop = ImGui::GetWindowPos().y;
 
 			glm::mat4x4& vec = m_camera->GetViewMatrix();
 			float* vecPtr = glm::value_ptr(vec);
 			ImGuizmo::ViewManipulate(vecPtr, 8.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
 
-			if (ImGuizmo::IsUsing)
+			if (ImGuizmo::IsUsing())
 			{
 				Model::s_Models[Model::s_SelectedModel]->objTranslation = glm::vec3(Model::s_Models[Model::s_SelectedModel]->objModel[3]);
 			}
