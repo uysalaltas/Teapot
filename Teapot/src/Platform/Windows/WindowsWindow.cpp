@@ -94,8 +94,8 @@ namespace Teapot
 		{
 			float width = ImGui::GetContentRegionAvail().x;
 			float height = ImGui::GetContentRegionAvail().y;
-			m_WindowData.Height = height;
-			m_WindowData.Width = width;
+			m_WindowData.Height = static_cast<int>(height);
+			m_WindowData.Width = static_cast<int>(width);
 			ImGui::BeginChild("GameRender");
 			ImGui::Image(
 				(ImTextureID)sceneBuffer->GetFrameTexture(),
@@ -134,7 +134,7 @@ namespace Teapot
 		if (IsGizmoActive)
 		{
 			ImGuizmo::SetDrawlist();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, m_WindowData.Width, m_WindowData.Height);
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
 			ImGuizmo::Manipulate(
 				glm::value_ptr(m_camera->GetViewMatrix()),
 				glm::value_ptr(m_camera->GetProjMatrix()),
@@ -146,9 +146,7 @@ namespace Teapot
 			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
 			float viewManipulateTop = ImGui::GetWindowPos().y;
 
-			glm::mat4x4& vec = m_camera->GetViewMatrix();
-			float* vecPtr = glm::value_ptr(vec);
-			ImGuizmo::ViewManipulate(vecPtr, 8.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
+			ImGuizmo::ViewManipulate(glm::value_ptr(m_camera->GetViewMatrix()), 8.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
 
 			if (ImGuizmo::IsUsing())
 			{

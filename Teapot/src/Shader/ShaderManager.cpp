@@ -37,40 +37,40 @@ namespace Teapot
 		m_Shader.SetUniform1i("directionalLightCount", directionalLightCount);
 		for (int i = 0; i < directionalLightCount; i++)
 		{
-			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].position" , m_DirectionalLights[i].position );
-			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].direction", m_DirectionalLights[i].direction);
-			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].ambient"  , m_DirectionalLights[i].ambient  );
-			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].diffuse"  , m_DirectionalLights[i].diffuse  );
-			m_Shader.SetUniformVec3f("dirLights["+ std::to_string(i) +"].specular" , m_DirectionalLights[i].specular );
+			m_Shader.SetUniformVec3f(std::format("dirLights[{}].position" , i), m_DirectionalLights[i].position );
+			m_Shader.SetUniformVec3f(std::format("dirLights[{}].direction", i), m_DirectionalLights[i].direction);
+			m_Shader.SetUniformVec3f(std::format("dirLights[{}].ambient"  , i), m_DirectionalLights[i].ambient  );
+			m_Shader.SetUniformVec3f(std::format("dirLights[{}].diffuse"  , i), m_DirectionalLights[i].diffuse  );
+			m_Shader.SetUniformVec3f(std::format("dirLights[{}].specular" , i), m_DirectionalLights[i].specular );
 		}
 
 		auto pointLightCount = m_pointLights.size();
 		m_Shader.SetUniform1i("pointLightCount", pointLightCount);
         for (int i = 0; i < pointLightCount; i++)
         {
-            m_Shader.SetUniformVec3f("pointLights["+ std::to_string(i) +"].position", m_pointLights[i].position );
-            m_Shader.SetUniformVec3f("pointLights["+ std::to_string(i) +"].ambient" , m_pointLights[i].ambient  );
-            m_Shader.SetUniformVec3f("pointLights["+ std::to_string(i) +"].diffuse" , m_pointLights[i].diffuse  );
-            m_Shader.SetUniformVec3f("pointLights["+ std::to_string(i) +"].specular", m_pointLights[i].specular );
-            m_Shader.SetUniform1f("pointLights[" + std::to_string(i) + "].constant" , m_pointLights[i].constant );
-			m_Shader.SetUniform1f("pointLights[" + std::to_string(i) + "].linear"   , m_pointLights[i].linear   );
-			m_Shader.SetUniform1f("pointLights[" + std::to_string(i) + "].quadratic", m_pointLights[i].quadratic);
+            m_Shader.SetUniformVec3f(std::format("pointLights[{}].position", i), m_pointLights[i].position );
+            m_Shader.SetUniformVec3f(std::format("pointLights[{}].ambient" , i), m_pointLights[i].ambient  );
+            m_Shader.SetUniformVec3f(std::format("pointLights[{}].diffuse" , i), m_pointLights[i].diffuse  );
+            m_Shader.SetUniformVec3f(std::format("pointLights[{}].specular", i), m_pointLights[i].specular );
+            m_Shader.SetUniform1f(std::format("pointLights[{}].constant" , i), m_pointLights[i].constant );
+			m_Shader.SetUniform1f(std::format("pointLights[{}].linear"   , i), m_pointLights[i].linear   );
+			m_Shader.SetUniform1f(std::format("pointLights[{}].quadratic", i), m_pointLights[i].quadratic);
         }
 
 		auto spotLightCount = m_SpotLights.size();
 		m_Shader.SetUniform1i("spotLightCount", spotLightCount);
 		for (int i = 0; i < spotLightCount; i++)
 		{
-			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].position" , m_SpotLights[i].position   );
-			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].direction", m_SpotLights[i].direction  );
-			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].ambient"  , m_SpotLights[i].ambient    );
-			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].diffuse"  , m_SpotLights[i].diffuse    );
-			m_Shader.SetUniformVec3f("spotLights["+ std::to_string(i) +"].specular" , m_SpotLights[i].specular   );
-			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].constant"    , m_SpotLights[i].constant   );
-			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].linear"      , m_SpotLights[i].linear     );
-			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].quadratic"   , m_SpotLights[i].quadratic  );
-			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].cutOff"      , m_SpotLights[i].cutOff     );
-			m_Shader.SetUniform1f("spotLights["+ std::to_string(i) +"].outerCutOff" , m_SpotLights[i].outerCutOff);
+			m_Shader.SetUniformVec3f(std::format("spotLights[{}].position" , i), m_SpotLights[i].position   );
+			m_Shader.SetUniformVec3f(std::format("spotLights[{}].direction", i), m_SpotLights[i].direction  );
+			m_Shader.SetUniformVec3f(std::format("spotLights[{}].ambient"  , i), m_SpotLights[i].ambient    );
+			m_Shader.SetUniformVec3f(std::format("spotLights[{}].diffuse"  , i), m_SpotLights[i].diffuse    );
+			m_Shader.SetUniformVec3f(std::format("spotLights[{}].specular" , i), m_SpotLights[i].specular   );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].position"   , i), m_SpotLights[i].constant   );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].linear"     , i), m_SpotLights[i].linear     );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].quadratic"  , i), m_SpotLights[i].quadratic  );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].cutOff"     , i), m_SpotLights[i].cutOff     );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].outerCutOff", i), m_SpotLights[i].outerCutOff);
 		}
 
 		m_Shader.SetUniformMat4f("view"      , m_Camera->GetViewMatrix());
@@ -79,7 +79,7 @@ namespace Teapot
 
 		for (int i = 0; i < m_Shadows.size(); i++)
 		{
-			m_Shader.SetUniformMat4f("lightSpaceMatrix[" + std::to_string(i) + "]", m_Shadows[i]->GetLightSpaceMatrix());
+			m_Shader.SetUniformMat4f(std::format("lightSpaceMatrix[{}]", i), m_Shadows[i]->GetLightSpaceMatrix());
 			m_Shadows[i]->BindShadow();
 		}
 	}
@@ -118,7 +118,7 @@ namespace Teapot
 	{
 		for (int i = 0; i < m_DirectionalLights.size(); i++)
 		{
-			auto title = "Directional Light " + std::to_string(i);
+			auto title = std::format("Directional Light {}", i);
 			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position" , &m_DirectionalLights[i].position[0] , -10.0f, 10.0f);
 			ImGui::SliderFloat3("Light Direction", &m_DirectionalLights[i].direction[0], -1.0f , 1.0f);
@@ -140,7 +140,7 @@ namespace Teapot
 	{
 		for (int i = 0; i < m_pointLights.size(); i++)
 		{
-			auto title = "Point Light " + std::to_string(i);
+			auto title = std::format("Point Light {}", i);
 			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position", &m_pointLights[i].position[0], -10.0f, 10.0f);
 			ImGui::SliderFloat("Ambient " , &m_pointLights[i].ambient[0] , 0.0f, 1.0f);
@@ -164,7 +164,7 @@ namespace Teapot
 	{
 		for (int i = 0; i < m_SpotLights.size(); i++)
 		{
-			auto title = "Spot Light " + std::to_string(i);
+			auto title = std::format("Spot Light {}", i);
 			ImGui::Begin(title.c_str(), nullptr, 0);
 			ImGui::SliderFloat3("Light Position"  , &m_SpotLights[i].position[0] , -10.0f, 10.0f);
 			ImGui::SliderFloat3("Light Direction" , &m_SpotLights[i].direction[0], -1.0f , 1.0f );

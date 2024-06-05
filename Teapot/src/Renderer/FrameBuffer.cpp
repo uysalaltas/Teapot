@@ -39,7 +39,7 @@ namespace Teapot
 		return texture;
 	}
 
-	void FrameBuffer::RescaleFrameBuffer(float width, float height) const
+	void FrameBuffer::RescaleFrameBuffer(int width, int height) const
 	{
 		glBindTexture(GL_TEXTURE_2D, texture);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei)width, (GLsizei)height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);

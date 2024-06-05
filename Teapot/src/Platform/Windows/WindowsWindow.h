@@ -45,8 +45,8 @@ namespace Teapot
 		struct WindowData
 		{
 			std::string Title;
-			unsigned int Width;
-			unsigned int Height;
+			unsigned int Width{};
+			unsigned int Height{};
 		};
 		WindowData m_WindowData;
 

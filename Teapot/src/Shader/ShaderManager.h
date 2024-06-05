@@ -7,6 +7,7 @@
 
 #include <imgui.h>
 #include <functional>
+#include <format>
 
 namespace Teapot
 {
