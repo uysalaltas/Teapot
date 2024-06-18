@@ -66,7 +66,7 @@ namespace Teapot
 			m_Shader.SetUniformVec3f(std::format("spotLights[{}].ambient"  , i), m_SpotLights[i].ambient    );
 			m_Shader.SetUniformVec3f(std::format("spotLights[{}].diffuse"  , i), m_SpotLights[i].diffuse    );
 			m_Shader.SetUniformVec3f(std::format("spotLights[{}].specular" , i), m_SpotLights[i].specular   );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].position"   , i), m_SpotLights[i].constant   );
+			m_Shader.SetUniform1f(std::format("spotLights[{}].constant"   , i), m_SpotLights[i].constant   );
 			m_Shader.SetUniform1f(std::format("spotLights[{}].linear"     , i), m_SpotLights[i].linear     );
 			m_Shader.SetUniform1f(std::format("spotLights[{}].quadratic"  , i), m_SpotLights[i].quadratic  );
 			m_Shader.SetUniform1f(std::format("spotLights[{}].cutOff"     , i), m_SpotLights[i].cutOff     );

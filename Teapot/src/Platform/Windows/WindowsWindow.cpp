@@ -35,7 +35,7 @@ namespace Teapot
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
-		const char* glsl_version = "#version 330";
+		const char* glsl_version = "#version 460";
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
