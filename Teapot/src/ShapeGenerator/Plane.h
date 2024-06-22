@@ -19,8 +19,8 @@ namespace Shapes
 
 	private:
 		const float m_sliceSize;
-		const int m_width;
 		const int m_height;
+		const int m_width;
 		const glm::vec3 m_color;
 		std::vector<glm::vec3> m_unitVertices;
 	};

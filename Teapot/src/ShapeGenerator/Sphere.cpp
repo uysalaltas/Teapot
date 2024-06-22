@@ -13,8 +13,17 @@ namespace Shapes
 
     void Sphere::BuildVertexData()
     {
-        float x, y, z, xy;                                // vertex position
-        float nx, ny, nz, lengthInv = 1.0f / m_radius;    // vertex normal
+        // vertex position
+        float x  = 0;
+        float y  = 0;
+        float z  = 0;
+        float xy = 0;
+
+        // vertex normal
+        float nx = 0;
+        float ny = 0;
+        float nz = 0;
+        float lengthInv = 1.0f / m_radius;
 
         const float PI = acos(-1);
 
@@ -34,7 +43,7 @@ namespace Shapes
             {
                 sectorAngle = j * sectorStep;           // starting from 0 to 2pi
 
-                Vertex tmp;
+                Vertex tmp{};
                 // vertex position (x, y, z)
                 x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
                 y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)
@@ -64,7 +73,9 @@ namespace Shapes
         // | /  |
         // k2--k2+1
 
-        int k1, k2;
+        int k1 = 0;
+        int k2 = 0;
+
         for (int i = 0; i < m_stackCount; ++i)
         {
             k1 = i * (m_sectorCount + 1);     // beginning of current stack

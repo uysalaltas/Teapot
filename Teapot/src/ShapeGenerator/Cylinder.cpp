@@ -33,24 +33,18 @@ namespace Shapes
 		{
 			float h = -(m_height / 2.0f) + (float)i / m_stackCount * m_height;			// z value; -h/2 to h/2
 			float radius = m_baseRadius + (float)i / m_stackCount * (m_topRadius - m_baseRadius);
-			float t = 1.0f - (float)i / m_stackCount;									// vertical tex coord; 1 to 0
 
 			for (int j = 0, k = 0; j <= m_sectorCount; ++j, k += 3)
 			{
 				float ux = m_unitCircleVertices[k];
 				float uy = m_unitCircleVertices[k + 1];
-				float uz = m_unitCircleVertices[k + 2];
 				
 				Vertex tmp;
-				tmp.position.x = (ux * radius) * m_size;
-				tmp.position.y = (uy * radius) * m_size;
-				tmp.position.z = (h) * m_size;
+				tmp.position.x = ux * radius * m_size;
+				tmp.position.y = uy * radius * m_size;
+				tmp.position.z = h  * m_size;
 
 				tmp.color = m_color;
-
-				//tmp.normal.x = ux;
-				//tmp.normal.y = uy;
-				//tmp.normal.z = uz;
 
 				tmp_vertices.push_back(tmp);
 			}
@@ -59,21 +53,26 @@ namespace Shapes
 		// ------------------------
 		// FLAT NORMALS
 		// ------------------------
-		Vertex v1, v2, v3, v4;
-		glm::vec3 n;
-		int vi1, vi2, i, j;
+		Vertex v1{};
+		Vertex v2{};
+		Vertex v3{};
+		Vertex v4{};
+		glm::vec3 n{};
+		int vi1 = 0;
+		int vi2 = 0;
+
 		int index = 0;
 
 		// v2-v4 <== stack at i+1
 		// | \ |
 		// v1-v3 <== stack at i
 
-		for (i = 0; i < m_stackCount; ++i)
+		for (int i = 0; i < m_stackCount; ++i)
 		{
 			vi1 = i * (m_sectorCount + 1);
 			vi2 = (i + 1) * (m_sectorCount + 1);
 
-			for (j = 0; j < m_sectorCount; ++j, ++vi1, ++vi2)
+			for (int j = 0; j < m_sectorCount; ++j, ++vi1, ++vi2)
 			{
 				//std::cout << " vi1 " << vi1 << " vi2 " << vi2 << std::endl;
 
@@ -84,7 +83,7 @@ namespace Shapes
 
 				// compute a face normal of v1-v3-v2
 				n = Utils::ComputeFaceNormals(v1, v3, v2);
-				//std::cout << glm::to_string(n) << std::endl;
+
 				v1.normal = n;
 				v2.normal = n;
 				v3.normal = n;
@@ -157,9 +156,9 @@ namespace Shapes
 				float uy = m_unitCircleVertices[k + 1];
 
 				Vertex tmp;
-				tmp.position.x = (ux * m_topRadius) * m_size;
-				tmp.position.y = (uy * m_topRadius) * m_size;
-				tmp.position.z = (h) * m_size;
+				tmp.position.x = ux * m_topRadius * m_size;
+				tmp.position.y = uy * m_topRadius * m_size;
+				tmp.position.z = h  * m_size;
 
 				tmp.color = m_color;
 

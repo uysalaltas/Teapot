@@ -17,7 +17,7 @@ namespace Shapes
 	class Shapes
 	{
 	public:
-		virtual ~Shapes() {};
+		virtual ~Shapes() = default;
 		virtual std::vector<GLuint> ShapeIndices() = 0;
 		virtual std::vector<Vertex> ShapeVertices() = 0;
 

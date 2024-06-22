@@ -4,12 +4,14 @@ namespace Shapes
 {
 	Utils* Utils::s_Instance = new Utils();
 
-	glm::vec3 Utils::ComputeFaceNormals(Vertex& v1, Vertex& v2, Vertex& v3)
+	glm::vec3 Utils::ComputeFaceNormals(const Vertex& v1, const Vertex& v2, const Vertex& v3)
 	{
 		const float EPSILON = 0.000001f;
 
-		glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
-		float nx, ny, nz;
+		auto normal = glm::vec3(0.0f, 0.0f, 0.0f);
+		float nx = 0;
+		float ny = 0;
+		float nz = 0;
 
 		// find 2 edge vectors: v1-v2, v1-v3
 		float ex1 = v2.position.x - v1.position.x;

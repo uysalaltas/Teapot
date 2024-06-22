@@ -32,9 +32,9 @@ namespace Shapes
 				float uy = m_unitVertices[j].y;
 
 				Vertex tmp;
-				tmp.position.x = (ux) * m_size;
-				tmp.position.y = (uy) * m_size;
-				tmp.position.z = (h) * m_size;
+				tmp.position.x = ux * m_size;
+				tmp.position.y = uy * m_size;
+				tmp.position.z = h  * m_size;
 
 				tmp.color = m_color;
 				tmp_vertices.push_back(tmp);
@@ -44,17 +44,22 @@ namespace Shapes
 		// ------------------------
 		// FLAT NORMALS
 		// ------------------------
-		Vertex v1, v2, v3, v4;
-		glm::vec3 n;
-		int vi1, vi2, i, j;
+		Vertex v1{};
+		Vertex v2{};
+		Vertex v3{};
+		Vertex v4{};
+		glm::vec3 n{};
+
+		int vi1 = 0;
+		int vi2 = 0;
 		int index = 0;
 
-		for (i = 0; i < 1; ++i)
+		for (int i = 0; i < 1; ++i)
 		{
 			vi1 = i * (4 + 1);
 			vi2 = (i + 1) * (4 + 1);
 
-			for (j = 0; j < 4; ++j, ++vi1, ++vi2)
+			for (int j = 0; j < 4; ++j, ++vi1, ++vi2)
 			{
 				v1 = tmp_vertices[vi1];
 				v2 = tmp_vertices[vi2];
@@ -116,8 +121,8 @@ namespace Shapes
 				float uy = m_unitVertices[j].y;
 				
 				Vertex tmp;
-				tmp.position.x = (ux) * m_size;
-				tmp.position.y = (uy) * m_size;
+				tmp.position.x = ux * m_size;
+				tmp.position.y = uy * m_size;
 				tmp.position.z = h * m_size;
 				tmp.color = m_color;
 				tmp.normal.x = 0;
@@ -146,40 +151,6 @@ namespace Shapes
 			m_indices.push_back(k + 2);
 			m_indices.push_back(k + 1);
 		}
-	}
-
-	glm::vec3 Cube::ComputeFaceNormals(Vertex& v1, Vertex& v2, Vertex& v3)
-	{
-		const float EPSILON = 0.000001f;
-
-		glm::vec3 normal = glm::vec3(0.0f, 0.0f, 0.0f);
-		float nx, ny, nz;
-
-		// find 2 edge vectors: v1-v2, v1-v3
-		float ex1 = v2.position.x - v1.position.x;
-		float ey1 = v2.position.y - v1.position.y;
-		float ez1 = v2.position.z - v1.position.z;
-		float ex2 = v3.position.x - v1.position.x;
-		float ey2 = v3.position.y - v1.position.y;
-		float ez2 = v3.position.z - v1.position.z;
-
-		// cross product: e1 x e2
-		nx = ey1 * ez2 - ez1 * ey2;
-		ny = ez1 * ex2 - ex1 * ez2;
-		nz = ex1 * ey2 - ey1 * ex2;
-
-		// normalize only if the length is > 0
-		float length = sqrtf(nx * nx + ny * ny + nz * nz);
-		if (length > EPSILON)
-		{
-			// normalize
-			float lengthInv = 1.0f / length;
-			normal.x = nx * lengthInv;
-			normal.y = ny * lengthInv;
-			normal.z = nz * lengthInv;
-		}
-
-		return normal;
 	}
 
 }
