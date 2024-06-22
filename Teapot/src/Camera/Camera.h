@@ -27,8 +27,8 @@ namespace Teapot
             UpdateViewMatrix();
         }
 
-        glm::mat4x4 GetViewMatrix() const { return m_viewMatrix; }
-        glm::mat4x4 GetProjMatrix() const { return m_projMatrix; }
+        glm::mat4x4& GetViewMatrix() { return m_viewMatrix; }
+        glm::mat4x4& GetProjMatrix() { return m_projMatrix; }
         glm::vec3 GetEye() const { return m_eye; }
         glm::vec3 GetUpVector() const { return m_upVector; }
         glm::vec3 GetLookAt() const { return m_lookAt; }
@@ -38,7 +38,7 @@ namespace Teapot
 
         void CalculateArcballCamera()
         {
-            if (Input::IsMouseButtonPressed(TEA_MOUSE_RIGHT))
+            if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_RIGHT))
             {
                 if (firstMouseClick)
                 {
@@ -59,7 +59,7 @@ namespace Teapot
 
         void CalculatePanCamera()
         {
-            if (Input::IsMouseButtonPressed(TEA_MOUSE_MIDDLE))
+            if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_MIDDLE))
             {
                 if (firstRightMouseClick)
                 {
@@ -80,11 +80,11 @@ namespace Teapot
 
         void ZoomCamera()
         {
-            if (Input::IsKeyPressed(TEA_KEY_W))
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_W))
             {
                 ProcessMouseScroll(1.0f);
             }
-            else if (Input::IsKeyPressed(TEA_KEY_S))
+            else if (Input::IsKeyPressed(KeyMacros::TEA_KEY_S))
             {
                 ProcessMouseScroll(-1.0f);
             }

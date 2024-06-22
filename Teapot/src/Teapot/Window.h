@@ -28,7 +28,7 @@ namespace Teapot
 	class TEAPOT_API Window
 	{
 	public:
-		virtual ~Window() {};
+		virtual ~Window() = default;
 		virtual void OnFistUpdate() = 0;
 		virtual void OnLastUpdate() = 0;
 		virtual unsigned int GetWidth() const = 0;
