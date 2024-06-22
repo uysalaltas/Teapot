@@ -30,7 +30,7 @@ namespace Shapes
 				colK = col * m_sliceSize;
 				for (int i = 0; i < 4; i++)
 				{
-					m_vertices.push_back(
+					m_vertices.emplace_back(
 						Vertex
 						{
 							glm::vec3{(m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z},

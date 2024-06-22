@@ -1,5 +1,6 @@
 #pragma once
 #include "Shapes.h"
+#include "Utils.h"
 
 namespace Shapes
 {
@@ -40,5 +41,6 @@ namespace Shapes
 
 		std::vector<float> m_unitCircleVertices;
 
+		Utils m_utils;
 	};
 }

@@ -3,13 +3,8 @@
 class Sandbox : public Teapot::Application
 {
 public:
-	Sandbox(const Teapot::WindowProps& props = Teapot::WindowProps::WindowProps()) :
+	explicit Sandbox(const Teapot::WindowProps& props = Teapot::WindowProps::WindowProps()) :
 		Teapot::Application(props)
-		, cylender(0.30f, glm::vec3(1.0f, 0.15f, 0.50f))
-		, plane(10, 10, 1.0f, glm::vec3(0.20f, 0.15f, 0.15f))
-		, cube(0.30f, glm::vec3(1.0f, 0.87f, 0.0f))
-		, pyramid(0.30f, glm::vec3(0.20f, 0.71f, 0.29f), 2.0f, 4, 1.0f, 0.0f)
-		, sphere(0.30f, glm::vec3(0.20f, 0.25f, 1.0f), 30, 30)
 	{
 		cubeModel = std::make_unique<Teapot::Model>(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "Cube");
 		planeModel = std::make_unique<Teapot::Model>(plane.ShapePositions(), plane.ShapeColors(), plane.ShapeNormals(), plane.ShapeIndices(), "Plane");
@@ -40,6 +35,8 @@ public:
 
 	void OnUpdateAwake() override
 	{
+		// This function is executed before OnUpdate()
+		// pure vitrual, mandatory to override
 	}
 
 	void OnUpdate() override
@@ -74,18 +71,17 @@ public:
 	}
 
 private:
-	Shapes::Cylinder cylender;
-	Shapes::Plane    plane;
-	Shapes::Cube     cube;
-	Shapes::Cylinder pyramid;
-	Shapes::Sphere   sphere;
+	Shapes::Cylinder cylender{ 0.30f, glm::vec3(1.0f, 0.15f, 0.50f) };
+	Shapes::Plane    plane{ 10, 10, 1.0f, glm::vec3(0.20f, 0.15f, 0.15f) };
+	Shapes::Cube     cube{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f) };
+	Shapes::Cylinder pyramid{ 0.30f, glm::vec3(0.20f, 0.71f, 0.29f), 2.0f, 4, 1.0f, 0.0f };
+	Shapes::Sphere   sphere{ 0.30f, glm::vec3(0.20f, 0.25f, 1.0f), 30, 30 };
 
 	std::unique_ptr<Teapot::Model> cubeModel;
 	std::unique_ptr<Teapot::Model> planeModel;
 	std::unique_ptr<Teapot::Model> cylinderModel;
 	std::unique_ptr<Teapot::Model> pyramidModel;
 	std::unique_ptr<Teapot::Model> sphereModel;
-
 	std::unique_ptr<Teapot::Model> teaCup;
 
 	float ambientStrength = 0.40f;
@@ -100,9 +96,8 @@ private:
 int main()
 {
 	Teapot::WindowProps windowProps = { "Shape Demo", 1280, 720 };
-	Sandbox* s = new Sandbox(windowProps);
+	auto s = std::make_unique<Sandbox>(windowProps);
 	s->GetWindow().GetWidth();
 	s->Run();
 	s->OnUpdate();
-	delete(s);
 }

@@ -29,7 +29,8 @@ namespace Shapes
 
         float sectorStep = 2 * PI / m_sectorCount;
         float stackStep = PI / m_stackCount;
-        float sectorAngle, stackAngle;
+        float sectorAngle = 0;
+        float stackAngle = 0;
 
         for (int i = 0; i <= m_stackCount; ++i)
         {

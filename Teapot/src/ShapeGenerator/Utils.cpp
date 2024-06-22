@@ -2,8 +2,6 @@
 
 namespace Shapes
 {
-	Utils* Utils::s_Instance = new Utils();
-
 	glm::vec3 Utils::ComputeFaceNormals(const Vertex& v1, const Vertex& v2, const Vertex& v3)
 	{
 		const float EPSILON = 0.000001f;

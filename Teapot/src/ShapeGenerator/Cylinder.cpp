@@ -1,5 +1,4 @@
 #include "Cylinder.h"
-#include "Utils.h"
 
 namespace Shapes
 {
@@ -74,15 +73,13 @@ namespace Shapes
 
 			for (int j = 0; j < m_sectorCount; ++j, ++vi1, ++vi2)
 			{
-				//std::cout << " vi1 " << vi1 << " vi2 " << vi2 << std::endl;
-
 				v1 = tmp_vertices[vi1];
 				v2 = tmp_vertices[vi2];
 				v3 = tmp_vertices[vi1 + 1];
 				v4 = tmp_vertices[vi2 + 1];
 
 				// compute a face normal of v1-v3-v2
-				n = Utils::ComputeFaceNormals(v1, v3, v2);
+				n = m_utils.ComputeFaceNormals(v1, v3, v2);
 
 				v1.normal = n;
 				v2.normal = n;

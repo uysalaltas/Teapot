@@ -1,5 +1,4 @@
 #include "Cube.h"
-#include "Utils.h"
 
 namespace Shapes
 {
@@ -66,7 +65,7 @@ namespace Shapes
 				v3 = tmp_vertices[vi1 + 1];
 				v4 = tmp_vertices[vi2 + 1];
 
-				n = Utils::ComputeFaceNormals(v1, v3, v2);
+				n = m_utils.ComputeFaceNormals(v1, v3, v2);
 
 				v1.normal = n;
 				v2.normal = n;

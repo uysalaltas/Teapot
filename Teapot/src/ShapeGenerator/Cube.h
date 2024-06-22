@@ -1,5 +1,6 @@
 #pragma once
 #include "Shapes.h"
+#include "Utils.h"
 
 namespace Shapes
 {
@@ -21,5 +22,6 @@ namespace Shapes
 		const glm::vec3 m_color;
 
 		std::vector<glm::vec3> m_unitVertices;
+		Utils m_utils;
 	};
 }
