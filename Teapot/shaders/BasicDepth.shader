@@ -12,7 +12,7 @@ void main()
 };
 
 #shader fragment
-#version 330 core
+#version 460 core
 
 void main()
 {
