@@ -1,6 +1,5 @@
 #pragma once
 #include "Shapes.h"
-#include "Utils.h"
 
 namespace Shapes
 {
@@ -40,7 +39,5 @@ namespace Shapes
 		unsigned int m_topIndex;
 
 		std::vector<float> m_unitCircleVertices;
-
-		Utils m_utils;
 	};
 }

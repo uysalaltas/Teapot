@@ -18,8 +18,8 @@ namespace Shapes
 		void BuildIndices();
 
 	private:
-		const int m_height;
 		const int m_width;
+		const int m_height;
 		const float m_sliceSize;
 		const glm::vec3 m_color;
 		std::vector<glm::vec3> m_unitVertices;

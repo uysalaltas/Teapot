@@ -9,7 +9,7 @@ public:
 		cubeModel = std::make_unique<Teapot::Model>(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "Cube");
 		planeModel = std::make_unique<Teapot::Model>(plane.ShapePositions(), plane.ShapeColors(), plane.ShapeNormals(), plane.ShapeIndices(), "Plane");
 		pyramidModel = std::make_unique<Teapot::Model>(pyramid.ShapePositions(), pyramid.ShapeColors(), pyramid.ShapeNormals(), pyramid.ShapeIndices(), "Pyramid");
-		cylinderModel = std::make_unique<Teapot::Model>(cylender.ShapePositions(), cylender.ShapeColors(), cylender.ShapeNormals(), cylender.ShapeIndices(), "Cylender");
+		cylinderModel = std::make_unique<Teapot::Model>(cylinder.ShapePositions(), cylinder.ShapeColors(), cylinder.ShapeNormals(), cylinder.ShapeIndices(), "Cylinder");
 		sphereModel = std::make_unique<Teapot::Model>(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere");
 
 		teaCup = std::make_unique<Teapot::Model>("coffee_cup_obj.obj", "cup");
@@ -71,7 +71,7 @@ public:
 	}
 
 private:
-	Shapes::Cylinder cylender{ 0.30f, glm::vec3(1.0f, 0.15f, 0.50f) };
+	Shapes::Cylinder cylinder{ 0.30f, glm::vec3(1.0f, 0.15f, 0.50f) };
 	Shapes::Plane    plane{ 10, 10, 1.0f, glm::vec3(0.20f, 0.15f, 0.15f) };
 	Shapes::Cube     cube{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f) };
 	Shapes::Cylinder pyramid{ 0.30f, glm::vec3(0.20f, 0.71f, 0.29f), 2.0f, 4, 1.0f, 0.0f };

@@ -2,7 +2,7 @@
 
 namespace Shapes
 {
-	Plane::Plane(const int height, const int width, const float sliceSize, const glm::vec3 color)
+	Plane::Plane(const int width, const int height, const float sliceSize, const glm::vec3 color)
 		: m_height(height)
 		, m_width(width)
 		, m_sliceSize(sliceSize)

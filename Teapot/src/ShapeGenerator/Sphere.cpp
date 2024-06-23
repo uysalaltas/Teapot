@@ -68,7 +68,7 @@ namespace Shapes
             }
         }
 
-        // generate CCW index list of sphere triangles
+        // generate CCW m_dataIndex list of sphere triangles
         // k1--k1+1
         // |  / |
         // | /  |
@@ -102,8 +102,5 @@ namespace Shapes
                 }
             }
         }
-
-        std::cout << "V: " << m_vertices.size() << std::endl;
-        std::cout << "I: " << m_indices.size() << std::endl;
     }
 }

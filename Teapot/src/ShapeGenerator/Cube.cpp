@@ -43,15 +43,8 @@ namespace Shapes
 		// ------------------------
 		// FLAT NORMALS
 		// ------------------------
-		Vertex v1{};
-		Vertex v2{};
-		Vertex v3{};
-		Vertex v4{};
-		glm::vec3 n{};
-
 		int vi1 = 0;
 		int vi2 = 0;
-		int index = 0;
 
 		for (int i = 0; i < 1; ++i)
 		{
@@ -60,46 +53,7 @@ namespace Shapes
 
 			for (int j = 0; j < 4; ++j, ++vi1, ++vi2)
 			{
-				v1 = tmp_vertices[vi1];
-				v2 = tmp_vertices[vi2];
-				v3 = tmp_vertices[vi1 + 1];
-				v4 = tmp_vertices[vi2 + 1];
-
-				n = m_utils.ComputeFaceNormals(v1, v3, v2);
-
-				v1.normal = n;
-				v2.normal = n;
-				v3.normal = n;
-				v4.normal = n;
-
-				m_vertices.push_back(v1);
-				m_vertices.push_back(v2);
-				m_vertices.push_back(v3);
-				m_vertices.push_back(v4);
-
-				m_positions.push_back(v1.position);
-				m_positions.push_back(v2.position);
-				m_positions.push_back(v3.position);
-				m_positions.push_back(v4.position);
-
-				m_colors.push_back(v1.color);
-				m_colors.push_back(v2.color);
-				m_colors.push_back(v3.color);
-				m_colors.push_back(v4.color);
-
-				m_normals.push_back(v1.normal);
-				m_normals.push_back(v2.normal);
-				m_normals.push_back(v3.normal);
-				m_normals.push_back(v4.normal);
-
-				m_indices.push_back(index);
-				m_indices.push_back(index + 2);
-				m_indices.push_back(index + 1);
-
-				m_indices.push_back(index + 1);
-				m_indices.push_back(index + 2);
-				m_indices.push_back(index + 3);
-				index += 4;
+				PushData(tmp_vertices[vi1], tmp_vertices[vi2], tmp_vertices[vi1 + 1], tmp_vertices[vi2 + 1]);
 			}
 		}
 	
