@@ -76,8 +76,8 @@ namespace Teapot
 	private:
 		static std::shared_ptr<ShaderManager> s_ShaderManager;
 
-		Teapot::Shader m_ShaderDepthBasic{"../vendor/Teapot/Teapot/shaders/BasicDepth.shader"};
-		Teapot::Shader m_Shader { "../vendor/Teapot/Teapot/shaders/MaterialShader.shader" };;
+		Teapot::Shader m_ShaderDepthBasic{"../Teapot/shaders/BasicDepth.shader"};
+		Teapot::Shader m_Shader { "../Teapot/shaders/MaterialShader.shader" };
 
 		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 

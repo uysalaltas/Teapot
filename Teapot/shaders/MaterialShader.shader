@@ -35,7 +35,7 @@ void main()
 };
 
 #shader fragment
-#version 330 core
+#version 460 core
 out vec4 FragColor;
 
 struct Material {
