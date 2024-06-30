@@ -3,8 +3,8 @@
 namespace Shapes
 {
 	Plane::Plane(const int width, const int height, const float sliceSize, const glm::vec3 color)
-		: m_height(height)
-		, m_width(width)
+		: m_width(width)
+		, m_height(height)
 		, m_sliceSize(sliceSize)
 		, m_color(color)
 	{
@@ -31,12 +31,9 @@ namespace Shapes
 				for (int i = 0; i < 4; i++)
 				{
 					m_vertices.emplace_back(
-						Vertex
-						{
-							glm::vec3{(m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z},
-							m_color,
-							glm::vec3(0, 0, 1)
-						}
+						glm::vec3{(m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z},
+						m_color,
+						glm::vec3(0, 0, 1)
 					);
 
 					m_positions.push_back(glm::vec3{ (m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z });

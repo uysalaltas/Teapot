@@ -24,9 +24,6 @@ public:
 
 		shaderManager->CreateDirectionalLight(dirLight);
 		//shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreatePointLight(pointLight);
-		//shaderManager->CreatePointLight(pointLight);
 		//shaderManager->CreatePointLight(pointLight);
 		//shaderManager->CreatePointLight(pointLight);
 		//shaderManager->CreateSpotLight(spotLight);

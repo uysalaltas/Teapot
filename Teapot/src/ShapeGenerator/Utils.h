@@ -12,8 +12,8 @@ namespace Shapes
 	class Utils
 	{
 	public:
-		Utils() {};
-		glm::vec3 ComputeFaceNormals(const Vertex& v1, const Vertex& v2, const Vertex& v3)
+		Utils() = default;
+		glm::vec3 ComputeFaceNormals(const Vertex& v1, const Vertex& v2, const Vertex& v3) const
 		{
 			const float EPSILON = 0.000001f;
 
@@ -36,8 +36,7 @@ namespace Shapes
 			nz = ex1 * ey2 - ey1 * ex2;
 
 			// normalize only if the length is > 0
-			float length = sqrtf(nx * nx + ny * ny + nz * nz);
-			if (length > EPSILON)
+			if (auto length = sqrtf(nx * nx + ny * ny + nz * nz); length > EPSILON)
 			{
 				// normalize
 				float lengthInv = length > EPSILON ? 1.0f / length : 0.0f;

@@ -19,7 +19,7 @@ namespace Shapes
 		virtual std::vector<glm::vec3> ShapeColors() = 0;
 		virtual std::vector<glm::vec3> ShapeNormals() = 0;
 
-		virtual void PushData(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4)
+		void PushData(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4)
 		{
 			glm::vec3 n = m_utils.ComputeFaceNormals(v1, v3, v2);
 			v1.normal = n;
@@ -65,7 +65,7 @@ namespace Shapes
 		std::vector<glm::vec3> m_normals = {};
 
 	private:
-		Utils m_utils;
+		Utils m_utils{};
 		int m_dataIndex = 0;
 	};
 }
