@@ -87,13 +87,13 @@ namespace Teapot
 	void ShaderManager::CreateDirectionalLight(const DirectionalLight& directionalLight)
 	{
 		m_DirectionalLights.push_back(directionalLight);
-		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic));
 	}
 
 	void ShaderManager::CreateSpotLight(const SpotLight& spotLight)
 	{
 		m_SpotLights.push_back(spotLight);
-		//m_Shadows.push_back(new Teapot::Shadow(m_Shader, m_ShaderDepthBasic));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic));
 	}
 
 	void ShaderManager::CreatePointLight(const PointLight& pointLight)
@@ -103,15 +103,8 @@ namespace Teapot
 
 	void ShaderManager::RenderShadow() const
 	{
-		//if(IsSpotLightCreated)
-		//{
-		//	m_Shadows[1]->RenderShadow(m_SpotLight->position, Model::s_Models, Shadow::RenderType::Perspective);
-		//}
-
-		//if (IsDirectionalLightCreated)
-		//{
-		//	m_Shadows[0]->RenderShadow(m_DirectionalLight->position, Model::s_Models, Shadow::RenderType::Ortho);
-		//}
+		m_Shadows[0]->RenderShadow(m_DirectionalLights[0].position, Model::s_Models, Shadow::RenderType::Ortho);
+		m_Shadows[1]->RenderShadow(m_SpotLights[0].position, Model::s_Models, Shadow::RenderType::Perspective);
 	}
 	
 	void ShaderManager::UIModifyDirectionLight()

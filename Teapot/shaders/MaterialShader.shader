@@ -172,8 +172,8 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, int index)
         specular = light.specular * spec;
     }
 
-    //float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
-    float shadow = 0.0f;
+    float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+    //float shadow = 0.0f;
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
 
@@ -251,8 +251,8 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-    //float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
-    float shadow = 0.0f;
+    float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+    //float shadow = 0.0f;
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
 
@@ -263,10 +263,10 @@ float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightD
     projCoords = projCoords * 0.5 + 0.5;
     float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
-    float bias = max(0.05 * (1.0 - dot(fs_in.Normal, lightDir)), 0.005);
-    //float bias = 0.001;
-    float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
-    //float shadow = 0.0;
+    //float bias = max(0.05 * (1.0 - dot(fs_in.Normal, lightDir)), 0.005);
+    float bias = 0.001;
+    //float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
+    float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
     for (int x = -1; x <= 1; ++x)
     {

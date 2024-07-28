@@ -8,13 +8,13 @@ namespace Teapot
 	{
 		shadowMapping = std::make_unique<ShadowMapping>();
 		m_shaderShadow.Bind();
-		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapping->GetShadowMapTexture() - 1) + "]", shadowMapping->GetShadowMapTexture());
+		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapping->GetShadowMapTexture() - 2) + "]", shadowMapping->GetShadowMapTexture());
 	}
 
 	void Shadow::RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType)
 	{
-		glCullFace(GL_FRONT);
-		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		//glCullFace(GL_FRONT);
+		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		switch (renderType)
 		{
@@ -35,6 +35,6 @@ namespace Teapot
 		}
 
 		shadowMapping->UnbindFrameBuffer();
-		glCullFace(GL_BACK);
+		//glCullFace(GL_BACK);
 	}
 }
