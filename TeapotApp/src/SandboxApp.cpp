@@ -22,11 +22,7 @@ public:
 		teaCup->Rotate(glm::vec3(90.0f, 0.0f, 0.0f));
 
 		shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreatePointLight(pointLight);
-		//shaderManager->CreatePointLight(pointLight);
 		shaderManager->CreateSpotLight(spotLight);
-		//shaderManager->CreateSpotLight(spotLight);
 	}
 
 	void OnUpdateAwake() override
@@ -43,11 +39,9 @@ public:
 		camera->ZoomCamera();
 
 		RenderScene();
-		//cubeLightModel->Translate(shaderManager->GetLightPos());
 
 		// Ui Stuff
 		shaderManager->UIModifySpotLight();
-		//shaderManager->UIModifyPointLight();
 		shaderManager->UIModifyDirectionLight();
 		windowUI->UIGizmos();
 

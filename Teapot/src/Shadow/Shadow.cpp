@@ -13,7 +13,6 @@ namespace Teapot
 
 	void Shadow::RenderShadow(const glm::vec3& lightPos, const std::vector<Model*>& models, RenderType renderType)
 	{
-		//glCullFace(GL_FRONT);
 		lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		switch (renderType)
@@ -35,6 +34,5 @@ namespace Teapot
 		}
 
 		shadowMapping->UnbindFrameBuffer();
-		//glCullFace(GL_BACK);
 	}
 }
