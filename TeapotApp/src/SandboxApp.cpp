@@ -20,14 +20,9 @@ public:
 		cylinderModel->Translate(glm::vec3(-1.0f, 0.0f, 0.0f));
 		teaCup->Translate(glm::vec3(0.0f, -2.0f, 0.0f));
 		teaCup->Rotate(glm::vec3(90.0f, 0.0f, 0.0f));
-		Teapot::Model::s_SelectedModel = 0;
 
 		shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreateDirectionalLight(dirLight);
-		//shaderManager->CreatePointLight(pointLight);
-		//shaderManager->CreatePointLight(pointLight);
-		//shaderManager->CreateSpotLight(spotLight);
-		//shaderManager->CreateSpotLight(spotLight);
+		shaderManager->CreateSpotLight(spotLight);
 	}
 
 	void OnUpdateAwake() override
@@ -44,11 +39,9 @@ public:
 		camera->ZoomCamera();
 
 		RenderScene();
-		//cubeLightModel->Translate(shaderManager->GetLightPos());
 
 		// Ui Stuff
-		//shaderManager->UIModifySpotLight();
-		//shaderManager->UIModifyPointLight();
+		shaderManager->UIModifySpotLight();
 		shaderManager->UIModifyDirectionLight();
 		windowUI->UIGizmos();
 

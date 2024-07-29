@@ -25,13 +25,13 @@ namespace Teapot
 	void ShadowMapping::RenderShadow(Shader& shader, const glm::mat4& lightSpaceMatrix) const
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+		glCullFace(GL_FRONT);
 		shader.Bind();
 		shader.SetUniformMat4f("lightSpaceMatrix", lightSpaceMatrix);
 
 		glViewport(0, 0, shadowWidth, shadowHeigth);
 		glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glCullFace(GL_FRONT);
 	}
 
 	void ShadowMapping::BindTexture() const

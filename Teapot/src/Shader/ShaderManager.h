@@ -35,8 +35,8 @@ namespace Teapot
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
 		glm::vec3 direction{ 0.0f, 0.0f,-1.0f};
-		glm::vec3 ambient  { 1.0f };
-		glm::vec3 diffuse  { 1.0f };
+		glm::vec3 ambient  { 0.0f };
+		glm::vec3 diffuse  { 0.0f };
 		glm::vec3 specular { 1.0f };
 		float constant   { 1.0f   };
 		float linear     { 0.09f  };
