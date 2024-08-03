@@ -177,4 +177,26 @@ namespace Teapot
 			m_SpotLights[i].diffuse[2]  = m_SpotLights[i].diffuse[0];
 		}
 	}
+
+	void ShaderManager::UIRenderShadowMap()
+	{
+		ImGui::Begin("Debug");
+		{
+			ImGui::SliderInt("slider int", &m_selectedShadowMap, 0, m_Shadows.size() - 1);
+
+			int minRegion = (ImGui::GetContentRegionAvail().x > ImGui::GetContentRegionAvail().y) 
+				? ImGui::GetContentRegionAvail().y : ImGui::GetContentRegionAvail().x;
+
+			ImGui::BeginChild("ShadowMap");
+			ImGui::Image(
+				(ImTextureID)GetShadowID(),
+				ImVec2(minRegion, minRegion),
+				ImVec2(0, 1),
+				ImVec2(1, 0)
+			);
+		}
+		ImGui::EndChild();
+		ImGui::End();
+
+	}
 }

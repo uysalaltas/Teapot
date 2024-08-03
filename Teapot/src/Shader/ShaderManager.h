@@ -60,6 +60,7 @@ namespace Teapot
 	public:
 		inline Teapot::Shader& GetShader() { return m_Shader; }
 		inline Teapot::Shader& GetShadowShader() { return m_ShaderDepthBasic; }
+		inline int GetShadowID() { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
 
 	// Functions
 	public:
@@ -72,9 +73,12 @@ namespace Teapot
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();
 		void UIModifySpotLight();
+		void UIRenderShadowMap();
 
 	private:
 		static std::shared_ptr<ShaderManager> s_ShaderManager;
+
+		int m_selectedShadowMap{};
 
 		Teapot::Shader m_ShaderDepthBasic{"../Teapot/shaders/BasicDepth.shader"};
 		Teapot::Shader m_Shader { "../Teapot/shaders/MaterialShader.shader" };

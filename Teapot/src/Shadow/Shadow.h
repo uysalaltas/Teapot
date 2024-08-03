@@ -21,8 +21,9 @@ namespace Teapot
 
 		inline void BindShadow() const { shadowMapping->BindTexture(); };
 		inline glm::mat4 GetLightSpaceMatrix() const { return lightSpaceMatrix; };
-	private:
 		std::unique_ptr<ShadowMapping> shadowMapping;
+
+	private:
 		Shader m_shaderShadow;
 		Shader m_shaderDepth;
 

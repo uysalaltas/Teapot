@@ -32,7 +32,7 @@ namespace Teapot
 
 		while (m_Running)
 		{
-			m_Window->OnFistUpdate();		
+			m_Window->OnFistUpdate();
 			OnUpdateAwake();
 			shaderManager->RenderShadow();
 			GetWindow().BindFrameBuffer();
