@@ -180,19 +180,20 @@ namespace Teapot
 
 	void ShaderManager::UIRenderShadowMap()
 	{
-		ImGui::Begin("Debug");
+		ImGui::Begin("Shadow Map Debug");
 		{
-			ImGui::SliderInt("slider int", &m_selectedShadowMap, 0, m_Shadows.size() - 1);
+			ImGui::SliderInt("Select Shadow Map", &m_selectedShadowMap, 0, m_Shadows.size() - 1);
 
-			int minRegion = (ImGui::GetContentRegionAvail().x > ImGui::GetContentRegionAvail().y) 
-				? ImGui::GetContentRegionAvail().y : ImGui::GetContentRegionAvail().x;
+			auto contentRegion = ImGui::GetContentRegionAvail();
+			int minRegion = (contentRegion.x > contentRegion.y) 
+				? contentRegion.y : contentRegion.x;
 
 			ImGui::BeginChild("ShadowMap");
 			ImGui::Image(
 				(ImTextureID)GetShadowID(),
 				ImVec2(minRegion, minRegion),
-				ImVec2(0, 1),
-				ImVec2(1, 0)
+				ImVec2(0, 1), // Top-left corner of the texture
+				ImVec2(1, 0)  // Bottom-right corner of the texture
 			);
 		}
 		ImGui::EndChild();
