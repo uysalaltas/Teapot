@@ -87,13 +87,13 @@ namespace Teapot
 	void ShaderManager::CreateDirectionalLight(const DirectionalLight& directionalLight)
 	{
 		m_DirectionalLights.push_back(directionalLight);
-		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic, m_DirectionalLights.back().position, Shadow::RenderType::Ortho));
 	}
 
 	void ShaderManager::CreateSpotLight(const SpotLight& spotLight)
 	{
 		m_SpotLights.push_back(spotLight);
-		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic, m_SpotLights.back().position, Shadow::RenderType::Perspective));
 	}
 
 	void ShaderManager::CreatePointLight(const PointLight& pointLight)
@@ -103,8 +103,10 @@ namespace Teapot
 
 	void ShaderManager::RenderShadow() const
 	{
-		m_Shadows[0]->RenderShadow(m_DirectionalLights[0].position, Model::s_Models, Shadow::RenderType::Ortho);
-		m_Shadows[1]->RenderShadow(m_SpotLights[0].position, Model::s_Models, Shadow::RenderType::Perspective);
+		for (auto& shadow : m_Shadows)
+		{
+			shadow->RenderShadow();
+		}
 	}
 	
 	void ShaderManager::UIModifyDirectionLight()
@@ -176,5 +178,28 @@ namespace Teapot
 			m_SpotLights[i].diffuse[1]  = m_SpotLights[i].diffuse[0];
 			m_SpotLights[i].diffuse[2]  = m_SpotLights[i].diffuse[0];
 		}
+	}
+
+	void ShaderManager::UIRenderShadowMap()
+	{
+		ImGui::Begin("Shadow Map Debug");
+		{
+			ImGui::SliderInt("Select Shadow Map", &m_selectedShadowMap, 0, m_Shadows.size() - 1);
+
+			auto contentRegion = ImGui::GetContentRegionAvail();
+			int minRegion = (contentRegion.x > contentRegion.y) 
+				? contentRegion.y : contentRegion.x;
+
+			ImGui::BeginChild("ShadowMap");
+			ImGui::Image(
+				(ImTextureID)GetShadowID(),
+				ImVec2(minRegion, minRegion),
+				ImVec2(0, 1), // Top-left corner of the texture
+				ImVec2(1, 0)  // Bottom-right corner of the texture
+			);
+		}
+		ImGui::EndChild();
+		ImGui::End();
+
 	}
 }

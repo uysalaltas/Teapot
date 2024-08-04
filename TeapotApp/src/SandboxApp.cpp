@@ -43,6 +43,8 @@ public:
 		// Ui Stuff
 		shaderManager->UIModifySpotLight();
 		shaderManager->UIModifyDirectionLight();
+		shaderManager->UIRenderShadowMap();
+
 		windowUI->UIGizmos();
 
 		ImGui::ShowDemoWindow();
