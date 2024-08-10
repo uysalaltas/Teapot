@@ -23,6 +23,8 @@ public:
 
 		shaderManager->CreateDirectionalLight(dirLight);
 		shaderManager->CreateSpotLight(spotLight);
+		shaderManager->ActivateShadow(false);
+
 	}
 
 	void OnUpdateAwake() override
