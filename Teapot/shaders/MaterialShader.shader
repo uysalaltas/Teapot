@@ -97,6 +97,8 @@ uniform int pointLightCount;
 uniform int directionalLightCount;
 uniform int spotLightCount;
 
+uniform int activateShadow;
+
 uniform int hasTexture;
 
 uniform vec3 camPos;
@@ -172,8 +174,11 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, int index)
         specular = light.specular * spec;
     }
 
-    float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
-    //float shadow = 0.0f;
+    float shadow = 0.0f;
+    if (activateShadow == 1)
+    {
+        shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+    }
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
 
@@ -251,8 +256,11 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-    float shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
-    //float shadow = 0.0f;
+    float shadow = 0.0f;
+    if (activateShadow == 1)
+    {
+        shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+    }
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
 

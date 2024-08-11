@@ -101,11 +101,19 @@ namespace Teapot
         m_pointLights.push_back(pointLight);
     }
 
-	void ShaderManager::RenderShadow() const
+	void ShaderManager::RenderShadow()
 	{
-		for (auto& shadow : m_Shadows)
+		if (m_activateShadow)
 		{
-			shadow->RenderShadow();
+			m_Shader.SetUniform1i("activateShadow", 1);
+			for (const auto& shadow : m_Shadows)
+			{
+				shadow->RenderShadow();
+			}
+		}
+		else
+		{
+			m_Shader.SetUniform1i("activateShadow", 0);
 		}
 	}
 	

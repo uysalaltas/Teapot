@@ -146,7 +146,7 @@ namespace Teapot
 			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
 			float viewManipulateTop = ImGui::GetWindowPos().y;
 
-			ImGuizmo::ViewManipulate(glm::value_ptr(m_camera->GetViewMatrix()), 8.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
+			ImGuizmo::ViewManipulate(glm::value_ptr(m_camera->GetViewMatrix()), 1.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
 
 			if (ImGuizmo::IsUsing())
 			{
