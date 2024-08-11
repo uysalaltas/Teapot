@@ -1,7 +1,4 @@
-#include <GLFW/glfw3.h>
-
 #include "WindowsInput.h"
-#include "Teapot/Application.h"
 
 namespace Teapot
 {

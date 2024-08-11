@@ -9,6 +9,12 @@
 #include <functional>
 #include <format>
 
+#ifdef TEA_PLATFORM_WINDOWS
+	inline std::string SHADERPATH = "../Teapot/shaders/";
+#elif TEA_PLATFORM_LINUX
+	inline std::string SHADERPATH = "Teapot/shaders/";
+#endif
+
 namespace Teapot
 {
 	struct DirectionalLight
@@ -82,8 +88,8 @@ namespace Teapot
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};
 
-		Teapot::Shader m_ShaderDepthBasic{"../Teapot/shaders/BasicDepth.shader"};
-		Teapot::Shader m_Shader { "../Teapot/shaders/MaterialShader.shader" };
+		Teapot::Shader m_ShaderDepthBasic{ SHADERPATH + "BasicDepth.shader"};
+		Teapot::Shader m_Shader { SHADERPATH + "MaterialShader.shader" };
 
 		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 

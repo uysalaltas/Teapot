@@ -3,7 +3,7 @@
 class Sandbox : public Teapot::Application
 {
 public:
-	explicit Sandbox(const Teapot::WindowProps& props = Teapot::WindowProps::WindowProps()) :
+	explicit Sandbox(const Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
 		cubeModel = std::make_unique<Teapot::Model>(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "Cube");

@@ -3,9 +3,14 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_glfw.h>
+#include <ImGuizmo.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Teapot/Window.h"
 #include "Renderer/FrameBuffer.h"
+#include "Renderer/Model.h"
 
 namespace Teapot
 {
@@ -19,7 +24,8 @@ namespace Teapot
 		void OnLastUpdate() override;
 		void UpdateViewport() override;
 		void RenderSceneOnImGuiWindow() override;
-		void ActivateGizmo(std::shared_ptr<Camera> camera) override {};
+		void RenderGizmo() const;
+		void ActivateGizmo(std::shared_ptr<Camera> camera) override;
 
 		inline virtual void* GetNativeWindow() const { return m_Window; }
 
@@ -37,7 +43,6 @@ namespace Teapot
 		}
 
 	private:
-		//FrameBuffer* sceneBuffer;
 		GLFWwindow* m_Window;
 
 		struct WindowData
@@ -46,5 +51,7 @@ namespace Teapot
 			unsigned int Width, Height;
 		};
 		WindowData m_WindowData;
+
+		std::shared_ptr<Camera> m_camera;
 	};
 }

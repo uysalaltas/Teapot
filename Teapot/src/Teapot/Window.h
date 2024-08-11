@@ -5,6 +5,7 @@
 #include "Renderer/FrameBuffer.h"
 #include "Core.h"
 #include "Camera/Camera.h"
+#include <memory>
 
 namespace Teapot
 {

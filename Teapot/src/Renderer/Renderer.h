@@ -1,6 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <iostream>
+#include <memory>
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"

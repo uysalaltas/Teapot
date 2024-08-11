@@ -44,7 +44,7 @@ project "TeapotApp"
 
 		links 
 		{
-			"GLFW", "Xrandr", "Xi", "GLU", "GL", "X11", "dl", "pthread", "stdc++fs"
+			"GLFW", "Xrandr", "Xi", "GLU", "GL", "X11", "dl", "pthread", "stdc++fs", "GLAD", "ImGui", "assimp"
 		}
 
 		defines
