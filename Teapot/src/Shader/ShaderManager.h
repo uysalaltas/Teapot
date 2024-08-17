@@ -9,11 +9,7 @@
 #include <functional>
 #include <format>
 
-#ifdef TEA_PLATFORM_WINDOWS
-	inline std::string SHADERPATH = "../Teapot/shaders/";
-#elif TEA_PLATFORM_LINUX
-	inline std::string SHADERPATH = "Teapot/shaders/";
-#endif
+inline std::string SHADERPATH = "Teapot/shaders/";
 
 namespace Teapot
 {

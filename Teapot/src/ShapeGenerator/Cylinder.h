@@ -15,11 +15,11 @@ namespace Shapes
 			const float topRadius = 1.0f
 		);
 
-		inline std::vector<GLuint> ShapeIndices() override { return m_indices; }
-		inline std::vector<Vertex> ShapeVertices() override { return m_vertices; }
-		inline std::vector<glm::vec3> ShapePositions() override { return m_positions; }
-		inline std::vector<glm::vec3> ShapeColors() override { return m_colors; }
-		inline std::vector<glm::vec3> ShapeNormals() override { return m_normals; }
+		inline std::vector<GLuint>& ShapeIndices() override { return m_indices; }
+		inline std::vector<Vertex>& ShapeVertices() override { return m_vertices; }
+		inline std::vector<glm::vec3>& ShapePositions() override { return m_positions; }
+		inline std::vector<glm::vec3>& ShapeColors() override { return m_colors; }
+		inline std::vector<glm::vec3>& ShapeNormals() override { return m_normals; }
 
 	private:
 		void BuildVertexData();

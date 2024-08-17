@@ -9,6 +9,7 @@ namespace Teapot
         , name(nameObject)
     {
         m_HasTexture = true;
+        path = "TeapotApp/" + path;
         LoadModel(path);
         s_Models.push_back(this);
     }
