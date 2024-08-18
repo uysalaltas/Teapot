@@ -1,5 +1,5 @@
 #shader vertex
-#version 460 core
+#version 410 core
 
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aColor;
@@ -35,7 +35,7 @@ void main()
 };
 
 #shader fragment
-#version 460 core
+#version 410 core
 out vec4 FragColor;
 
 struct Material {
@@ -96,9 +96,7 @@ uniform sampler2D shadowMapArr[2];
 uniform int pointLightCount;
 uniform int directionalLightCount;
 uniform int spotLightCount;
-
 uniform int activateShadow;
-
 uniform int hasTexture;
 
 uniform vec3 camPos;
@@ -174,10 +172,17 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, int index)
         specular = light.specular * spec;
     }
 
-    float shadow = 0.0f;
+    float shadow = 0.0;
     if (activateShadow == 1)
     {
-        shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+        switch (index) {
+        case 0:
+            shadow = ShadowCalculation(shadowMapArr[0], fs_in.CrntPosLightSpace[0], lightDir);
+            break;
+        case 1:
+            shadow = ShadowCalculation(shadowMapArr[1], fs_in.CrntPosLightSpace[1], lightDir);
+            break;
+        }
     }
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
@@ -256,10 +261,17 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
-    float shadow = 0.0f;
+    float shadow = 0.0;
     if (activateShadow == 1)
     {
-        shadow = ShadowCalculation(shadowMapArr[index], fs_in.CrntPosLightSpace[index], lightDir);
+        switch (index) {
+        case 0:
+            shadow = ShadowCalculation(shadowMapArr[0], fs_in.CrntPosLightSpace[0], lightDir);
+            break;
+        case 1:
+            shadow = ShadowCalculation(shadowMapArr[1], fs_in.CrntPosLightSpace[1], lightDir);
+            break;
+        }
     }
     return (ambient + ((1.0f - shadow) * diffuse) + ((1.0f - shadow) * specular)) * fs_in.Color;
 }
@@ -269,11 +281,8 @@ float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightD
 {
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     projCoords = projCoords * 0.5 + 0.5;
-    float closestDepth = texture(shadowMap, projCoords.xy).r;
     float currentDepth = projCoords.z;
-    //float bias = max(0.05 * (1.0 - dot(fs_in.Normal, lightDir)), 0.005);
     float bias = 0.001;
-    //float shadow = currentDepth - bias > closestDepth ? 1.0 : 0.0;
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
     for (int x = -1; x <= 1; ++x)
@@ -281,7 +290,7 @@ float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightD
         for (int y = -1; y <= 1; ++y)
         {
             float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
-            shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
+            // shadow += currentDepth - bias > pcfDepth ? 1.0 : 0.0;
         }
     }
     shadow /= 9.0;

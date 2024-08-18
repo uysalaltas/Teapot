@@ -9,7 +9,6 @@ namespace Teapot
         , name(nameObject)
     {
         m_HasTexture = true;
-        path = "TeapotApp/" + path;
         LoadModel(path);
         s_Models.push_back(this);
     }
@@ -223,7 +222,8 @@ namespace Teapot
             }
             if (!skip)
             {
-                Texture texture(str.C_Str(), typeName, i);
+                std::string texturePath = (directory + "//").append(str.C_Str());
+                Texture texture(texturePath.c_str(), typeName, i);
                 textures.push_back(texture);
                 texturesLoaded.push_back(texture);
             }

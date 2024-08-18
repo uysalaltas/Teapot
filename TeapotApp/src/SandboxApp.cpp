@@ -12,7 +12,7 @@ public:
 		cylinderModel = std::make_unique<Teapot::Model>(cylinder.ShapePositions(), cylinder.ShapeColors(), cylinder.ShapeNormals(), cylinder.ShapeIndices(), "Cylinder");
 		sphereModel = std::make_unique<Teapot::Model>(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere");
 
-		teaCup = std::make_unique<Teapot::Model>("coffee_cup_obj.obj", "cup");
+		teaCup = std::make_unique<Teapot::Model>("TeapotApp/coffee_cup_obj.obj", "cup");
 
 		cubeModel->Translate(glm::vec3(1.0f, 0.0f, 0.0f));
 		planeModel->Translate(glm::vec3(-5.0f, -5.0f, -0.3f));
@@ -23,7 +23,7 @@ public:
 
 		shaderManager->CreateDirectionalLight(dirLight);
 		shaderManager->CreateSpotLight(spotLight);
-		shaderManager->ActivateShadow(false);
+		shaderManager->ActivateShadow(true);
 
 	}
 
