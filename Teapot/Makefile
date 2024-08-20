@@ -66,6 +66,7 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/Application.o
+GENERATED += $(OBJDIR)/ApplicationWindow.o
 GENERATED += $(OBJDIR)/Cube.o
 GENERATED += $(OBJDIR)/Cylinder.o
 GENERATED += $(OBJDIR)/FrameBuffer.o
@@ -76,7 +77,6 @@ GENERATED += $(OBJDIR)/ImGuiBuild.o
 GENERATED += $(OBJDIR)/ImGuizmo.o
 GENERATED += $(OBJDIR)/ImSequencer.o
 GENERATED += $(OBJDIR)/IndexBuffer.o
-GENERATED += $(OBJDIR)/LinuxWindow.o
 GENERATED += $(OBJDIR)/Model.o
 GENERATED += $(OBJDIR)/Plane.o
 GENERATED += $(OBJDIR)/Renderer.o
@@ -90,8 +90,8 @@ GENERATED += $(OBJDIR)/Texture.o
 GENERATED += $(OBJDIR)/VertexArray.o
 GENERATED += $(OBJDIR)/VertexBuffer.o
 GENERATED += $(OBJDIR)/WindowsInput.o
-GENERATED += $(OBJDIR)/WindowsWindow.o
 OBJECTS += $(OBJDIR)/Application.o
+OBJECTS += $(OBJDIR)/ApplicationWindow.o
 OBJECTS += $(OBJDIR)/Cube.o
 OBJECTS += $(OBJDIR)/Cylinder.o
 OBJECTS += $(OBJDIR)/FrameBuffer.o
@@ -102,7 +102,6 @@ OBJECTS += $(OBJDIR)/ImGuiBuild.o
 OBJECTS += $(OBJDIR)/ImGuizmo.o
 OBJECTS += $(OBJDIR)/ImSequencer.o
 OBJECTS += $(OBJDIR)/IndexBuffer.o
-OBJECTS += $(OBJDIR)/LinuxWindow.o
 OBJECTS += $(OBJDIR)/Model.o
 OBJECTS += $(OBJDIR)/Plane.o
 OBJECTS += $(OBJDIR)/Renderer.o
@@ -116,7 +115,6 @@ OBJECTS += $(OBJDIR)/Texture.o
 OBJECTS += $(OBJDIR)/VertexArray.o
 OBJECTS += $(OBJDIR)/VertexBuffer.o
 OBJECTS += $(OBJDIR)/WindowsInput.o
-OBJECTS += $(OBJDIR)/WindowsWindow.o
 
 # Rules
 # #############################################
@@ -183,13 +181,10 @@ endif
 $(OBJDIR)/ImGuiBuild.o: ImGuiBuild.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/LinuxWindow.o: src/Platform/Linux/LinuxWindow.cpp
+$(OBJDIR)/ApplicationWindow.o: src/Platform/ApplicationWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/WindowsInput.o: src/Platform/Windows/WindowsInput.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/WindowsWindow.o: src/Platform/Windows/WindowsWindow.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/FrameBuffer.o: src/Renderer/FrameBuffer.cpp

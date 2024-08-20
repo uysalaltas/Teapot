@@ -1,20 +1,20 @@
-#include "WindowsWindow.h"
+#include "ApplicationWindow.h"
 
 namespace Teapot
 {
 	static bool s_GLFWInitialized = false;
 
-	WindowsWindow::WindowsWindow(const WindowProps& props)
+	ApplicationWindow::ApplicationWindow(const WindowProps& props)
 	{
 		Init(props);
 	}
 
-	WindowsWindow::~WindowsWindow()
+	ApplicationWindow::~ApplicationWindow()
 	{
 		Shutdown();
 	}
 
-	void WindowsWindow::Init(const WindowProps& props)
+	void ApplicationWindow::Init(const WindowProps& props)
 	{
 		m_WindowData.Title = props.Title;
 		m_WindowData.Height = props.Height;
@@ -26,6 +26,12 @@ namespace Teapot
 		}
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+#ifdef TEA_PLATFORM_WINDOWS
+#elif TEA_PLATFORM_LINUX
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
@@ -35,7 +41,7 @@ namespace Teapot
 			std::cout << "Failed to initialize GLAD" << std::endl;
 		}
 
-		const char* glsl_version = "#version 460";
+		const char* glsl_version = "#version 410";
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
 
@@ -48,7 +54,7 @@ namespace Teapot
 		ImGui_ImplOpenGL3_Init(glsl_version);
 	}
 
-	void WindowsWindow::OnFistUpdate()
+	void ApplicationWindow::OnFistUpdate()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -85,7 +91,7 @@ namespace Teapot
 		glEnable(GL_DEPTH_TEST);
 	}
 
-	void WindowsWindow::OnLastUpdate()
+	void ApplicationWindow::OnLastUpdate()
 	{
 		//sceneBuffer->Unbind();
 		//glClear(GL_COLOR_BUFFER_BIT);
@@ -116,7 +122,7 @@ namespace Teapot
 		glfwSwapBuffers(m_Window);
 	}
 
-	void WindowsWindow::UpdateViewport()
+	void ApplicationWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -124,12 +130,12 @@ namespace Teapot
 		sceneBuffer->RescaleFrameBuffer(m_WindowData.Width, m_WindowData.Height);
 	}
 
-	void WindowsWindow::RenderSceneOnImGuiWindow()
+	void ApplicationWindow::RenderSceneOnImGuiWindow()
 	{
 		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_WindowData.Width, m_WindowData.Height);
 	}
 
-	void WindowsWindow::RenderGizmo() const
+	void ApplicationWindow::RenderGizmo() const
 	{
 		if (IsGizmoActive)
 		{
@@ -155,13 +161,13 @@ namespace Teapot
 		}
 	}
 
-	void WindowsWindow::ActivateGizmo(std::shared_ptr<Camera> camera)
+	void ApplicationWindow::ActivateGizmo(std::shared_ptr<Camera> camera)
 	{
 		m_camera = camera;
 		IsGizmoActive = true;
 	}
 
-	void WindowsWindow::Shutdown()
+	void ApplicationWindow::Shutdown()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
