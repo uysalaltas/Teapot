@@ -5,6 +5,8 @@ project "TeapotApp"
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
+	debugdir "%{wks.location}"
+	
 	files
 	{
 		"src/**.h",
@@ -44,7 +46,7 @@ project "TeapotApp"
 
 		links 
 		{
-			"GLFW", "Xrandr", "Xi", "GLU", "GL", "X11", "dl", "pthread", "stdc++fs"
+			"GLFW", "Xrandr", "Xi", "GLU", "GL", "X11", "dl", "pthread", "stdc++fs", "GLAD", "ImGui", "assimp"
 		}
 
 		defines

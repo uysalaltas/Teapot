@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Teapot/Application.h"
 #include "Teapot/Input.h"
+#include <GLFW/glfw3.h>
 
 namespace Teapot
 {

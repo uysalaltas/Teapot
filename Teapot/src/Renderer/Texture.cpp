@@ -1,5 +1,6 @@
 #include"Texture.h"
 #include <iostream>
+#include <algorithm>
 
 namespace Teapot
 {
@@ -9,6 +10,7 @@ namespace Teapot
 		, unit(unitType)
 	{
 		std::string filename = path;
+		std::replace(filename.begin(), filename.end(), '\\', '/');
 		std::cout << "Path Adress: " << filename << " Texture Type: " << texType << std::endl;
 
 		glGenTextures(1, &ID);
@@ -42,7 +44,7 @@ namespace Teapot
 		}
 		else
 		{
-			std::cout << "Texture failed to load at path: " << path << std::endl;
+			std::cout << "Texture failed to load at path: " << filename << std::endl;
 			stbi_image_free(bytes);
 		}
 	}

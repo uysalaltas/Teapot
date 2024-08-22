@@ -12,12 +12,12 @@ namespace Shapes
 	{
 	public:
 		virtual ~Shapes() = default;
-		virtual std::vector<GLuint> ShapeIndices() = 0;
-		virtual std::vector<Vertex> ShapeVertices() = 0;
+		virtual std::vector<GLuint>& ShapeIndices() = 0;
+		virtual std::vector<Vertex>& ShapeVertices() = 0;
 
-		virtual std::vector<glm::vec3> ShapePositions() = 0;
-		virtual std::vector<glm::vec3> ShapeColors() = 0;
-		virtual std::vector<glm::vec3> ShapeNormals() = 0;
+		virtual std::vector<glm::vec3>& ShapePositions() = 0;
+		virtual std::vector<glm::vec3>& ShapeColors() = 0;
+		virtual std::vector<glm::vec3>& ShapeNormals() = 0;
 
 		void PushData(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4)
 		{
