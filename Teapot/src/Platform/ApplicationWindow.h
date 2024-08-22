@@ -18,7 +18,7 @@ namespace Teapot
 	{
 	public:
 		explicit ApplicationWindow(const WindowProps& props);
-		virtual ~ApplicationWindow();
+		~ApplicationWindow() override;
 		ApplicationWindow(ApplicationWindow const&) = delete;
 		ApplicationWindow& operator=(ApplicationWindow const&) = delete;
 
@@ -29,7 +29,7 @@ namespace Teapot
 		void RenderGizmo() const;
 		void ActivateGizmo(std::shared_ptr<Camera> camera) override;
 
-		inline virtual void* GetNativeWindow() const { return m_Window; }
+		inline void* GetNativeWindow() const override { return m_Window; }
 
 		inline unsigned int GetWidth() const override  { return m_WindowData.Width; }
 		inline unsigned int GetHeigth() const override { return m_WindowData.Height; }
@@ -37,8 +37,8 @@ namespace Teapot
 		inline unsigned int& GetHeigthRef() override   { return m_WindowData.Height; }
 
 	private:
-		virtual void Init(const WindowProps& props);
-		virtual void Shutdown();
+		void Init(const WindowProps& props);
+		void Shutdown();
 
 		GLFWwindow* m_Window;
 
