@@ -9,7 +9,7 @@
 #include <functional>
 #include <format>
 
-inline std::string SHADERPATH = "Teapot/shaders/";
+inline const std::string SHADERPATH = "Teapot/shaders/";
 
 namespace Teapot
 {

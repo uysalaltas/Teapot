@@ -7,7 +7,6 @@ namespace Teapot
 {
 	Window* Window::Create(const WindowProps& props)
 	{
-		std::cout << "Windows" << std::endl;
 		return new ApplicationWindow(props);
 	}
 }

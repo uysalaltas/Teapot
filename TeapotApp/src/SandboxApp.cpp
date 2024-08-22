@@ -52,7 +52,7 @@ public:
 		ImGui::ShowDemoWindow();
 	}
 
-	void RenderScene()
+	void RenderScene() const
 	{
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		teaCup->Draw();
