@@ -1,17 +1,22 @@
 # Teapot
-OpenGL Engine
+OpenGL Engine - Create graphics apps! 
+
+<img src="Teapot/images/TeapotApp1.png" width="800">
 
 ## Features
 * Camera features
     * Arcball camera
     * Camera Panning, zoom in/out
 * Objects
-    * Rotation/position change
+    * Rotation/Translation/Scaling features
     * External object suppport (*.obj ...) 
     * Texture support
     * Internal basic object creation (Cube, Cylinder (custom edge count), Plane, Sphere)
 * Shadowing
 * Multiple lights
+    * Directional lights
+    * Spot lights
+    * Point lights
 * Costumiazble docker UI
 * External usages - Include in your projects
 
@@ -63,7 +68,7 @@ sudo ./bin/Debug-linux-x86_64/TeapotApp/TeapotApp
 ```
 
 > [!IMPORTANT]
-> This repository works with C++20, make sure the compiler supports C++ versions (Works with g++ 13.1).
+> This repository works with C++20, make sure the compiler supports C++ versions (Tested with g++ 13.1).
 
 ## 3th Party Libraries
 * ImGui
