@@ -10,7 +10,6 @@ namespace Teapot
     {
         m_HasTexture = true;
         LoadModel(path);
-        s_Models.push_back(this);
     }
 
     Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
@@ -32,7 +31,6 @@ namespace Teapot
         std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
 
         meshes.push_back(std::make_unique<Renderer>(vertices, indices, textures));
-        s_Models.push_back(this);
     }
 
     void Model::Draw() const
@@ -81,6 +79,13 @@ namespace Teapot
     {
         Texture texture(texturePath.c_str(), textureType, unit);
         meshes[0]->textures.push_back(texture);
+    }
+
+    std::shared_ptr<Model> Model::CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
+    {
+        auto model = std::make_shared<Model>(positions, colors, normals, indices, nameObject);
+        s_Models.push_back(model);
+        return model;
     }
 
     void Model::LoadModel(const std::string& path)

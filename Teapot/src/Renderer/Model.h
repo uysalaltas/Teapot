@@ -21,6 +21,8 @@ namespace Teapot
 		void Scale(const glm::vec3& scale);
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
+		static std::shared_ptr<Model> CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
+
 	public:
 		std::string path;
 		std::string name;
@@ -31,7 +33,7 @@ namespace Teapot
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<std::unique_ptr<Renderer>> meshes;
 
-		inline static std::vector<Model*> s_Models;
+		inline static std::vector<std::shared_ptr<Model>> s_Models;
 		inline static int s_SelectedModel{ 0 };
 
 	private:
