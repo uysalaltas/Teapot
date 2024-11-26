@@ -144,7 +144,7 @@ namespace Teapot
 			ImGuizmo::Manipulate(
 				glm::value_ptr(m_camera->GetViewMatrix()),
 				glm::value_ptr(m_camera->GetProjMatrix()),
-				ImGuizmo::OPERATION::TRANSLATE,
+				static_cast<ImGuizmo::OPERATION>(SelectedGizmo),
 				ImGuizmo::MODE::LOCAL,
 				glm::value_ptr(Model::s_Models[Model::s_SelectedModel]->objModel)
 			);

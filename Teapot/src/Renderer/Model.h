@@ -19,6 +19,7 @@ namespace Teapot
 		void Translate(const glm::vec3& translation);
 		void Rotate(const glm::vec3& rotation);
 		void Scale(const glm::vec3& scale);
+		void Manipulate();
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
 		static std::shared_ptr<Model> CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);

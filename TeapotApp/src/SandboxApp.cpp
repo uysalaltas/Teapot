@@ -6,9 +6,9 @@ public:
 	explicit Sandbox(const Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
-		cubeBase  = Teapot::Model::CreateModel(cube1.ShapePositions() , cube1.ShapeColors() , cube1.ShapeNormals() , cube1.ShapeIndices() , "CubeBase" );
-		cubeLeft  = Teapot::Model::CreateModel(cube2.ShapePositions() , cube2.ShapeColors() , cube2.ShapeNormals() , cube2.ShapeIndices() , "CubeLeft" );
-		cubeRight = Teapot::Model::CreateModel(cube3.ShapePositions() , cube3.ShapeColors() , cube3.ShapeNormals() , cube3.ShapeIndices() , "CubeRight");
+		cubeBase  = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeBase" );
+		cubeLeft  = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeLeft" );
+		cubeRight = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeRight");
 		sphrModel = Teapot::Model::CreateModel(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere"   );
 
 		cubeBase ->Translate(glm::vec3( 0.00f,  0.00f, 0.00f));
@@ -26,7 +26,7 @@ public:
 
 		shaderManager->CreateDirectionalLight(dirLight);
 		shaderManager->CreateSpotLight(spotLight);
-		shaderManager->ActivateShadow(false);
+		shaderManager->ActivateShadow(true);
 	}
 
 	void OnUpdateAwake() override
@@ -59,10 +59,6 @@ public:
 	void RenderScene() const
 	{
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		//cubeBase ->Draw();
-		//cubeLeft ->Draw();
-		//cubeRight->Draw();
-		//sphrModel->Draw();
 
 		for (auto model : Teapot::Model::s_Models)
 		{
@@ -77,10 +73,10 @@ public:
 		{
 			static unsigned int counter = 0;
 			Teapot::Model::CreateModel(
-				cube1.ShapePositions(),
-				cube1.ShapeColors(),
-				cube1.ShapeNormals(),
-				cube1.ShapeIndices(),
+				cube.ShapePositions(),
+				cube.ShapeColors(),
+				cube.ShapeNormals(),
+				cube.ShapeIndices(),
 				"Cube" + std::to_string(counter)
 			);
 
@@ -90,9 +86,7 @@ public:
 	}
 
 private:
-	Shapes::Cube cube1{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
-	Shapes::Cube cube2{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
-	Shapes::Cube cube3{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
+	Shapes::Cube cube{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
 	Shapes::Sphere sphere{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f), 30, 30 };
 	
 	std::shared_ptr<Teapot::Model> cubeBase;
