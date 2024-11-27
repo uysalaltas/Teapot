@@ -156,7 +156,20 @@ namespace Teapot
 
 			if (ImGuizmo::IsUsing())
 			{
-				Model::s_Models[Model::s_SelectedModel]->objTranslation = glm::vec3(Model::s_Models[Model::s_SelectedModel]->objModel[3]);
+				glm::quat rotation;
+				glm::vec3 skew;
+				glm::vec4 perspective;
+
+				glm::decompose(
+					Model::s_Models[Model::s_SelectedModel]->objModel,
+					Model::s_Models[Model::s_SelectedModel]->objScale,
+					rotation,
+					Model::s_Models[Model::s_SelectedModel]->objTranslation,
+					skew,
+					perspective
+				);
+
+				Model::s_Models[Model::s_SelectedModel]->objRotation = glm::degrees(glm::eulerAngles(rotation));
 			}
 		}
 	}

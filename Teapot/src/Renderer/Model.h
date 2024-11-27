@@ -30,7 +30,7 @@ namespace Teapot
 		glm::vec3 modelColor = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::mat4 objModel = glm::mat4(1.0f);
 		glm::vec3 objRotation = glm::vec3(0.0f);
-		glm::vec3 objScale = glm::vec3(0.0f);
+		glm::vec3 objScale = glm::vec3(1.0f);
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<std::unique_ptr<Renderer>> meshes;
 

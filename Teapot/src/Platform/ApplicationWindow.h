@@ -7,6 +7,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <ImGuizmo.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 #include "Teapot/Window.h"
 #include "Renderer/FrameBuffer.h"
