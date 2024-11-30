@@ -137,7 +137,7 @@ namespace Teapot
 
 	void ApplicationWindow::RenderGizmo() const
 	{
-		if (IsGizmoActive)
+		if (IsGizmoActive && Model::GetModelVectorSize() > 0)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));

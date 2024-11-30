@@ -1,4 +1,6 @@
 #include "Teapot.h"
+#include "array"
+//#include "string"
 
 class Sandbox : public Teapot::Application
 {
@@ -6,9 +8,9 @@ public:
 	explicit Sandbox(const Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
-		cubeBase  = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeBase" );
-		cubeLeft  = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeLeft" );
-		cubeRight = Teapot::Model::CreateModel(cube.ShapePositions() , cube.ShapeColors() , cube.ShapeNormals() , cube.ShapeIndices() , "CubeRight");
+		cubeBase  = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeBase" );
+		cubeLeft  = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeLeft" );
+		cubeRight = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeRight");
 		sphrModel = Teapot::Model::CreateModel(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere"   );
 
 		cubeBase ->Translate(glm::vec3( 0.00f,  0.00f, 0.00f));
@@ -68,19 +70,45 @@ public:
 
 	void AddShape()
 	{
+		std::array<const char*, 3> preshapes = { "Cube", "Sphere", "Cylinder"};
+		static int preshapesIdx = 0;
+		const char* comboShapeValue = preshapes[preshapesIdx];
+
 		ImGui::Begin("Add Shape", nullptr, 0);
+		static glm::vec3 shapeColor = { 1.0f, 0.5f, 0.0f };
+		ImGui::ColorEdit3("Color", &shapeColor[0]);
+
+		if (ImGui::BeginCombo("Shapes", comboShapeValue))
+		{
+			for (int n = 0; n < preshapes.size(); n++)
+			{
+				const bool is_selected = (preshapesIdx == n);
+				if (ImGui::Selectable(preshapes[n], is_selected)) { preshapesIdx = n; }
+				if (is_selected) { ImGui::SetItemDefaultFocus(); }
+			}
+			ImGui::EndCombo();
+		}
+
 		if (ImGui::Button("Add Shape"))
 		{
+			if (preshapes[preshapesIdx] == "Cube"){ selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor); }
+			else if (preshapes[preshapesIdx] == "Sphere"){ selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30); }
+			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); }
+
 			static unsigned int counter = 0;
 			Teapot::Model::CreateModel(
-				cube.ShapePositions(),
-				cube.ShapeColors(),
-				cube.ShapeNormals(),
-				cube.ShapeIndices(),
+				selectedShape->ShapePositions(),
+				selectedShape->ShapeColors(),
+				selectedShape->ShapeNormals(),
+				selectedShape->ShapeIndices(),
 				"Cube" + std::to_string(counter)
 			);
-
 			counter++;
+		}
+
+		if (ImGui::Button("Remove Selected Shape"))
+		{
+			Teapot::Model::RemoveModel();
 		}
 		ImGui::End();
 	}
@@ -88,7 +116,8 @@ public:
 private:
 	Shapes::Cube cube{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
 	Shapes::Sphere sphere{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f), 30, 30 };
-	
+	std::unique_ptr<Shapes::Shapes> selectedShape;
+
 	std::shared_ptr<Teapot::Model> cubeBase;
 	std::shared_ptr<Teapot::Model> cubeLeft;
 	std::shared_ptr<Teapot::Model> cubeRight;

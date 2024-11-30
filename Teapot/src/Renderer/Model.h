@@ -23,6 +23,7 @@ namespace Teapot
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
 		static std::shared_ptr<Model> CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
+		static void RemoveModel();
 
 	public:
 		std::string path;
@@ -36,6 +37,7 @@ namespace Teapot
 
 		inline static std::vector<std::shared_ptr<Model>> s_Models;
 		inline static int s_SelectedModel{ 0 };
+		inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
 
 	private:
 		void LoadModel(const std::string& path);

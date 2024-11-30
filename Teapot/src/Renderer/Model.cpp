@@ -97,6 +97,15 @@ namespace Teapot
         return model;
     }
 
+    void Model::RemoveModel()
+    {
+        if (s_Models.size() > 0)
+        {
+            s_Models.erase(s_Models.begin() + s_SelectedModel);
+            if (s_SelectedModel > 0) { s_SelectedModel -= 1; }
+        }
+    }
+
     void Model::LoadModel(const std::string& path)
     {
         Assimp::Importer importer;
