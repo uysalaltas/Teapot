@@ -22,40 +22,33 @@ namespace Teapot
 			ImGui::RadioButton("Scale"    , &m_window.SelectedGizmo, ImGuizmo::OPERATION::SCALE); ImGui::SameLine();
 			ImGui::RadioButton("Rotate"   , &m_window.SelectedGizmo, ImGuizmo::OPERATION::ROTATE);
 
-			if(Model::GetModelVectorSize() > 0)
+			if(Model::GetModelVectorSize() == 0)
 			{
-				const char* combo_preview_value = Model::s_Models[Model::s_SelectedModel]->name.c_str();
-				if (ImGui::BeginCombo("Objects", combo_preview_value))
-				{
-					for (int n = 0; n < Model::GetModelVectorSize(); n++)
-					{
-						const bool is_selected = (Model::s_SelectedModel == n);
-						if (ImGui::Selectable(Model::s_Models[n]->name.c_str(), is_selected))
-							Model::s_SelectedModel = n;
-
-						// Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-						if (is_selected)
-							ImGui::SetItemDefaultFocus();
-					}
-					ImGui::EndCombo();
-				}
-
-				ImGui::InputFloat3("Object Translation", &Model::s_Models[Model::s_SelectedModel]->objTranslation[0]);
-				ImGui::InputFloat3("Object Scale"      , &Model::s_Models[Model::s_SelectedModel]->objScale[0]      );
-				ImGui::InputFloat3("Object Rotation"   , &Model::s_Models[Model::s_SelectedModel]->objRotation[0]   );
-
-				if (ImGui::Button("Manipulate Object"))
-				{
-					Model::s_Models[Model::s_SelectedModel]->Manipulate();
-				}
+				ImGui::End();
+				return;
 			}
 
+			const char* combo_preview_value = Model::s_Models[Model::s_SelectedModel]->name.c_str();
+			if (ImGui::BeginCombo("Objects", combo_preview_value))
+			{
+				for (int n = 0; n < Model::GetModelVectorSize(); n++)
+				{
+					const bool is_selected = (Model::s_SelectedModel == n);
+					if (ImGui::Selectable(Model::s_Models[n]->name.c_str(), is_selected)) { Model::s_SelectedModel = n; }
+					if (is_selected){ ImGui::SetItemDefaultFocus(); }
+				}
+				ImGui::EndCombo();
+			}
+
+			ImGui::InputFloat3("Object Translation", &Model::s_Models[Model::s_SelectedModel]->objTranslation[0]);
+			ImGui::InputFloat3("Object Scale", &Model::s_Models[Model::s_SelectedModel]->objScale[0]);
+			ImGui::InputFloat3("Object Rotation", &Model::s_Models[Model::s_SelectedModel]->objRotation[0]);
+
+			if (ImGui::Button("Manipulate Object")){ Model::s_Models[Model::s_SelectedModel]->Manipulate();	}
 			ImGui::End();
 		}
 
 	private:
 		Window& m_window;
-
-
 	};
 }

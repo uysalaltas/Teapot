@@ -1,6 +1,5 @@
 #include "Teapot.h"
-#include "array"
-//#include "string"
+#include <array>
 
 class Sandbox : public Teapot::Application
 {

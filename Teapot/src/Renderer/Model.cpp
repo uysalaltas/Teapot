@@ -99,7 +99,7 @@ namespace Teapot
 
     void Model::RemoveModel()
     {
-        if (s_Models.size() > 0)
+        if (!s_Models.empty())
         {
             s_Models.erase(s_Models.begin() + s_SelectedModel);
             if (s_SelectedModel > 0) { s_SelectedModel -= 1; }
