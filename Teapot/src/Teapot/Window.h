@@ -51,5 +51,6 @@ namespace Teapot
 	public:
 		std::unique_ptr <FrameBuffer> sceneBuffer;
 		bool IsGizmoActive{ false };
+		int SelectedGizmo{ 7 }; // ImGuizmo Translate enum number
 	};
 }

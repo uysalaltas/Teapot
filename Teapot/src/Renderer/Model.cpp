@@ -10,7 +10,6 @@ namespace Teapot
     {
         m_HasTexture = true;
         LoadModel(path);
-        s_Models.push_back(this);
     }
 
     Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
@@ -32,7 +31,6 @@ namespace Teapot
         std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
 
         meshes.push_back(std::make_unique<Renderer>(vertices, indices, textures));
-        s_Models.push_back(this);
     }
 
     void Model::Draw() const
@@ -77,10 +75,35 @@ namespace Teapot
         objModel = glm::scale(objModel, objScale);
     }
 
+    void Model::Manipulate()
+    {
+        objModel = glm::translate(glm::mat4(1.0f), objTranslation);
+        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        objModel = glm::scale(objModel, objScale);
+    }
+
     void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
         Texture texture(texturePath.c_str(), textureType, unit);
         meshes[0]->textures.push_back(texture);
+    }
+
+    std::shared_ptr<Model> Model::CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
+    {
+        auto model = std::make_shared<Model>(positions, colors, normals, indices, nameObject);
+        s_Models.push_back(model);
+        return model;
+    }
+
+    void Model::RemoveModel()
+    {
+        if (!s_Models.empty())
+        {
+            s_Models.erase(s_Models.begin() + s_SelectedModel);
+            if (s_SelectedModel > 0) { s_SelectedModel -= 1; }
+        }
     }
 
     void Model::LoadModel(const std::string& path)
