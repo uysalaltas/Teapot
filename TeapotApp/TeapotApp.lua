@@ -38,6 +38,11 @@ project "TeapotApp"
 		{
 			"TEA_PLATFORM_WINDOWS"
 		}
+
+		postbuildcommands
+		{
+			("{COPYFILE} %{wks.location}Teapot/vendor/assimp/lib/assimp-vc142-mtd.dll %{wks.location}bin/" .. outputdir .. "/TeapotApp")
+		}
 	
 	filter "system:linux"
 		cppdialect "C++17"
