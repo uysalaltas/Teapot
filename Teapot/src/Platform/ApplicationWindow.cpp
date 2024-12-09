@@ -19,6 +19,7 @@ namespace Teapot
 		m_WindowData.Title = props.Title;
 		m_WindowData.Height = props.Height;
 		m_WindowData.Width = props.Width;
+		m_WindowData.BackgroundColor = props.BackgroundColor;
 
 		if (!s_GLFWInitialized && glfwInit())
 		{
@@ -86,7 +87,13 @@ namespace Teapot
 
 		//sceneBuffer->Bind();
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor
+		(
+			m_WindowData.BackgroundColor.x,
+			m_WindowData.BackgroundColor.y, 
+			m_WindowData.BackgroundColor.z, 
+			m_WindowData.BackgroundColor.w
+		);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 	}
@@ -125,7 +132,13 @@ namespace Teapot
 	void ApplicationWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor
+		(
+			m_WindowData.BackgroundColor.x,
+			m_WindowData.BackgroundColor.y,
+			m_WindowData.BackgroundColor.z,
+			m_WindowData.BackgroundColor.w
+		);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		sceneBuffer->RescaleFrameBuffer(m_WindowData.Width, m_WindowData.Height);
 	}

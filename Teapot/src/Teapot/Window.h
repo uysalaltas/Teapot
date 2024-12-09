@@ -14,14 +14,16 @@ namespace Teapot
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
+		glm::vec4 BackgroundColor;
 
 		WindowProps
 		(
 			const std::string& title = "Teapot Engine",
 			unsigned int width = 1280,
-			unsigned int height = 720
+			unsigned int height = 720,
+			glm::vec4 backgroundColor = glm::vec4{ 0.17f, 0.21f, 0.27f, 1.0f }
 		) 
-			: Title(title), Width(width), Height(height)
+			: Title(title), Width(width), Height(height), BackgroundColor(backgroundColor)
 		{
 		}
 	};

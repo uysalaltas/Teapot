@@ -48,6 +48,7 @@ namespace Teapot
 			std::string Title;
 			unsigned int Width{};
 			unsigned int Height{};
+			glm::vec4 BackgroundColor{};
 		};
 		WindowData m_WindowData;
 

@@ -100,7 +100,7 @@ public:
 				selectedShape->ShapeColors(),
 				selectedShape->ShapeNormals(),
 				selectedShape->ShapeIndices(),
-				"Cube" + std::to_string(counter)
+				"Shape" + std::to_string(counter)
 			);
 			counter++;
 		}
@@ -133,7 +133,7 @@ private:
 
 int main()
 {
-	Teapot::WindowProps windowProps = { "Shape Demo", 1280, 720 };
+	Teapot::WindowProps windowProps = { "Shape Demo", 1280, 720, glm::vec4{0.05f, 0.07f, 0.09f, 1.0f} };
 	auto s = std::make_unique<Sandbox>(windowProps);
 	s->GetWindow().GetWidth();
 	s->Run();

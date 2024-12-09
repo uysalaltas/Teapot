@@ -17,9 +17,9 @@ namespace Teapot
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
 		glm::vec3 direction{ 0.5f, -0.4f, -0.4f };
-		glm::vec3 ambient  { 0.5f };
-		glm::vec3 diffuse  { 0.4f };
-		glm::vec3 specular { 0.5f };
+		glm::vec3 ambient  { 0.3f };
+		glm::vec3 diffuse  { 0.3f };
+		glm::vec3 specular { 0.1f };
 	};
 
 	struct PointLight
@@ -37,9 +37,9 @@ namespace Teapot
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
 		glm::vec3 direction{ 0.0f, 0.0f,-1.0f};
-		glm::vec3 ambient  { 0.0f };
-		glm::vec3 diffuse  { 0.0f };
-		glm::vec3 specular { 1.0f };
+		glm::vec3 ambient  { 0.3f };
+		glm::vec3 diffuse  { 0.3f };
+		glm::vec3 specular { 0.1f };
 		float constant   { 1.0f   };
 		float linear     { 0.09f  };
 		float quadratic  { 0.032f };
