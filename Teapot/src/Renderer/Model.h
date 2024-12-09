@@ -19,7 +19,11 @@ namespace Teapot
 		void Translate(const glm::vec3& translation);
 		void Rotate(const glm::vec3& rotation);
 		void Scale(const glm::vec3& scale);
+		void Manipulate();
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
+
+		static std::shared_ptr<Model> CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
+		static void RemoveModel();
 
 	public:
 		std::string path;
@@ -27,12 +31,13 @@ namespace Teapot
 		glm::vec3 modelColor = glm::vec3(1.0f, 1.0f, 1.0f);
 		glm::mat4 objModel = glm::mat4(1.0f);
 		glm::vec3 objRotation = glm::vec3(0.0f);
-		glm::vec3 objScale = glm::vec3(0.0f);
+		glm::vec3 objScale = glm::vec3(1.0f);
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<std::unique_ptr<Renderer>> meshes;
 
-		inline static std::vector<Model*> s_Models;
+		inline static std::vector<std::shared_ptr<Model>> s_Models;
 		inline static int s_SelectedModel{ 0 };
+		inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
 
 	private:
 		void LoadModel(const std::string& path);

@@ -19,6 +19,7 @@ namespace Teapot
 		m_WindowData.Title = props.Title;
 		m_WindowData.Height = props.Height;
 		m_WindowData.Width = props.Width;
+		m_WindowData.BackgroundColor = props.BackgroundColor;
 
 		if (!s_GLFWInitialized && glfwInit())
 		{
@@ -86,7 +87,13 @@ namespace Teapot
 
 		//sceneBuffer->Bind();
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor
+		(
+			m_WindowData.BackgroundColor.x,
+			m_WindowData.BackgroundColor.y, 
+			m_WindowData.BackgroundColor.z, 
+			m_WindowData.BackgroundColor.w
+		);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 	}
@@ -125,7 +132,13 @@ namespace Teapot
 	void ApplicationWindow::UpdateViewport()
 	{
 		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor
+		(
+			m_WindowData.BackgroundColor.x,
+			m_WindowData.BackgroundColor.y,
+			m_WindowData.BackgroundColor.z,
+			m_WindowData.BackgroundColor.w
+		);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		sceneBuffer->RescaleFrameBuffer(m_WindowData.Width, m_WindowData.Height);
 	}
@@ -137,14 +150,14 @@ namespace Teapot
 
 	void ApplicationWindow::RenderGizmo() const
 	{
-		if (IsGizmoActive)
+		if (IsGizmoActive && Model::GetModelVectorSize() > 0)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
 			ImGuizmo::Manipulate(
 				glm::value_ptr(m_camera->GetViewMatrix()),
 				glm::value_ptr(m_camera->GetProjMatrix()),
-				ImGuizmo::OPERATION::TRANSLATE,
+				static_cast<ImGuizmo::OPERATION>(SelectedGizmo),
 				ImGuizmo::MODE::LOCAL,
 				glm::value_ptr(Model::s_Models[Model::s_SelectedModel]->objModel)
 			);
@@ -156,7 +169,20 @@ namespace Teapot
 
 			if (ImGuizmo::IsUsing())
 			{
-				Model::s_Models[Model::s_SelectedModel]->objTranslation = glm::vec3(Model::s_Models[Model::s_SelectedModel]->objModel[3]);
+				glm::quat rotation;
+				glm::vec3 skew;
+				glm::vec4 perspective;
+
+				glm::decompose(
+					Model::s_Models[Model::s_SelectedModel]->objModel,
+					Model::s_Models[Model::s_SelectedModel]->objScale,
+					rotation,
+					Model::s_Models[Model::s_SelectedModel]->objTranslation,
+					skew,
+					perspective
+				);
+
+				Model::s_Models[Model::s_SelectedModel]->objRotation = glm::degrees(glm::eulerAngles(rotation));
 			}
 		}
 	}

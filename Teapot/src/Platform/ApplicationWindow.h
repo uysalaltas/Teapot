@@ -7,6 +7,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <ImGuizmo.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 
 #include "Teapot/Window.h"
 #include "Renderer/FrameBuffer.h"
@@ -47,6 +48,7 @@ namespace Teapot
 			std::string Title;
 			unsigned int Width{};
 			unsigned int Height{};
+			glm::vec4 BackgroundColor{};
 		};
 		WindowData m_WindowData;
 
