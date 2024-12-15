@@ -49,10 +49,8 @@ public:
 
 	void RenderScene() const
 	{
-		for (auto model : Teapot::Model::s_Models)
-		{
-			model->Draw();
-		}
+		//modelManager.DrawModels();
+		Teapot::ModelManager::DrawModels();
 	}
 
 	void AddShape()

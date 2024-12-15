@@ -37,10 +37,6 @@ namespace Teapot
 		glm::vec3 objTranslation = glm::vec3(0.0f);
 		std::vector<std::unique_ptr<Renderer>> meshes;
 
-		inline static std::vector<std::shared_ptr<Model>> s_Models;
-		inline static int s_SelectedModel{ 0 };
-		inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
-
 	private:
 		void LoadModel(const std::string& path);
 		void ProcessNode(const aiNode* node, const aiScene* scene);
@@ -53,16 +49,37 @@ namespace Teapot
 		bool m_HasTexture{false};
 	};
 
-	//class ModelManager
-	//{
-	//public:
-	//	ModelManager() = default;
+	class ModelManager
+	{
+	public:
+		ModelManager() = default;
 
-	//	inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
-	//	inline static std::shared_ptr<Model> GetSelectedModel() { return s_Models[s_SelectedModel]; };
+		inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
+		inline static std::shared_ptr<Model> GetSelectedModel() { return s_Models[s_SelectedModel]; };
+		inline static std::shared_ptr<Model> GetModel(int idx) {return s_Models[idx];}
+		inline static int GetSelectedModelIndex() { return s_SelectedModel; };
+		inline static void SetSelectedModelIndex(int idx) { s_SelectedModel = idx; };
 
-	//private:
-	//	inline static std::vector<std::shared_ptr<Model>> s_Models;
-	//	inline static int s_SelectedModel{ 0 };
-	//};
+		inline static void DrawModelShadows()
+		{
+			for (const auto& model : s_Models)
+			{
+				model->DrawShadow();
+			}
+		};
+
+		inline static void DrawModels()
+		{
+			for (const auto& model : s_Models)
+			{
+				model->Draw();
+			}
+		};
+
+		friend class Model;
+
+	private:
+		inline static std::vector<std::shared_ptr<Model>> s_Models;
+		inline static int s_SelectedModel{ 0 };
+	};
 }

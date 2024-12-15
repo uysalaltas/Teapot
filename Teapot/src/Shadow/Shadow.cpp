@@ -33,10 +33,7 @@ namespace Teapot
 		lightSpaceMatrix = lightProjection * lightView;
 
 		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
-		for (const auto& model : Model::s_Models)
-		{
-			model->DrawShadow();
-		}
+		ModelManager::DrawModelShadows();
 
 		shadowMapping->UnbindFrameBuffer();
 	}

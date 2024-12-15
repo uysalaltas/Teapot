@@ -93,23 +93,23 @@ namespace Teapot
     std::shared_ptr<Model> Model::CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
     {
         auto model = std::make_shared<Model>(positions, colors, normals, indices, nameObject);
-        s_Models.push_back(model);
+        Teapot::ModelManager::s_Models.push_back(model);
         return model;
     }
 
     std::shared_ptr<Model> Model::CreateModel(const std::string& pathObject, const std::string& nameObject)
     {
         auto model = std::make_shared<Model>(pathObject, nameObject);
-        s_Models.push_back(model);
+        Teapot::ModelManager::s_Models.push_back(model);
         return model;
     }
 
     void Model::RemoveModel()
     {
-        if (!s_Models.empty())
+        if (!Teapot::ModelManager::s_Models.empty())
         {
-            s_Models.erase(s_Models.begin() + s_SelectedModel);
-            if (s_SelectedModel > 0) { s_SelectedModel -= 1; }
+            Teapot::ModelManager::s_Models.erase(Teapot::ModelManager::s_Models.begin() + Teapot::ModelManager::s_SelectedModel);
+            if (Teapot::ModelManager::s_SelectedModel > 0) { Teapot::ModelManager::s_SelectedModel -= 1; }
         }
     }
 
