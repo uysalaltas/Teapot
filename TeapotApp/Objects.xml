@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objects>
+	<object type="1" alias="CubeBase"  pos="0.0, 0.0, 0.0"  color="0.3, 0.9, 1.0" scale="2.0, 2.0, 0.2"/>
+	<object type="1" alias="CubeLeft"  pos="0.0, -0.9, 1.8" color="0.3, 0.9, 1.0" scale="2.0, 0.2, 2.0"/>
+	<object type="1" alias="CubeRight" pos="-0.9, 0.0, 1.8" color="0.3, 0.9, 1.0" scale="0.2, 2.0, 2.0"/>
+	<object type="0" alias="Cup" pos="0.0, 0.0, 0.0" color="1.0, 1.0, 1.0" scale="0.2, 0.2, 0.2" path="TeapotApp/coffee_cup_obj.obj"/>
+</objects>

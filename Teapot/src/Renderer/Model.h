@@ -23,6 +23,8 @@ namespace Teapot
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
 		static std::shared_ptr<Model> CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject);
+		static std::shared_ptr<Model> CreateModel(const std::string& pathObject, const std::string& nameObject);
+
 		static void RemoveModel();
 
 	public:
@@ -50,4 +52,17 @@ namespace Teapot
 		std::vector<Texture> texturesLoaded;
 		bool m_HasTexture{false};
 	};
+
+	//class ModelManager
+	//{
+	//public:
+	//	ModelManager() = default;
+
+	//	inline static unsigned int GetModelVectorSize() { return s_Models.size(); };
+	//	inline static std::shared_ptr<Model> GetSelectedModel() { return s_Models[s_SelectedModel]; };
+
+	//private:
+	//	inline static std::vector<std::shared_ptr<Model>> s_Models;
+	//	inline static int s_SelectedModel{ 0 };
+	//};
 }

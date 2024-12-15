@@ -97,6 +97,13 @@ namespace Teapot
         return model;
     }
 
+    std::shared_ptr<Model> Model::CreateModel(const std::string& pathObject, const std::string& nameObject)
+    {
+        auto model = std::make_shared<Model>(pathObject, nameObject);
+        s_Models.push_back(model);
+        return model;
+    }
+
     void Model::RemoveModel()
     {
         if (!s_Models.empty())

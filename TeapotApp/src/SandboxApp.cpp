@@ -7,19 +7,9 @@ public:
 	explicit Sandbox(const Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
-		cubeBase  = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeBase" );
-		cubeLeft  = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeLeft" );
-		cubeRight = Teapot::Model::CreateModel(cube.ShapePositions(), cube.ShapeColors(), cube.ShapeNormals(), cube.ShapeIndices(), "CubeRight");
-		sphrModel = Teapot::Model::CreateModel(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere"   );
-
-		cubeBase ->Translate(glm::vec3( 0.00f,  0.00f, 0.00f));
-		cubeLeft ->Translate(glm::vec3( 0.00f, -0.90f, 1.80f));
-		cubeRight->Translate(glm::vec3(-0.90f,  0.00f, 1.80f));
+		modelReader.CreateObjectFromXML("TeapotApp/Objects.xml");
+		sphrModel = Teapot::Model::CreateModel(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere");
 		sphrModel->Translate(glm::vec3( 0.00f,  0.00f, 0.50f));
-
-		cubeBase ->Scale(glm::vec3(2.0f, 2.0f, 0.2f));
-		cubeLeft ->Scale(glm::vec3(2.0f, 0.2f, 2.0f));
-		cubeRight->Scale(glm::vec3(0.2f, 2.0f, 2.0f));
 
 		dirLight.position  = glm::vec3(1.2f, 5.0f, 5.0f);
 		spotLight.position = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -59,8 +49,6 @@ public:
 
 	void RenderScene() const
 	{
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 		for (auto model : Teapot::Model::s_Models)
 		{
 			model->Draw();
@@ -113,7 +101,6 @@ public:
 	}
 
 private:
-	Shapes::Cube cube{ 1.0f, glm::vec3(0.3f, 0.9f, 1.0f) };
 	Shapes::Sphere sphere{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f), 30, 30 };
 	std::unique_ptr<Shapes::Shapes> selectedShape;
 
