@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Ui/WindowControlUI.h"
 #include "Shader/ShaderManager.h"
+#include "ModelReader.h"
 
 namespace Teapot 
 {
@@ -20,14 +21,15 @@ namespace Teapot
 		void Run();
 		Window& GetWindow() { return *m_Window; }
 		inline static Application& Get() { return *s_Instance; }
-		std::shared_ptr<ShaderManager> shaderManager;
 
 		glm::vec3 cameraPos{ 3.0f, 3.0f, 3.0f };
 		glm::vec3 cameraCenter{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 cameraUp{ 0.0f, 0.0f, 1.0f };
 
+		std::shared_ptr<ShaderManager> shaderManager;
 		std::shared_ptr<Teapot::Camera> camera;
 		std::unique_ptr<Teapot::WindowControlUI> windowUI;
+		ModelReader modelReader;
 
 	private:
 		std::unique_ptr<Window> m_Window;

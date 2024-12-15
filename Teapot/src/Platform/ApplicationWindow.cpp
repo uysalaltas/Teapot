@@ -150,7 +150,7 @@ namespace Teapot
 
 	void ApplicationWindow::RenderGizmo() const
 	{
-		if (IsGizmoActive && Model::GetModelVectorSize() > 0)
+		if (IsGizmoActive && ModelManager::GetModelVectorSize() > 0)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
@@ -159,7 +159,7 @@ namespace Teapot
 				glm::value_ptr(m_camera->GetProjMatrix()),
 				static_cast<ImGuizmo::OPERATION>(SelectedGizmo),
 				ImGuizmo::MODE::LOCAL,
-				glm::value_ptr(Model::s_Models[Model::s_SelectedModel]->objModel)
+				glm::value_ptr(ModelManager::GetSelectedModel()->objModel)
 			);
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
@@ -174,15 +174,15 @@ namespace Teapot
 				glm::vec4 perspective;
 
 				glm::decompose(
-					Model::s_Models[Model::s_SelectedModel]->objModel,
-					Model::s_Models[Model::s_SelectedModel]->objScale,
+					ModelManager::GetSelectedModel()->objModel,
+					ModelManager::GetSelectedModel()->objScale,
 					rotation,
-					Model::s_Models[Model::s_SelectedModel]->objTranslation,
+					ModelManager::GetSelectedModel()->objTranslation,
 					skew,
 					perspective
 				);
 
-				Model::s_Models[Model::s_SelectedModel]->objRotation = glm::degrees(glm::eulerAngles(rotation));
+				ModelManager::GetSelectedModel()->objRotation = glm::degrees(glm::eulerAngles(rotation));
 			}
 		}
 	}

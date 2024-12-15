@@ -15,7 +15,9 @@ project "Teapot"
 		"vendor/glm/glm/**.inl",
 		"ImGuiBuild.cpp",
 		"vendor/ImGuizmo/*.cpp",
-		"vendor/ImGuizmo/*.h"
+		"vendor/ImGuizmo/*.h",
+		"vendor/pugi/*.hpp",
+		"vendor/pugi/*.cpp"
 	}
 
 	includedirs
@@ -27,7 +29,8 @@ project "Teapot"
 		"vendor/glm",
 		"vendor/stb_image",
 		"vendor/assimp/include",
-		"vendor/ImGuizmo"
+		"vendor/ImGuizmo",
+		"vendor/pugi"
 	}
 
 	links

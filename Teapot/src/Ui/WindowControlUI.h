@@ -22,29 +22,29 @@ namespace Teapot
 			ImGui::RadioButton("Scale"    , &m_window.SelectedGizmo, ImGuizmo::OPERATION::SCALE); ImGui::SameLine();
 			ImGui::RadioButton("Rotate"   , &m_window.SelectedGizmo, ImGuizmo::OPERATION::ROTATE);
 
-			if(Model::GetModelVectorSize() == 0)
+			if(ModelManager::GetModelVectorSize() == 0)
 			{
 				ImGui::End();
 				return;
 			}
 
-			const char* combo_preview_value = Model::s_Models[Model::s_SelectedModel]->name.c_str();
+			const char* combo_preview_value = ModelManager::GetSelectedModel()->name.c_str();
 			if (ImGui::BeginCombo("Objects", combo_preview_value))
 			{
-				for (int n = 0; n < Model::GetModelVectorSize(); n++)
+				for (int n = 0; n < ModelManager::GetModelVectorSize(); n++)
 				{
-					const bool is_selected = (Model::s_SelectedModel == n);
-					if (ImGui::Selectable(Model::s_Models[n]->name.c_str(), is_selected)) { Model::s_SelectedModel = n; }
+					const bool is_selected = (ModelManager::GetSelectedModelIndex() == n);
+					if (ImGui::Selectable(ModelManager::GetModel(n)->name.c_str(), is_selected)) { ModelManager::SetSelectedModelIndex(n); }
 					if (is_selected){ ImGui::SetItemDefaultFocus(); }
 				}
 				ImGui::EndCombo();
 			}
 
-			ImGui::InputFloat3("Object Translation", &Model::s_Models[Model::s_SelectedModel]->objTranslation[0]);
-			ImGui::InputFloat3("Object Scale", &Model::s_Models[Model::s_SelectedModel]->objScale[0]);
-			ImGui::InputFloat3("Object Rotation", &Model::s_Models[Model::s_SelectedModel]->objRotation[0]);
+			ImGui::InputFloat3("Object Translation", &ModelManager::GetSelectedModel()->objTranslation[0]);
+			ImGui::InputFloat3("Object Scale", &ModelManager::GetSelectedModel()->objScale[0]);
+			ImGui::InputFloat3("Object Rotation", &ModelManager::GetSelectedModel()->objRotation[0]);
 
-			if (ImGui::Button("Manipulate Object")){ Model::s_Models[Model::s_SelectedModel]->Manipulate();	}
+			if (ImGui::Button("Manipulate Object")){ ModelManager::GetSelectedModel()->Manipulate();	}
 			ImGui::End();
 		}
 
