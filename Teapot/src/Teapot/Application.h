@@ -29,7 +29,6 @@ namespace Teapot
 		std::shared_ptr<ShaderManager> shaderManager;
 		std::shared_ptr<Teapot::Camera> camera;
 		std::unique_ptr<Teapot::WindowControlUI> windowUI;
-		ModelReader modelReader;
 
 	private:
 		std::unique_ptr<Window> m_Window;

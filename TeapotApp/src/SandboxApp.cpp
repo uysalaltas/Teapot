@@ -7,10 +7,7 @@ public:
 	explicit Sandbox(const Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
-		modelReader.CreateObjectFromXML("TeapotApp/Objects.xml");
-		sphrModel = Teapot::Model::CreateModel(sphere.ShapePositions(), sphere.ShapeColors(), sphere.ShapeNormals(), sphere.ShapeIndices(), "Sphere");
-		sphrModel->Translate(glm::vec3( 0.00f,  0.00f, 0.50f));
-
+		Teapot::ModelReader::CreateSceneFromXML("TeapotApp/Objects.xml");
 		dirLight.position  = glm::vec3(1.2f, 5.0f, 5.0f);
 		spotLight.position = glm::vec3(0.0f, 0.0f, 3.0f);
 		spotLight.ambient  = glm::vec3(0.15f);
@@ -44,12 +41,11 @@ public:
 		
 		AddShape();
 
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 	}
 
 	void RenderScene() const
 	{
-		//modelManager.DrawModels();
 		Teapot::ModelManager::DrawModels();
 	}
 
@@ -82,13 +78,15 @@ public:
 
 			static unsigned int counter = 0;
 			Teapot::Model::CreateModel(
-				selectedShape->ShapePositions(),
-				selectedShape->ShapeColors(),
-				selectedShape->ShapeNormals(),
-				selectedShape->ShapeIndices(),
+				*selectedShape,
 				"Shape" + std::to_string(counter)
 			);
 			counter++;
+		}
+
+		if (ImGui::Button("Save Scene"))
+		{
+			Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");
 		}
 
 		if (ImGui::Button("Remove Selected Shape"))
@@ -99,12 +97,8 @@ public:
 	}
 
 private:
-	Shapes::Sphere sphere{ 0.30f, glm::vec3(1.0f, 0.87f, 0.0f), 30, 30 };
-	std::unique_ptr<Shapes::Shapes> selectedShape;
-
-	std::shared_ptr<Teapot::Model> cubeBase;
-	std::shared_ptr<Teapot::Model> cubeLeft;
-	std::shared_ptr<Teapot::Model> cubeRight;
+	;
+	std::unique_ptr<Shapes::ShapeInterface> selectedShape;
 	std::shared_ptr<Teapot::Model> sphrModel;
 
 	float ambientStrength = 0.40f;

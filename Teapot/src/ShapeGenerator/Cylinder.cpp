@@ -73,7 +73,7 @@ namespace Shapes
 		//------------------------
 		//BASE AND TOP
 		//------------------------
-		m_baseIndex = (int)m_vertices.size();
+		m_baseIndex = (int)vertices.size();
 		m_topIndex = m_baseIndex + m_sectorCount + 1;
 
 		for (int i = 0; i < 2; ++i)
@@ -92,10 +92,10 @@ namespace Shapes
 			centerVertex.normal.y = 0;
 			centerVertex.normal.z = nz;
 			
-			m_vertices.push_back(centerVertex);
-			m_positions.push_back(centerVertex.position);
-			m_colors.push_back(centerVertex.color);
-			m_normals.push_back(centerVertex.normal);
+			vertices.push_back(centerVertex);
+			positions.push_back(centerVertex.position);
+			colors.push_back(centerVertex.color);
+			normals.push_back(centerVertex.normal);
 
 			for (int j = 0, k = 0; j < m_sectorCount; ++j, k += 3)
 			{
@@ -113,10 +113,10 @@ namespace Shapes
 				tmp.normal.y = 0;
 				tmp.normal.z = nz;
 
-				m_vertices.push_back(tmp);
-				m_positions.push_back(tmp.position);
-				m_colors.push_back(tmp.color);
-				m_normals.push_back(tmp.normal);
+				vertices.push_back(tmp);
+				positions.push_back(tmp.position);
+				colors.push_back(tmp.color);
+				normals.push_back(tmp.normal);
 			}
 		}
 
@@ -125,15 +125,15 @@ namespace Shapes
 		{
 			if (i < m_sectorCount - 1)
 			{
-				m_indices.push_back(m_baseIndex);
-				m_indices.push_back(k + 1);
-				m_indices.push_back(k);
+				indices.push_back(m_baseIndex);
+				indices.push_back(k + 1);
+				indices.push_back(k);
 			}
 			else // last triangle
 			{
-				m_indices.push_back(m_baseIndex);
-				m_indices.push_back(m_baseIndex + 1);
-				m_indices.push_back(k);
+				indices.push_back(m_baseIndex);
+				indices.push_back(m_baseIndex + 1);
+				indices.push_back(k);
 			}
 		}
 
@@ -142,15 +142,15 @@ namespace Shapes
 		{
 			if (i < m_sectorCount - 1)
 			{
-				m_indices.push_back(m_topIndex);
-				m_indices.push_back(k);
-				m_indices.push_back(k + 1);
+				indices.push_back(m_topIndex);
+				indices.push_back(k);
+				indices.push_back(k + 1);
 			}
 			else // last triangle
 			{
-				m_indices.push_back(m_topIndex);
-				m_indices.push_back(k);
-				m_indices.push_back(m_topIndex + 1);
+				indices.push_back(m_topIndex);
+				indices.push_back(k);
+				indices.push_back(m_topIndex + 1);
 			}
 		}
 	}
