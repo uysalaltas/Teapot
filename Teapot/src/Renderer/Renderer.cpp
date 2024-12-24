@@ -3,7 +3,7 @@
 
 namespace Teapot
 {
-	Renderer::Renderer(std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const std::vector<Texture>& textures)
+	Renderer::Renderer(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const std::vector<Texture>& textures)
 		: vertices(vertices)
 		, indices(indices)
 		, textures(textures)

@@ -19,12 +19,11 @@ namespace Teapot
 	public:
 		ModelReader() = default;
 
-		static inline bool CreateSceneFromXML(std::string xmlPath)
+		static inline bool CreateSceneFromXML(const std::string& xmlPath)
 		{
-			std::string m_XMLPath = xmlPath;
 			pugi::xml_document m_doc;
-			pugi::xml_parse_result result = m_doc.load_file(m_XMLPath.c_str());
-			if (!result)
+
+			if (pugi::xml_parse_result result = m_doc.load_file(xmlPath.c_str()); !result)
 			{
 				std::cout << "No xml" << std::endl;
 				return false;
@@ -32,7 +31,7 @@ namespace Teapot
 
 			for (pugi::xml_node object : m_doc.child("objects"))
 			{
-				ShapeObjects type = static_cast<ShapeObjects>(object.attribute("type").as_int());
+				auto type = static_cast<ShapeObjects>(object.attribute("type").as_int());
 				auto pos = StringToVec3(object.attribute("pos").as_string());
 				auto color = StringToVec3(object.attribute("color").as_string());
 				auto scale = StringToVec3(object.attribute("scale").as_string());
@@ -40,41 +39,39 @@ namespace Teapot
 
 				switch (type)
 				{
-				case ShapeObjects::PathObj:
-				{
-					auto path = object.attribute("path").as_string();
-					auto model = Teapot::Model::CreateModel(path, alias);
-					model->Translate(pos);
-					model->Scale(scale);
-					break;
-				}
-				case ShapeObjects::Cube:
-				{
-					auto model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, ShapeObjects::Cube);
-					model->Translate(pos);
-					model->Scale(scale);
-					break;
-				}
-				case ShapeObjects::Sphere:
-				{
-					Shapes::Sphere obj(1.0f, color, 30, 30);
-					auto model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, ShapeObjects::Sphere);
-					model->Translate(pos);
-					model->Scale(scale);
-					break;
-				}
+					case ShapeObjects::PathObj:
+					{
+						auto path = object.attribute("path").as_string();
+						auto model = Teapot::Model::CreateModel(path, alias);
+						model->Translate(pos);
+						model->Scale(scale);
+						break;
+					}
+					case ShapeObjects::Cube:
+					{
+						auto model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, ShapeObjects::Cube);
+						model->Translate(pos);
+						model->Scale(scale);
+						break;
+					}
+					case ShapeObjects::Sphere:
+					{
+						Shapes::Sphere obj(1.0f, color, 30, 30);
+						auto model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, ShapeObjects::Sphere);
+						model->Translate(pos);
+						model->Scale(scale);
+						break;
+					}
 				}
 			}
 
 			return true;
 		}
 
-		static inline void SaveSceneToXML(std::string xmlPath)
+		static inline void SaveSceneToXML(const std::string& xmlPath)
 		{
-			std::ifstream fileCheck(xmlPath);
-
 			// File exists, clear its content
-			if (fileCheck.is_open()) 
+			if (std::ifstream fileCheck(xmlPath); fileCheck.is_open())
 			{
 				fileCheck.close();
 				std::ofstream clearFile(xmlPath, std::ios::trunc);
@@ -106,7 +103,7 @@ namespace Teapot
 				object.append_attribute("scale") = Vec3ToString(model->objScale).c_str();
 				object.append_attribute("rot") = Vec3ToString(model->objRotation).c_str();
 				
-				if (shapeType == 1)
+				if (shapeType == static_cast<unsigned int>(ShapeObjects::PathObj))
 				{
 					object.append_attribute("path") = model->path.c_str();
 				}

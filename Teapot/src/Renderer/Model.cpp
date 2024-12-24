@@ -13,11 +13,11 @@ namespace Teapot
         LoadModel(path);
     }
 
-    Model::Model(Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
+    Model::Model(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
         : name(nameObject)
         , shapeType(type)
+        , modelColor(shapes.colors[0])
     {
-        modelColor = shapes.colors[0];
         std::vector<Texture> textures;
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         meshes.push_back(std::make_unique<Renderer>(shapes.vertices, shapes.indices, textures));
@@ -80,7 +80,7 @@ namespace Teapot
         meshes[0]->textures.push_back(texture);
     }
 
-    std::shared_ptr<Model> Model::CreateModel(Shapes::Shape shapes, const std::string& nameObject, const ShapeObjects type)
+    std::shared_ptr<Model> Model::CreateModel(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
     {
         auto model = std::make_shared<Model>(shapes, nameObject, type);
         Teapot::ModelManager::s_Models.push_back(model);

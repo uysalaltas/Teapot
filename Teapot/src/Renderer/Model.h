@@ -23,7 +23,7 @@ namespace Teapot
 	{
 	public:
 		Model(const std::string& pathObject, const std::string& nameObject);
-		Model(Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type);
+		Model(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type);
 
 		void Draw() const;
 		void DrawShadow() const;
@@ -33,7 +33,7 @@ namespace Teapot
 		void Manipulate();
 		void LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit);
 
-		static std::shared_ptr<Model> CreateModel(Shapes::Shape shapes, const std::string& nameObject, const ShapeObjects type = ShapeObjects::Custom);
+		static std::shared_ptr<Model> CreateModel(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type = ShapeObjects::Custom);
 		static std::shared_ptr<Model> CreateModel(const std::string& pathObject, const std::string& nameObject);
 		static void RemoveModel();
 
