@@ -15,8 +15,8 @@ namespace Teapot
 
     Model::Model(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
         : name(nameObject)
-        , shapeType(type)
         , modelColor(shapes.colors[0])
+        , shapeType(type)
     {
         std::vector<Texture> textures;
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;

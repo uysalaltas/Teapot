@@ -35,6 +35,7 @@ namespace Teapot
 				auto pos = StringToVec3(object.attribute("pos").as_string());
 				auto color = StringToVec3(object.attribute("color").as_string());
 				auto scale = StringToVec3(object.attribute("scale").as_string());
+				auto rot = StringToVec3(object.attribute("rot").as_string());
 				auto alias = object.attribute("alias").as_string();
 
 				switch (type)
@@ -44,6 +45,7 @@ namespace Teapot
 						auto path = object.attribute("path").as_string();
 						auto model = Teapot::Model::CreateModel(path, alias);
 						model->Translate(pos);
+						model->Rotate(rot);
 						model->Scale(scale);
 						break;
 					}
@@ -51,6 +53,7 @@ namespace Teapot
 					{
 						auto model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, ShapeObjects::Cube);
 						model->Translate(pos);
+						model->Rotate(rot);
 						model->Scale(scale);
 						break;
 					}
@@ -59,6 +62,7 @@ namespace Teapot
 						Shapes::Sphere obj(1.0f, color, 30, 30);
 						auto model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, ShapeObjects::Sphere);
 						model->Translate(pos);
+						model->Rotate(rot);
 						model->Scale(scale);
 						break;
 					}
