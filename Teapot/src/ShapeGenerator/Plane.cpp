@@ -30,15 +30,15 @@ namespace Shapes
 				colK = col * m_sliceSize;
 				for (int i = 0; i < 4; i++)
 				{
-					m_vertices.emplace_back(
+					vertices.emplace_back(
 						glm::vec3{(m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z},
 						m_color,
 						glm::vec3(0, 0, 1)
 					);
 
-					m_positions.push_back(glm::vec3{ (m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z });
-					m_colors.push_back(m_color);
-					m_normals.push_back(glm::vec3(0, 0, 1));
+					positions.push_back(glm::vec3{ (m_unitVertices[i].x + colK), (m_unitVertices[i].y + rowK), m_unitVertices[i].z });
+					colors.push_back(m_color);
+					normals.push_back(glm::vec3(0, 0, 1));
 				}
 			}
 		}
@@ -57,13 +57,13 @@ namespace Shapes
 		{
 			for (int col = 0; col < m_height; col++)
 			{
-				m_indices.push_back(ind1 + k);
-				m_indices.push_back(ind3 + k);
-				m_indices.push_back(ind2 + k);
+				indices.push_back(ind1 + k);
+				indices.push_back(ind3 + k);
+				indices.push_back(ind2 + k);
 
-				m_indices.push_back(ind1 + k);
-				m_indices.push_back(ind4 + k);
-				m_indices.push_back(ind3 + k);
+				indices.push_back(ind1 + k);
+				indices.push_back(ind4 + k);
+				indices.push_back(ind3 + k);
 
 				k += 4;
 			}

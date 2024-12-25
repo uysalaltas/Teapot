@@ -22,7 +22,8 @@ project "TeapotApp"
 		"%{wks.location}/Teapot/vendor/ImGuizmo",
 		"%{wks.location}/Teapot/vendor/glm",
 		"%{wks.location}/Teapot/vendor/stb_image",
-		"%{wks.location}/Teapot/vendor/assimp/include"
+		"%{wks.location}/Teapot/vendor/assimp/include",
+		"%{wks.location}/Teapot/vendor/pugi"
 	}
 
 	links

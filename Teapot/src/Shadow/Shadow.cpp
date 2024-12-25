@@ -2,6 +2,8 @@
 
 namespace Teapot
 {
+	static int shadowMapIndex = 0;
+
 	Shadow::Shadow(const Shader& shaderShadow, const Shader& shaderDepth, const glm::vec3& lightPos, RenderType renderType)
 		: m_shaderShadow(shaderShadow)
 		, m_shaderDepth(shaderDepth)
@@ -10,7 +12,8 @@ namespace Teapot
 	{
 		shadowMapping = std::make_unique<ShadowMapping>();
 		m_shaderShadow.Bind();
-		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapping->GetShadowMapTexture() - 1) + "]", shadowMapping->GetShadowMapTexture());
+		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapIndex) + "]", shadowMapping->GetShadowMapTexture());
+		shadowMapIndex++;
 	}
 
 	void Shadow::RenderShadow()
@@ -30,10 +33,7 @@ namespace Teapot
 		lightSpaceMatrix = lightProjection * lightView;
 
 		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
-		for (const auto& model : Model::s_Models)
-		{
-			model->DrawShadow();
-		}
+		ModelManager::DrawModelShadows();
 
 		shadowMapping->UnbindFrameBuffer();
 	}

@@ -60,7 +60,7 @@ namespace Shapes
 		//------------------------
 		//BASE AND TOP
 		//------------------------
-		unsigned int m_baseIndex = (int)m_vertices.size();
+		unsigned int m_baseIndex = (int)vertices.size();
 		unsigned int m_topIndex = m_baseIndex + 4;
 
 		for (int i = 0; i < 2; i++)
@@ -82,27 +82,27 @@ namespace Shapes
 				tmp.normal.y = 0;
 				tmp.normal.z = nz;
 
-				m_vertices.push_back(tmp);
-				m_positions.push_back(tmp.position);
-				m_colors.push_back(tmp.color);
-				m_normals.push_back(tmp.normal);
+				vertices.push_back(tmp);
+				positions.push_back(tmp.position);
+				colors.push_back(tmp.color);
+				normals.push_back(tmp.normal);
 			}
 		}
 
 		// indices for the base surface
 		for (int i = 0, k = m_baseIndex; i < 2; ++i, ++k)
 		{
-			m_indices.push_back(m_baseIndex);
-			m_indices.push_back(k + 2);
-			m_indices.push_back(k + 1);
+			indices.push_back(m_baseIndex);
+			indices.push_back(k + 2);
+			indices.push_back(k + 1);
 		}
 
 		// indices for the top surface
 		for (int i = 0, k = m_topIndex; i < 2; ++i, ++k)
 		{
-			m_indices.push_back(m_topIndex);
-			m_indices.push_back(k + 2);
-			m_indices.push_back(k + 1);
+			indices.push_back(m_topIndex);
+			indices.push_back(k + 2);
+			indices.push_back(k + 1);
 		}
 	}
 

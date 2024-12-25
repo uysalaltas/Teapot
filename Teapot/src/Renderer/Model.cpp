@@ -7,30 +7,20 @@ namespace Teapot
     Model::Model(const std::string& pathObject,const std::string& nameObject)
         : path(pathObject)
         , name(nameObject)
+        , shapeType(ShapeObjects::PathObj)
     {
         m_HasTexture = true;
         LoadModel(path);
     }
 
-    Model::Model(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
+    Model::Model(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
         : name(nameObject)
+        , modelColor(shapes.colors[0])
+        , shapeType(type)
     {
         std::vector<Texture> textures;
-        std::vector<Vertex> vertices;
-        for (int i = 0; i < positions.size(); i++)
-        {
-            Vertex temp{};
-            temp.position = positions[i];
-            temp.color = colors[i];
-            temp.normal = normals[i];
-            temp.texUV = glm::vec2(0.0f, 0.0f);
-
-            vertices.push_back(temp);
-        }
-
-        std::cout << nameObject << " Pos Size: " << positions.size() << std::endl;
-
-        meshes.push_back(std::make_unique<Renderer>(vertices, indices, textures));
+        std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
+        meshes.push_back(std::make_unique<Renderer>(shapes.vertices, shapes.indices, textures));
     }
 
     void Model::Draw() const
@@ -90,19 +80,26 @@ namespace Teapot
         meshes[0]->textures.push_back(texture);
     }
 
-    std::shared_ptr<Model> Model::CreateModel(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& colors, std::vector<glm::vec3>& normals, std::vector<GLuint>& indices, const std::string& nameObject)
+    std::shared_ptr<Model> Model::CreateModel(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
     {
-        auto model = std::make_shared<Model>(positions, colors, normals, indices, nameObject);
-        s_Models.push_back(model);
+        auto model = std::make_shared<Model>(shapes, nameObject, type);
+        Teapot::ModelManager::s_Models.push_back(model);
+        return model;
+    }
+
+    std::shared_ptr<Model> Model::CreateModel(const std::string& pathObject, const std::string& nameObject)
+    {
+        auto model = std::make_shared<Model>(pathObject, nameObject);
+        Teapot::ModelManager::s_Models.push_back(model);
         return model;
     }
 
     void Model::RemoveModel()
     {
-        if (!s_Models.empty())
+        if (!Teapot::ModelManager::s_Models.empty())
         {
-            s_Models.erase(s_Models.begin() + s_SelectedModel);
-            if (s_SelectedModel > 0) { s_SelectedModel -= 1; }
+            Teapot::ModelManager::s_Models.erase(Teapot::ModelManager::s_Models.begin() + Teapot::ModelManager::s_SelectedModel);
+            if (Teapot::ModelManager::s_SelectedModel > 0) { Teapot::ModelManager::s_SelectedModel -= 1; }
         }
     }
 

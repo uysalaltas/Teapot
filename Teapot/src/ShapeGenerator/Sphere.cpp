@@ -61,10 +61,10 @@ namespace Shapes
                 tmp.color = m_color;
                 tmp.normal = glm::vec3(nx, ny, nz);
 
-                m_vertices.push_back(tmp);
-                m_positions.push_back(glm::vec3(x, y, z));
-                m_colors.push_back(m_color);
-                m_normals.push_back(glm::vec3(nx, ny, nz));
+                vertices.push_back(tmp);
+                positions.push_back(glm::vec3(x, y, z));
+                colors.push_back(m_color);
+                normals.push_back(glm::vec3(nx, ny, nz));
             }
         }
 
@@ -88,17 +88,17 @@ namespace Shapes
                 // k1 => k2 => k1+1
                 if (i != 0)
                 {
-                    m_indices.push_back(k1);
-                    m_indices.push_back(k2);
-                    m_indices.push_back(k1 + 1);
+                    indices.push_back(k1);
+                    indices.push_back(k2);
+                    indices.push_back(k1 + 1);
                 }
 
                 // k1+1 => k2 => k2+1
                 if (i != (m_stackCount - 1))
                 {
-                    m_indices.push_back(k1 + 1);
-                    m_indices.push_back(k2);
-                    m_indices.push_back(k2 + 1);
+                    indices.push_back(k1 + 1);
+                    indices.push_back(k2);
+                    indices.push_back(k2 + 1);
                 }
             }
         }

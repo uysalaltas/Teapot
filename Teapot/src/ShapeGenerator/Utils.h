@@ -1,14 +1,8 @@
 #pragma once
+#include "Renderer/VertexBuffer.h"
 
 namespace Shapes
 {
-	struct Vertex
-	{
-		glm::vec3 position;
-		glm::vec3 color;
-		glm::vec3 normal;
-	};
-
 	class Utils
 	{
 	public:

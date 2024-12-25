@@ -22,7 +22,7 @@ namespace Teapot
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer(std::vector<Vertex>& vertices);
+		VertexBuffer(const std::vector<Vertex>& vertices);
 		~VertexBuffer();
 
 		void BufferDataModification(std::vector<Vertex>& vertices) const;
