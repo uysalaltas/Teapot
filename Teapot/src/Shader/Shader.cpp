@@ -34,16 +34,16 @@ namespace Teapot
 
         while (getline(stream, line))
         {
-            if (line.find("#shader") != std::string::npos)
+            if (line.contains("#shader"))
             {
-                if (line.find("vertex") != std::string::npos)
+                if (line.contains("vertex"))
                     type = ShaderType::VERTEX;
-                else if (line.find("fragment") != std::string::npos)
+                else if (line.contains("fragment"))
                     type = ShaderType::FRAGMENT;
             }
             else
             {
-                ss[(int)type] << line << '\n';
+                ss[static_cast<int>(type)] << line << '\n';
             }
         }
 
@@ -92,7 +92,7 @@ namespace Teapot
 
     int  Shader::GetUniformLocation(const std::string& name)
     {
-        if (m_UniformLocationCache.find(name) != m_UniformLocationCache.end())
+        if (m_UniformLocationCache.contains(name))
             return m_UniformLocationCache[name];
         int location = glGetUniformLocation(m_RendererID, name.c_str());
         if (location == -1)

@@ -21,11 +21,11 @@ namespace Teapot
 
 		void Clear() const;
 		void DrawShape(uint8_t renderType) const;
-		void DrawTriangle(Shader& shader);
+		void DrawTriangle(Shader& shader) const;
 
 	private:
-		VertexArray va;
-		std::unique_ptr<VertexBuffer> vb;
-		std::unique_ptr<IndexBuffer> ib;
+		VertexArray m_va;
+		std::unique_ptr<VertexBuffer> m_vb;
+		std::unique_ptr<IndexBuffer> m_ib;
 	};
 }

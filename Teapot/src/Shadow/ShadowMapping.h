@@ -1,6 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include <vector>
+#include <array>
 #include <glm/glm.hpp>
 
 #include "Shader/Shader.h"

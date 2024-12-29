@@ -2,7 +2,7 @@
 
 namespace Teapot
 {
-	Input* Input::s_Instance = new WindowsInput();
+	std::unique_ptr<Input> Input::s_Instance (new WindowsInput());
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
