@@ -8,8 +8,8 @@ namespace Teapot
         : path(pathObject)
         , name(nameObject)
         , shapeType(ShapeObjects::PathObj)
+        , m_HasTexture(true)
     {
-        m_HasTexture = true;
         LoadModel(path);
     }
 
@@ -103,7 +103,7 @@ namespace Teapot
         }
     }
 
-    void Model::LoadModel(const std::string& path)
+    void Model::LoadModel(const std::string& modelPath)
     {
         Assimp::Importer importer;
         unsigned int importOptions = aiProcess_Triangulate
@@ -111,19 +111,19 @@ namespace Teapot
             | aiProcess_JoinIdenticalVertices
             | aiProcess_Triangulate
             | aiProcess_CalcTangentSpace;
-        const aiScene* scene = importer.ReadFile(path, importOptions);
+        const aiScene* scene = importer.ReadFile(modelPath, importOptions);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
             std::cout 
                 << "ERROR::ASSIMP:: Failed to load model from path: "
-                << path 
+                << modelPath
                 << " with error: " 
                 << importer.GetErrorString() 
                 << std::endl;
             return;
         }
-        directory = path.substr(0, path.find_last_of('/'));
+        m_directory = modelPath.substr(0, modelPath.find_last_of('/'));
 
         ProcessNode(scene->mRootNode, scene);
     }
@@ -230,7 +230,7 @@ namespace Teapot
             mat->GetTexture(type, i, &str);
             bool skip = false;
 
-            for (const auto& textureLoaded : texturesLoaded)
+            for (const auto& textureLoaded : m_texturesLoaded)
             {
                 if (std::strcmp(textureLoaded.path.c_str(), str.C_Str()) == 0)
                 {
@@ -242,10 +242,10 @@ namespace Teapot
             }
             if (!skip)
             {
-                std::string texturePath = (directory + "//").append(str.C_Str());
+                std::string texturePath = (m_directory + "//").append(str.C_Str());
                 Texture texture(texturePath.c_str(), typeName, i);
                 textures.push_back(texture);
-                texturesLoaded.push_back(texture);
+                m_texturesLoaded.push_back(texture);
             }
         }
         return textures;

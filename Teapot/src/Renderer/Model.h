@@ -49,14 +49,14 @@ namespace Teapot
 		ShapeObjects shapeType;
 
 	private:
-		void LoadModel(const std::string& path);
+		void LoadModel(const std::string& modelPath);
 		void ProcessNode(const aiNode* node, const aiScene* scene);
 		std::unique_ptr<Renderer> ProcessMesh(aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName);
 
 	private:
-		std::string directory;
-		std::vector<Texture> texturesLoaded;
+		std::string m_directory;
+		std::vector<Texture> m_texturesLoaded;
 		bool m_HasTexture{false};
 	};
 

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <objects>
-	<object type="1" alias="Cup" pos="0.000000, 0.413076, 0.000000" color="1.000000, 1.000000, 1.000000" scale="0.500000, 0.500000, 0.500000" rot="90.000000, -0.000000, 0.000000" path="TeapotApp/coffee_cup_obj.obj" />
-	<object type="2" alias="CubeBase" pos="0.000000, 0.000000, 0.000000" color="0.300000, 0.900000, 1.000000" scale="2.000000, 2.000000, 0.200000" rot="0.000000, 0.000000, 0.000000" />
-	<object type="2" alias="CubeLeft" pos="0.000000, -0.900000, 1.800000" color="0.300000, 0.900000, 1.000000" scale="2.000000, 0.200000, 2.000000" rot="0.000000, 0.000000, 0.000000" />
-	<object type="2" alias="CubeRight" pos="-0.900000, 0.000000, 1.800000" color="0.300000, 0.900000, 1.000000" scale="0.200000, 2.000000, 2.000000" rot="0.000000, 0.000000, 0.000000" />
-	<object type="5" alias="Sphere" pos="0.000000, 0.000000, 1.210367" color="1.000000, 0.870000, 0.000000" scale="0.300000, 0.300000, 0.300000" rot="0.000000, 0.000000, 0.000000" />
+	<object type="1" alias="Cup" pos="0, -0.008274527, -1.8417827e-08" color="1, 1, 1" scale="0.49999997, 0.5, 0.5" rot="90, -0, 0" path="TeapotApp/coffee_cup_obj.obj" />
+	<object type="2" alias="CubeBase" pos="0, 0, 0" color="0.3, 0.9, 1" scale="2, 2, 0.2" rot="0, 0, 0" />
+	<object type="2" alias="CubeLeft" pos="0, -0.9, 1.8" color="0.3, 0.9, 1" scale="2, 0.2, 2" rot="0, 0, 0" />
+	<object type="2" alias="CubeRight" pos="-0.9, 0, 1.8" color="0.3, 0.9, 1" scale="0.2, 2, 2" rot="0, 0, 0" />
+	<object type="5" alias="Sphere" pos="0, 0, 1.210367" color="1, 0.87, 0" scale="0.3, 0.3, 0.3" rot="0, 0, 0" />
 </objects>

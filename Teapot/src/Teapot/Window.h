@@ -48,7 +48,7 @@ namespace Teapot
 
 		virtual void ActivateGizmo(std::shared_ptr<Camera> camera) = 0;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
 	
 	public:
 		std::unique_ptr <FrameBuffer> sceneBuffer;

@@ -10,7 +10,7 @@ namespace Teapot
 		, unit(unitType)
 	{
 		std::string filename = path;
-		std::replace(filename.begin(), filename.end(), '\\', '/');
+		std::ranges::replace(filename.begin(), filename.end(), '\\', '/');
 		std::cout << "Path Adress: " << filename << " Texture Type: " << texType << std::endl;
 
 		glGenTextures(1, &ID);
@@ -23,7 +23,7 @@ namespace Teapot
 		unsigned char* bytes = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
 		if (bytes)
 		{
-			GLenum format;
+			GLenum format{};
 			if (nrComponents == 1)
 				format = GL_RED;
 			else if (nrComponents == 3)
@@ -56,7 +56,7 @@ namespace Teapot
 
 	void Texture::TexUnit(Shader& shader) const
 	{
-		shader.SetUniform1i(type.c_str(), unit);
+		shader.SetUniform1i(type, unit);
 	}
 
 	void Texture::Bind() const

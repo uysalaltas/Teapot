@@ -5,9 +5,9 @@
 
 namespace Teapot
 {
-	Window* Window::Create(const WindowProps& props)
+	std::unique_ptr<Window> Window::Create(const WindowProps& props)
 	{
-		return new ApplicationWindow(props);
+		return std::unique_ptr<Window>(new ApplicationWindow(props));
 	}
 }
 

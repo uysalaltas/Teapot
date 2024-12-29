@@ -38,34 +38,23 @@ namespace Teapot
 				auto rot = StringToVec3(object.attribute("rot").as_string());
 				auto alias = object.attribute("alias").as_string();
 
+				std::shared_ptr<Model> model;
 				switch (type)
 				{
-					case ShapeObjects::PathObj:
-					{
-						auto path = object.attribute("path").as_string();
-						auto model = Teapot::Model::CreateModel(path, alias);
-						model->Translate(pos);
-						model->Rotate(rot);
-						model->Scale(scale);
-						break;
-					}
-					case ShapeObjects::Cube:
-					{
-						auto model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, ShapeObjects::Cube);
-						model->Translate(pos);
-						model->Rotate(rot);
-						model->Scale(scale);
-						break;
-					}
-					case ShapeObjects::Sphere:
-					{
-						Shapes::Sphere obj(1.0f, color, 30, 30);
-						auto model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, ShapeObjects::Sphere);
-						model->Translate(pos);
-						model->Rotate(rot);
-						model->Scale(scale);
-						break;
-					}
+					using enum ShapeObjects;
+					case Custom  : break;
+					case Cube    : model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, Cube);	break;
+					case Cylinder: model = Teapot::Model::CreateModel(Shapes::Cylinder(1.0f, color, 30, 30), alias, Cylinder); break;
+					case Plane   : model = Teapot::Model::CreateModel(Shapes::Plane(30, 30, 1.0f, color), alias, Plane); break;
+					case Sphere  : model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, Sphere); break;
+					case PathObj : model = Teapot::Model::CreateModel(object.attribute("path").as_string(), alias); break;
+				}
+
+				if (model)
+				{
+					model->Translate(pos);
+					model->Rotate(rot);
+					model->Scale(scale);
 				}
 			}
 
@@ -130,9 +119,9 @@ namespace Teapot
 			try
 			{
 				std::string trimmed = str;
-				trimmed.erase(trimmed.begin(), std::find_if(trimmed.begin(), trimmed.end(), [](unsigned char ch) { return !std::isspace(ch); }));
-				trimmed.erase(std::find_if(trimmed.rbegin(), trimmed.rend(), [](unsigned char ch) {	return !std::isspace(ch); }).base(), trimmed.end());
-				std::replace(trimmed.begin(), trimmed.end(), ',', ' ');
+				trimmed.erase(trimmed.begin(), std::ranges::find_if(trimmed.begin(), trimmed.end(), [](unsigned char ch) { return !std::isspace(ch); }));
+				trimmed.erase(std::ranges::find_if(trimmed.rbegin(), trimmed.rend(), [](unsigned char ch) {	return !std::isspace(ch); }).base(), trimmed.end());
+				std::ranges::replace(trimmed.begin(), trimmed.end(), ',', ' ');
 				std::istringstream iss(trimmed);
 				float x, y, z;
 				if (!(iss >> x >> y >> z)) {
@@ -150,12 +139,7 @@ namespace Teapot
 		
 		static inline std::string Vec3ToString(const glm::vec3& vec)
 		{
-			std::string result;
-
-			result = std::to_string(vec.x) + ", " + 
-					 std::to_string(vec.y) + ", " +
-					 std::to_string(vec.z);
-
+			std::string result = std::format("{}, {}, {}", vec.x, vec.y, vec.z);
 			return result;
 		}
 

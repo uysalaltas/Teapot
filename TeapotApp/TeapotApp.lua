@@ -32,7 +32,7 @@ project "TeapotApp"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 
@@ -47,7 +47,7 @@ project "TeapotApp"
 		}
 	
 	filter "system:linux"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 

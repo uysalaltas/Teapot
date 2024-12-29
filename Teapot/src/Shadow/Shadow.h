@@ -20,7 +20,7 @@ namespace Teapot
 		void RenderShadow();
 
 		inline void BindShadow() const { shadowMapping->BindTexture(); };
-		inline glm::mat4 GetLightSpaceMatrix() const { return lightSpaceMatrix; };
+		inline glm::mat4 GetLightSpaceMatrix() const { return m_lightSpaceMatrix; };
 		std::unique_ptr<ShadowMapping> shadowMapping;
 
 	private:
@@ -30,8 +30,8 @@ namespace Teapot
 		const glm::vec3& m_lightPos;
 		RenderType m_renderType;
 
-		glm::mat4 lightProjection;
-		glm::mat4 lightView;
-		glm::mat4 lightSpaceMatrix;
+		glm::mat4 m_lightProjection;
+		glm::mat4 m_lightView;
+		glm::mat4 m_lightSpaceMatrix;
 	};
 }
