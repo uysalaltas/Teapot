@@ -77,10 +77,7 @@ public:
 			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); }
 
 			static unsigned int counter = 0;
-			Teapot::Model::CreateModel(
-				*selectedShape,
-				"Shape" + std::to_string(counter)
-			);
+			Teapot::Model::CreateModel(*selectedShape, std::format("Shape {}",counter));
 			counter++;
 		}
 

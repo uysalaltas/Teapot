@@ -12,27 +12,27 @@ namespace Teapot
 	{
 		shadowMapping = std::make_unique<ShadowMapping>();
 		m_shaderShadow.Bind();
-		m_shaderShadow.SetUniform1i("shadowMapArr[" + std::to_string(shadowMapIndex) + "]", shadowMapping->GetShadowMapTexture());
+		auto shadowMapArr = std::format("shadowMapArr[{}]", std::to_string(shadowMapIndex));
+		m_shaderShadow.SetUniform1i(shadowMapArr, shadowMapping->GetShadowMapTexture());
 		shadowMapIndex++;
 	}
 
 	void Shadow::RenderShadow()
 	{
-		lightView = glm::lookAt(m_lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		m_lightView = glm::lookAt(m_lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		switch (m_renderType)
+		if (Shadow::RenderType::Perspective == m_renderType)
 		{
-		case Teapot::Shadow::RenderType::Perspective:
-			lightProjection = glm::perspective<float>(glm::radians(45.0f), 1.0f, 2.0f, 50.0f);
-			break;
-		case Teapot::Shadow::RenderType::Ortho:
-		default:
-			lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 20.0f);
-			break;
+			m_lightProjection = glm::perspective<float>(glm::radians(45.0f), 1.0f, 2.0f, 50.0f);
 		}
-		lightSpaceMatrix = lightProjection * lightView;
+		else // Shadow::RenderType::Ortho:
+		{
+			m_lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 1.0f, 20.0f);
+		}
 
-		shadowMapping->RenderShadow(m_shaderDepth, lightSpaceMatrix);
+		m_lightSpaceMatrix = m_lightProjection * m_lightView;
+
+		shadowMapping->RenderShadow(m_shaderDepth, m_lightSpaceMatrix);
 		ModelManager::DrawModelShadows();
 
 		shadowMapping->UnbindFrameBuffer();
