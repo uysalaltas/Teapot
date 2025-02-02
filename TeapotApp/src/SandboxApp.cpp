@@ -26,9 +26,10 @@ public:
 	void OnUpdate() override
 	{
 		camera->UpdateProjMatrix();
-		camera->CalculateArcballCamera();
-		camera->CalculatePanCamera();
-		camera->ZoomCamera();
+		camera->ActivateArcballCamera();
+		camera->ActivatePanCamera();
+		camera->ActivateZoomCamera();
+		camera->ActivateFreeMovement();
 
 		RenderScene();
 
@@ -72,24 +73,20 @@ public:
 
 		if (ImGui::Button("Add Shape"))
 		{
-			if (preshapes[preshapesIdx] == "Cube"){ selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor); }
-			else if (preshapes[preshapesIdx] == "Sphere"){ selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30); }
-			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); }
+			auto shapeType = Teapot::ShapeObjects::Custom;
+			if (preshapes[preshapesIdx] == "Cube")         { selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor);                shapeType = Teapot::ShapeObjects::Cube;     }
+			else if (preshapes[preshapesIdx] == "Sphere")  { selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30);     shapeType = Teapot::ShapeObjects::Sphere;   }
+			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); shapeType = Teapot::ShapeObjects::Cylinder; }
 
 			static unsigned int counter = 0;
-			Teapot::Model::CreateModel(*selectedShape, std::format("Shape {}",counter));
+			Teapot::Model::CreateModel(*selectedShape, std::format("Shape {}",counter), shapeType);
 			counter++;
 		}
 
-		if (ImGui::Button("Save Scene"))
-		{
-			Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");
-		}
+		if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
+		if (ImGui::Button("Remove Selected Shape"))	{ Teapot::Model::RemoveModel();	}
+		if (ImGui::Button("Focus Object")) { camera->SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
 
-		if (ImGui::Button("Remove Selected Shape"))
-		{
-			Teapot::Model::RemoveModel();
-		}
 		ImGui::End();
 	}
 

@@ -60,6 +60,11 @@ namespace Teapot
 
 		//vb->BufferDataModification(vertices);
 		glDrawElements(GL_TRIANGLES, (GLsizei)indices.size(), GL_UNSIGNED_INT, nullptr);
+
+		for (const auto& texture : textures)
+		{
+			texture.Unbind();
+		}
 	}
 
 }
