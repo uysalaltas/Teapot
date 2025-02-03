@@ -83,8 +83,9 @@ public:
 			counter++;
 		}
 
-		if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
-		if (ImGui::Button("Remove Selected Shape"))	{ Teapot::Model::RemoveModel();	}
+		ImGui::SameLine(); if (ImGui::Button("Remove Shape"))	{ Teapot::Model::RemoveModel();	}
+		ImGui::SameLine(); if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
+		ImGui::AlignTextToFramePadding();
 		if (ImGui::Button("Focus Object")) { camera->SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
 
 		ImGui::End();

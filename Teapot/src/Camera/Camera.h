@@ -118,11 +118,15 @@ namespace Teapot
         {
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_Q))
             {
-                ProcessMouseScroll(1.0f);
+                auto cameraFront = glm::normalize(m_lookAt - m_eye);
+                auto result = cameraFront * m_freeCameraSpeed; // Camera Up
+                m_eye -= result;
             }
-            else if (Input::IsKeyPressed(KeyMacros::TEA_KEY_E))
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_E))
             {
-                ProcessMouseScroll(-1.0f);
+                auto cameraFront = glm::normalize(m_lookAt - m_eye);
+                auto result = cameraFront * m_freeCameraSpeed; // Camera Up
+                m_eye += result;
             }
         }
 
