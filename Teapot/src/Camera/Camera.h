@@ -155,7 +155,7 @@ namespace Teapot
         void SetLookAt(const glm::vec3& lookat)
         {
             m_lookAt = lookat;
-            UpdateProjMatrix();
+            UpdateViewMatrix();
         }
 
     private:
