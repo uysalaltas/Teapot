@@ -82,31 +82,25 @@ namespace Teapot
         {
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_W))
             {
-                auto cameraFront = glm::normalize(m_lookAt - m_eye);
-                auto right = glm::normalize(glm::cross(m_upVector, cameraFront));
-                auto result = glm::normalize(glm::cross(right, cameraFront)) * m_freeCameraSpeed; // Camera Up
+                auto result = CalculateMovementVector(true);
                 m_eye -= result;
                 m_lookAt -= result;
             }
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_S))
             {
-                auto cameraFront = glm::normalize(m_lookAt - m_eye);
-                auto right = glm::normalize(glm::cross(m_upVector, cameraFront));
-                auto result = glm::normalize(glm::cross(right, cameraFront)) * m_freeCameraSpeed; // Camera Up
+                auto result = CalculateMovementVector(true);
                 m_eye += result;
                 m_lookAt += result;
             }
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_A))
             {
-                auto cameraFront = glm::normalize(m_lookAt - m_eye);
-                auto result = glm::normalize(glm::cross(cameraFront, m_upVector)) * m_freeCameraSpeed; // Right
+                auto result = CalculateMovementVector(false);
                 m_eye -= result;
                 m_lookAt -= result;
             }
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_D))
             {
-                auto cameraFront = glm::normalize(m_lookAt - m_eye);
-                auto result = glm::normalize(glm::cross(cameraFront, m_upVector)) * m_freeCameraSpeed; // Right
+                auto result = CalculateMovementVector(false);
                 m_eye += result;
                 m_lookAt += result;
             }
@@ -228,6 +222,16 @@ namespace Teapot
                 m_fov = 0.1f;
             if (m_fov > 90.0f)
                 m_fov = 90.0f;
+        }
+
+        glm::vec3 CalculateMovementVector(bool isVertical) {
+            auto cameraFront = glm::normalize(m_lookAt - m_eye);
+            if (isVertical) {
+                auto right = glm::normalize(glm::cross(m_upVector, cameraFront));
+                return glm::normalize(glm::cross(right, cameraFront)) * m_freeCameraSpeed;
+                
+            }
+            return glm::normalize(glm::cross(cameraFront, m_upVector)) * m_freeCameraSpeed;
         }
 
     };
