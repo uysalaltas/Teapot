@@ -36,7 +36,7 @@ namespace Teapot
         glm::vec3 GetRightVector() const { return glm::transpose(m_viewMatrix)[0]; }
         float GetFOV() const { return m_fov; }
 
-        void CalculateArcballCamera()
+        void ActivateArcballCamera()
         {
             if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_RIGHT))
             {
@@ -57,7 +57,7 @@ namespace Teapot
             }
         }
 
-        void CalculatePanCamera()
+        void ActivatePanCamera()
         {
             if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_MIDDLE))
             {
@@ -78,21 +78,60 @@ namespace Teapot
             }
         }
 
-        void ZoomCamera()
+        void ActivateFreeMovement()
         {
             if (Input::IsKeyPressed(KeyMacros::TEA_KEY_W))
             {
-                ProcessMouseScroll(1.0f);
+                auto result = CalculateMovementVector(true);
+                m_eye -= result;
+                m_lookAt -= result;
             }
-            else if (Input::IsKeyPressed(KeyMacros::TEA_KEY_S))
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_S))
             {
-                ProcessMouseScroll(-1.0f);
+                auto result = CalculateMovementVector(true);
+                m_eye += result;
+                m_lookAt += result;
+            }
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_A))
+            {
+                auto result = CalculateMovementVector(false);
+                m_eye -= result;
+                m_lookAt -= result;
+            }
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_D))
+            {
+                auto result = CalculateMovementVector(false);
+                m_eye += result;
+                m_lookAt += result;
+            }
+
+            UpdateViewMatrix();
+        }
+
+        void ActivateZoomCamera()
+        {
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_Q))
+            {
+                auto cameraFront = glm::normalize(m_lookAt - m_eye);
+                auto result = cameraFront * m_freeCameraSpeed; // Camera Up
+                m_eye -= result;
+            }
+            if (Input::IsKeyPressed(KeyMacros::TEA_KEY_E))
+            {
+                auto cameraFront = glm::normalize(m_lookAt - m_eye);
+                auto result = cameraFront * m_freeCameraSpeed; // Camera Up
+                m_eye += result;
             }
         }
 
         void SetFOV(float fov)
         {
             m_fov = fov;
+        }
+
+        void SetFreeCameraMovementSpeed(float cameraSpeed)
+        {
+            m_freeCameraSpeed = cameraSpeed;
         }
 
         void UpdateViewMatrix()
@@ -113,13 +152,10 @@ namespace Teapot
             UpdateViewMatrix();
         }
 
-        void ProcessMouseScroll(float yoffset)
+        void SetLookAt(const glm::vec3& lookat)
         {
-            m_fov -= yoffset;
-            if (m_fov < 0.1f)
-                m_fov = 0.1f;
-            if (m_fov > 90.0f)
-                m_fov = 90.0f;
+            m_lookAt = lookat;
+            UpdateViewMatrix();
         }
 
     private:
@@ -134,6 +170,8 @@ namespace Teapot
         float pan_speed = .5f;
         float m_yaw = 0.0f;
         float m_pitch = 0.0f;
+
+        float m_freeCameraSpeed = 0.1f;
 
         bool firstMouseClick;
         bool firstRightMouseClick;
@@ -175,6 +213,25 @@ namespace Teapot
             m_lookAt -= deltaX * right + deltaY * up;
 
             UpdateViewMatrix();
+        }
+
+        void ProcessMouseScroll(float yoffset)
+        {
+            m_fov -= yoffset;
+            if (m_fov < 0.1f)
+                m_fov = 0.1f;
+            if (m_fov > 90.0f)
+                m_fov = 90.0f;
+        }
+
+        glm::vec3 CalculateMovementVector(bool isVertical) const{
+            auto cameraFront = glm::normalize(m_lookAt - m_eye);
+            if (isVertical) {
+                auto right = glm::normalize(glm::cross(m_upVector, cameraFront));
+                return glm::normalize(glm::cross(right, cameraFront)) * m_freeCameraSpeed;
+                
+            }
+            return glm::normalize(glm::cross(cameraFront, m_upVector)) * m_freeCameraSpeed;
         }
 
     };
