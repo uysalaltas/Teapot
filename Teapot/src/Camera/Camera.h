@@ -224,7 +224,7 @@ namespace Teapot
                 m_fov = 90.0f;
         }
 
-        glm::vec3 CalculateMovementVector(bool isVertical) {
+        glm::vec3 CalculateMovementVector(bool isVertical) const{
             auto cameraFront = glm::normalize(m_lookAt - m_eye);
             if (isVertical) {
                 auto right = glm::normalize(glm::cross(m_upVector, cameraFront));
