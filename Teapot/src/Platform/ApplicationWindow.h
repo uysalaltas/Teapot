@@ -27,7 +27,7 @@ namespace Teapot
 		void OnLastUpdate() override;
 		void UpdateViewport() override;
 		void RenderSceneOnImGuiWindow() override;
-		void RenderGizmo() const;
+		void RenderGizmo();
 		void ActivateGizmo(std::shared_ptr<Camera> camera) override;
 
 		inline void* GetNativeWindow() const override { return m_Window; }
@@ -53,5 +53,19 @@ namespace Teapot
 		WindowData m_WindowData;
 
 		std::shared_ptr<Camera> m_camera;
+
+		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale)
+		{
+			pos = m[3];
+			for (int i = 0; i < 3; i++)
+				scale[i] = glm::length(glm::vec3(m[i]));
+			const glm::mat3 rotMtx(
+				glm::vec3(m[0]) / scale[0],
+				glm::vec3(m[1]) / scale[1],
+				glm::vec3(m[2]) / scale[2]);
+
+			auto rotQuat = glm::quat_cast(rotMtx);
+			rot  = glm::degrees(glm::eulerAngles(rotQuat));
+		}
 	};
 }

@@ -148,7 +148,7 @@ namespace Teapot
 		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_WindowData.Width, m_WindowData.Height);
 	}
 
-	void ApplicationWindow::RenderGizmo() const
+	void ApplicationWindow::RenderGizmo()
 	{
 		if (IsGizmoActive && ModelManager::GetModelVectorSize() > 0)
 		{
@@ -158,7 +158,7 @@ namespace Teapot
 				glm::value_ptr(m_camera->GetViewMatrix()),
 				glm::value_ptr(m_camera->GetProjMatrix()),
 				static_cast<ImGuizmo::OPERATION>(SelectedGizmo),
-				ImGuizmo::MODE::LOCAL,
+				ImGuizmo::MODE::WORLD,
 				glm::value_ptr(ModelManager::GetSelectedModel()->objModel)
 			);
 
@@ -169,20 +169,12 @@ namespace Teapot
 
 			if (ImGuizmo::IsUsing())
 			{
-				glm::quat rotation;
-				glm::vec3 skew;
-				glm::vec4 perspective;
-
-				glm::decompose(
+				DecomposeMtx(
 					ModelManager::GetSelectedModel()->objModel,
-					ModelManager::GetSelectedModel()->objScale,
-					rotation,
 					ModelManager::GetSelectedModel()->objTranslation,
-					skew,
-					perspective
+					ModelManager::GetSelectedModel()->objRotation,
+					ModelManager::GetSelectedModel()->objScale
 				);
-
-				ModelManager::GetSelectedModel()->objRotation = glm::degrees(glm::eulerAngles(rotation));
 			}
 		}
 	}

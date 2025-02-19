@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <objects>
-	<object type="1" alias="Cup" pos="-0.93176603, -1.6586754, -1.8077214" color="1, 1, 1" scale="0.33479995, 0.3348, 0.3348" rot="90, -0, 0" path="TeapotApp/objects/coffee_cup_obj.obj" />
-	<object type="1" alias="Desk" pos="0.35529047, -1.3199382, -3.0155182" color="1, 1, 1" scale="0.3, 0.29999998, 0.29999998" rot="90, -90, -0" path="TeapotApp/objects/desk.obj" />
+	<object type="1" alias="Cup" pos="-0.28552496, -1.6586754, -1.8077214" color="1, 1, 1" scale="0.25444788, 0.254448, 0.25444788" rot="90, -0, 90" path="TeapotApp/objects/coffee_cup_obj.obj" />
+	<object type="1" alias="Desk" pos="0.35529047, -1.3199382, -3.0155182" color="1, 1, 1" scale="0.3, 0.3, 0.3" rot="90, 0, -90" path="TeapotApp/objects/desk.obj" />
+	<object type="1" alias="Chair" pos="0.35, -1.3010972, -3" color="1, 1, 1" scale="0.0014999999, 0.0015, 0.0015" rot="90, -0, 0" path="TeapotApp/objects/Office_chair.obj" />
+	<object type="1" alias="Laptop" pos="0.37306947, -1.6269773, -1.8088629" color="1, 1, 1" scale="0.09999988, 0.10000002, 0.09999988" rot="90, -8.248195e-07, 180" path="TeapotApp/objects/Laptop.obj" />
 	<object type="2" alias="CubeBase" pos="0, 0, -3" color="0.3, 0.9, 1" scale="5, 5, 0.2" rot="0, -0, 0" />
 	<object type="2" alias="CubeLeft" pos="0, -2.5, 1.8" color="0.3, 0.9, 1" scale="5, 0.2, 5" rot="0, -0, 0" />
 	<object type="2" alias="CubeRight" pos="-2.4, 0, 1.8" color="0.3, 0.9, 1" scale="0.2, 5, 5" rot="0, -0, 0" />
-	<object type="5" alias="Sphere" pos="1.2731371, -1.8289856, -1.7271813" color="1, 0.87, 0" scale="0.084000014, 0.084000014, 0.084000014" rot="0, -0, 0" />
-	<object type="2" alias="Shape 0" pos="0.14845581, -2.3510237, 0.1542592" color="1, 0.5, 0" scale="0.049511086, 1, 0.99999994" rot="0, -0, 90" />
+	<object type="5" alias="Sphere" pos="0.8781715, -1.5397444, -1.7556602" color="1, 0.87, 0" scale="0.055440005, 0.055440005, 0.055440005" rot="0, -0, 0" />
+	<object type="2" alias="Shape" pos="0.6929193, -2.3510237, 0.1542592" color="1, 0.5, 0" scale="0.04951107, 0.9999998, 0.9999997" rot="90, -0, 90" />
 </objects>
