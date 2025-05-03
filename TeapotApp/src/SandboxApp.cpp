@@ -12,9 +12,11 @@ public:
 		spotLight.position = glm::vec3(0.0f, 0.0f, 3.0f);
 		spotLight.ambient  = glm::vec3(0.15f);
 
-		shaderManager->CreateDirectionalLight(dirLight);
-		shaderManager->CreateSpotLight(spotLight);
-		shaderManager->ActivateShadow(true);
+		GetShaderManager().CreateDirectionalLight(dirLight);
+		GetShaderManager().CreateSpotLight(spotLight);
+		GetShaderManager().ActivateShadow(true);
+
+		GetUI().ActivateGizmos(true);
 	}
 
 	void OnUpdateAwake() override
@@ -25,21 +27,24 @@ public:
 
 	void OnUpdate() override
 	{
-		camera->UpdateProjMatrix();
-		camera->ActivateArcballCamera();
-		camera->ActivatePanCamera();
-		camera->ActivateZoomCamera();
-		camera->ActivateFreeMovement();
+		GetCamera().UpdateProjMatrix();
+		GetCamera().ActivateArcballCamera();
+		GetCamera().ActivatePanCamera();
+		GetCamera().ActivateZoomCamera();
+		GetCamera().ActivateFreeMovement();
 
 		RenderScene();
 
 		// Ui Stuff
-		shaderManager->UIModifySpotLight();
-		shaderManager->UIModifyDirectionLight();
-		shaderManager->UIRenderShadowMap();
+		GetShaderManager().UIModifySpotLight();
+		GetShaderManager().UIModifyDirectionLight();
+		GetShaderManager().UIRenderShadowMap();
 
-		windowUI->UIGizmos();
-		
+		GetUI().UIBegin("Control");
+		GetUI().UIGizmos();
+		GetUI().UIFocusToObject();
+		GetUI().UIEnd();
+
 		AddShape();
 
 		//ImGui::ShowDemoWindow();
@@ -86,13 +91,12 @@ public:
 		ImGui::SameLine(); if (ImGui::Button("Remove Shape"))	{ Teapot::Model::RemoveModel();	}
 		ImGui::SameLine(); if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
 		ImGui::AlignTextToFramePadding();
-		if (ImGui::Button("Focus Object")) { camera->SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
+		if (ImGui::Button("Focus Object")) { GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
 
 		ImGui::End();
 	}
 
 private:
-	;
 	std::unique_ptr<Shapes::ShapeInterface> selectedShape;
 	std::shared_ptr<Teapot::Model> sphrModel;
 

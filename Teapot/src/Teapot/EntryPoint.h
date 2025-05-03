@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Teapot/Window.h"
-#include "Platform/ApplicationWindow.h"
+#include "Scene/ApplicationWindow.h"
 
 namespace Teapot
 {

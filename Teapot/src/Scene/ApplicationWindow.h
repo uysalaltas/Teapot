@@ -18,7 +18,7 @@ namespace Teapot
 	class ApplicationWindow : public Window
 	{
 	public:
-		explicit ApplicationWindow(const WindowProps& props);
+		ApplicationWindow(const WindowProps& props);
 		~ApplicationWindow() override;
 		ApplicationWindow(ApplicationWindow const&) = delete;
 		ApplicationWindow& operator=(ApplicationWindow const&) = delete;
@@ -28,7 +28,6 @@ namespace Teapot
 		void UpdateViewport() override;
 		void RenderSceneOnImGuiWindow() override;
 		void RenderGizmo();
-		void ActivateGizmo(std::shared_ptr<Camera> camera) override;
 
 		inline void* GetNativeWindow() const override { return m_Window; }
 
@@ -52,8 +51,6 @@ namespace Teapot
 		};
 		WindowData m_WindowData;
 
-		std::shared_ptr<Camera> m_camera;
-
 		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale)
 		{
 			pos = m[3];
@@ -65,7 +62,7 @@ namespace Teapot
 				glm::vec3(m[2]) / scale[2]);
 
 			auto rotQuat = glm::quat_cast(rotMtx);
-			rot  = glm::degrees(glm::eulerAngles(rotQuat));
+			//rot  = glm::degrees(glm::eulerAngles(rotQuat));
 		}
 	};
 }

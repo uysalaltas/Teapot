@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Teapot/Application.h"
+#include "Scene/SceneContext.h"
 #include "Teapot/Input.h"
 #include <GLFW/glfw3.h>
 

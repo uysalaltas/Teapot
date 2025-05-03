@@ -46,13 +46,9 @@ namespace Teapot
 		virtual unsigned int& GetWidthRef() = 0;
 		virtual unsigned int& GetHeigthRef() = 0;
 
-		virtual void ActivateGizmo(std::shared_ptr<Camera> camera) = 0;
-
 		static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
 	
 	public:
 		std::unique_ptr <FrameBuffer> sceneBuffer;
-		bool IsGizmoActive{ false };
-		int SelectedGizmo{ 7 }; // ImGuizmo Translate enum number
 	};
 }

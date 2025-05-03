@@ -1,4 +1,6 @@
 #include "ApplicationWindow.h"
+#include "Ui/WindowControlUI.h"
+#include "SceneContext.h"
 
 namespace Teapot
 {
@@ -150,14 +152,14 @@ namespace Teapot
 
 	void ApplicationWindow::RenderGizmo()
 	{
-		if (IsGizmoActive && ModelManager::GetModelVectorSize() > 0)
+		if (Teapot::SceneContext::Get().IsGizmoActive && ModelManager::GetModelVectorSize() > 0)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
 			ImGuizmo::Manipulate(
-				glm::value_ptr(m_camera->GetViewMatrix()),
-				glm::value_ptr(m_camera->GetProjMatrix()),
-				static_cast<ImGuizmo::OPERATION>(SelectedGizmo),
+				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetViewMatrix()),
+				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetProjMatrix()),
+				static_cast<ImGuizmo::OPERATION>(Teapot::SceneContext::Get().SelectedGizmo),
 				ImGuizmo::MODE::WORLD,
 				glm::value_ptr(ModelManager::GetSelectedModel()->objModel)
 			);
@@ -165,7 +167,7 @@ namespace Teapot
 			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
 			float viewManipulateTop = ImGui::GetWindowPos().y;
 
-			ImGuizmo::ViewManipulate(glm::value_ptr(m_camera->GetViewMatrix()), 1.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
+			ImGuizmo::ViewManipulate(glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetViewMatrix()), 1.0f, ImVec2(viewManipulateRight - 128, viewManipulateTop), ImVec2(128, 128), 0x10101010);
 
 			if (ImGuizmo::IsUsing())
 			{
@@ -177,12 +179,6 @@ namespace Teapot
 				);
 			}
 		}
-	}
-
-	void ApplicationWindow::ActivateGizmo(std::shared_ptr<Camera> camera)
-	{
-		m_camera = camera;
-		IsGizmoActive = true;
 	}
 
 	void ApplicationWindow::Shutdown()

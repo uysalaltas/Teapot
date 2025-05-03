@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <objects>
-	<object type="1" alias="Cup" pos="-0.28552496, -1.6586754, -1.8077214" color="1, 1, 1" scale="0.25444788, 0.254448, 0.25444788" rot="90, -0, 90" path="TeapotApp/objects/coffee_cup_obj.obj" />
-	<object type="1" alias="Desk" pos="0.35529047, -1.3199382, -3.0155182" color="1, 1, 1" scale="0.3, 0.3, 0.3" rot="90, 0, -90" path="TeapotApp/objects/desk.obj" />
-	<object type="1" alias="Chair" pos="0.35, -1.3010972, -3" color="1, 1, 1" scale="0.0014999999, 0.0015, 0.0015" rot="90, -0, 0" path="TeapotApp/objects/Office_chair.obj" />
-	<object type="1" alias="Laptop" pos="0.37306947, -1.6269773, -1.8088629" color="1, 1, 1" scale="0.09999988, 0.10000002, 0.09999988" rot="90, -8.248195e-07, 180" path="TeapotApp/objects/Laptop.obj" />
+	<object type="1" alias="Cup" pos="-0.23498736, -1.6109153, -1.7809911" color="1, 1, 1" scale="0.25444773, 0.25444797, 0.25444785" rot="90, -0, 0" path="TeapotApp/objects/coffee_cup_obj.obj" />
+	<object type="1" alias="Desk" pos="0.23528054, -1.3278532, -3.0033417" color="1, 1, 1" scale="0.3, 0.29999986, 0.29999986" rot="90, -90, 0" path="TeapotApp/objects/desk.obj" />
+	<object type="1" alias="Chair" pos="0.28901863, -1.312913, -3.0012522" color="1, 1, 1" scale="0.001499999, 0.0015, 0.0015" rot="90, -0, 0" path="TeapotApp/objects/Office_chair.obj" />
+	<object type="1" alias="Laptop" pos="0.30393702, -1.6272441, -1.799515" color="1, 1, 1" scale="0.09999984, 0.10000002, 0.09999988" rot="90, -180, 0" path="TeapotApp/objects/Laptop.obj" />
 	<object type="2" alias="CubeBase" pos="0, 0, -3" color="0.3, 0.9, 1" scale="5, 5, 0.2" rot="0, -0, 0" />
 	<object type="2" alias="CubeLeft" pos="0, -2.5, 1.8" color="0.3, 0.9, 1" scale="5, 0.2, 5" rot="0, -0, 0" />
 	<object type="2" alias="CubeRight" pos="-2.4, 0, 1.8" color="0.3, 0.9, 1" scale="0.2, 5, 5" rot="0, -0, 0" />
-	<object type="5" alias="Sphere" pos="0.8781715, -1.5397444, -1.7556602" color="1, 0.87, 0" scale="0.055440005, 0.055440005, 0.055440005" rot="0, -0, 0" />
-	<object type="2" alias="Shape" pos="0.6929193, -2.3510237, 0.1542592" color="1, 0.5, 0" scale="0.04951107, 0.9999998, 0.9999997" rot="90, -0, 90" />
+	<object type="5" alias="Sphere" pos="-0.88944817, -1.6880113, -1.6778865" color="1, 0.87, 0" scale="0.055440005, 0.055440005, 0.055440005" rot="0, -0, 0" />
+	<object type="2" alias="Shape" pos="0.19493657, -2.3755798, 0.4036532" color="1, 0.5, 0" scale="0.04951107, 0.99999976, 0.9999993" rot="0, -0, 90" />
 </objects>

@@ -14,18 +14,13 @@ namespace Teapot
 		return s_ShaderManager;
 	}
 
-	void ShaderManager::SetShaderValues(Camera& camera)
-	{
-		m_Camera = &camera;
-	}
-
 	void ShaderManager::RunShader()
 	{
-		if (!m_Camera)
-		{
-			std::cout << "Camera not found!\n";
-			return;
-		}
+		//if (!Teapot::SceneContext::GetInstance()->GetCamera())
+		//{
+		//	std::cout << "Camera not found!\n";
+		//	return;
+		//}
 
 		m_Shader.Bind();
 
@@ -73,9 +68,9 @@ namespace Teapot
 			m_Shader.SetUniform1f(std::format("spotLights[{}].outerCutOff", i), m_SpotLights[i].outerCutOff);
 		}
 
-		m_Shader.SetUniformMat4f("view"      , m_Camera->GetViewMatrix());
-		m_Shader.SetUniformMat4f("projection", m_Camera->GetProjMatrix());
-		m_Shader.SetUniformVec3f("camPos"    , m_Camera->GetEye());
+		m_Shader.SetUniformMat4f("view"      , Teapot::SceneContext::Get().GetCamera().GetViewMatrix());
+		m_Shader.SetUniformMat4f("projection", Teapot::SceneContext::Get().GetCamera().GetProjMatrix());
+		m_Shader.SetUniformVec3f("camPos"    , Teapot::SceneContext::Get().GetCamera().GetEye());
 
 		for (int i = 0; i < m_Shadows.size(); i++)
 		{

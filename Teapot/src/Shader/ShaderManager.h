@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "Renderer/Model.h"
 #include "Shadow/Shadow.h"
-#include "Camera/Camera.h"
+#include "Scene/SceneContext.h"
 
 #include <imgui.h>
 #include <functional>
@@ -53,9 +53,7 @@ namespace Teapot
 	public:
 		ShaderManager() = default;
 
-		void SetShaderValues(Camera& camera);
 		void RunShader();
-
 		static std::shared_ptr<ShaderManager> GetInstance();
 
 	// Inline functions
@@ -92,7 +90,5 @@ namespace Teapot
 		std::vector<DirectionalLight> m_DirectionalLights;
 		std::vector<PointLight> m_pointLights;
 		std::vector<SpotLight> m_SpotLights;
-
-		Camera* m_Camera{};
 	};
 }
