@@ -25,10 +25,9 @@ namespace Teapot
 		inline Window& GetWindow() { return Teapot::SceneContext::Get().GetWindow(); }
 		inline Camera& GetCamera() { return Teapot::SceneContext::Get().GetCamera(); }
 		inline WindowControlUI& GetUI() { return *windowUI; }
-		inline ShaderManager& GetShaderManager() { return *shaderManager; }
+		inline ShaderManager& GetShaderManager() { return Teapot::ShaderManager::GetInstance(); }
 
 	private:
-		std::shared_ptr<Teapot::ShaderManager> shaderManager;
 		std::unique_ptr<Teapot::WindowControlUI> windowUI;
 
 		bool m_Running = true;

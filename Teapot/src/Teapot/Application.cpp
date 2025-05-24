@@ -15,14 +15,13 @@ namespace Teapot
 			if (!Teapot::SceneContext::Init()) { throw std::runtime_error("Scene not initalized"); }
 			if (!Teapot::SceneContext::Get().CreateWindow(props)) { throw std::runtime_error("Window not created"); }
 			if (!Teapot::SceneContext::Get().CreateCamera()) { throw std::runtime_error("Camera not created"); }
-
+			if (!Teapot::ShaderManager::Init()) { throw std::runtime_error("ShaderManager not initalized"); }
 		}
-		catch (std::runtime_error e)
+		catch (std::runtime_error& e)
 		{
 			std::cout << "Caught runtime error: " << e.what() << std::endl;
 		}
 
-		shaderManager = Teapot::ShaderManager::GetInstance();
 		windowUI = std::make_unique<Teapot::WindowControlUI>();
 	}
 
@@ -39,10 +38,10 @@ namespace Teapot
 		{
 			Teapot::SceneContext::Get().GetWindow().OnFistUpdate();
 			OnUpdateAwake();
-			shaderManager->RenderShadow();
+			Teapot::ShaderManager::GetInstance().RenderShadow();
 			Teapot::SceneContext::Get().GetWindow().BindFrameBuffer();
 			Teapot::SceneContext::Get().GetWindow().UpdateViewport();
-			shaderManager->RunShader();
+			Teapot::ShaderManager::GetInstance().RunShader();
 			OnUpdate();
 			Teapot::SceneContext::Get().GetWindow().UnbindFrameBuffer();
 			Teapot::SceneContext::Get().GetWindow().OnLastUpdate();

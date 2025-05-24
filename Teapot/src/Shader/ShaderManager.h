@@ -54,7 +54,8 @@ namespace Teapot
 		ShaderManager() = default;
 
 		void RunShader();
-		static std::shared_ptr<ShaderManager> GetInstance();
+		static ShaderManager& GetInstance();
+		static bool Init();
 
 	// Inline functions
 	public:
@@ -77,7 +78,7 @@ namespace Teapot
 		void UIRenderShadowMap();
 
 	private:
-		static std::shared_ptr<ShaderManager> s_ShaderManager;
+		static std::unique_ptr<ShaderManager> s_ShaderManager;
 
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};

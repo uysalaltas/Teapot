@@ -18,11 +18,13 @@ namespace Teapot
 
 	bool SceneContext::Init() 
 	{
-		if (!s_SceneContext) {
+		if (!s_SceneContext) 
+		{
 			s_SceneContext = std::make_unique<SceneContext>();
 			return true;
 		}
-		else {
+		else 
+		{
 			std::cerr << "SceneContext already initialized!\n";
 			return false;
 		}

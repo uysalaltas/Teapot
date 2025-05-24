@@ -152,7 +152,8 @@ namespace Teapot
 
 	void ApplicationWindow::RenderGizmo()
 	{
-		if (Teapot::SceneContext::Get().IsGizmoActive && ModelManager::GetModelVectorSize() > 0)
+		auto selected = ModelManager::GetSelectedModel();
+		if (Teapot::SceneContext::Get().IsGizmoActive && selected)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
@@ -172,13 +173,27 @@ namespace Teapot
 			if (ImGuizmo::IsUsing())
 			{
 				DecomposeMtx(
-					ModelManager::GetSelectedModel()->objModel,
-					ModelManager::GetSelectedModel()->objTranslation,
-					ModelManager::GetSelectedModel()->objRotation,
-					ModelManager::GetSelectedModel()->objScale
+					selected->objModel,
+					selected->objTranslation,
+					selected->objRotation,
+					selected->objScale
 				);
 			}
 		}
+	}
+
+	void ApplicationWindow::DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale)
+	{
+		pos = m[3];
+		for (int i = 0; i < 3; i++)
+			scale[i] = glm::length(glm::vec3(m[i]));
+		const glm::mat3 rotMtx(
+			glm::vec3(m[0]) / scale[0],
+			glm::vec3(m[1]) / scale[1],
+			glm::vec3(m[2]) / scale[2]);
+
+		auto rotQuat = glm::quat_cast(rotMtx);
+		//rot  = glm::degrees(glm::eulerAngles(rotQuat));
 	}
 
 	void ApplicationWindow::Shutdown()

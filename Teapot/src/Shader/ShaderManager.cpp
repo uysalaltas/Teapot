@@ -3,15 +3,29 @@
 
 namespace Teapot
 {
-	std::shared_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
+	std::unique_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
 
-	std::shared_ptr<ShaderManager> ShaderManager::GetInstance()
+	ShaderManager& ShaderManager::GetInstance()
 	{
 		if (s_ShaderManager == nullptr) {
 			std::cout << "ShaderManager Created!\n";
 			s_ShaderManager = std::make_unique<ShaderManager>();
 		}
-		return s_ShaderManager;
+		return *s_ShaderManager;
+	}
+
+	bool ShaderManager::Init()
+	{
+		if (!s_ShaderManager)
+		{
+			s_ShaderManager = std::make_unique<ShaderManager>();
+			return true;
+		}
+		else
+		{
+			std::cerr << "ShaderManager already initialized!\n";
+			return false;
+		}
 	}
 
 	void ShaderManager::RunShader()

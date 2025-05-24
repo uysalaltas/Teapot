@@ -25,7 +25,7 @@ namespace Teapot
 
     void Model::Draw() const
     {
-        auto& shader = ShaderManager::GetInstance()->GetShader();
+        auto& shader = ShaderManager::GetInstance().GetShader();
         shader.SetUniformMat4f("model", objModel);
         shader.SetUniform1i("hasTexture", m_HasTexture);
         for (const auto& mesh : meshes)
@@ -36,7 +36,7 @@ namespace Teapot
 
     void Model::DrawShadow() const
     {
-        auto& shaderShadow = ShaderManager::GetInstance()->GetShadowShader();
+        auto& shaderShadow = ShaderManager::GetInstance().GetShadowShader();
         shaderShadow.SetUniformMat4f("model", objModel);
 
         for (const auto& mesh : meshes)
