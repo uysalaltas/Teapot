@@ -11,12 +11,12 @@ namespace Teapot
 	public:
 		SceneContext() = default;
 		static SceneContext& Get();
-		static void Init();
-		void CreateWindow(const Teapot::WindowProps& props);
-		void CreateCamera();
+		static bool Init();
+		bool CreateWindow(const Teapot::WindowProps& props);
+		bool CreateCamera();
 
-		Window& GetWindow() { return *m_Window; }
-		Camera& GetCamera() { return *m_Camera; }
+		inline Window& GetWindow() { return *m_Window; }
+		inline Camera& GetCamera() { return *m_Camera; }
 
 		bool IsGizmoActive = false;
 		int SelectedGizmo = 7; // ImGuizmo Translate enum number

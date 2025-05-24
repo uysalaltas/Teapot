@@ -16,24 +16,30 @@ namespace Teapot
 		return *s_SceneContext;
 	}
 
-	void SceneContext::Init() 
+	bool SceneContext::Init() 
 	{
 		if (!s_SceneContext) {
 			s_SceneContext = std::make_unique<SceneContext>();
+			return true;
 		}
 		else {
 			std::cerr << "SceneContext already initialized!\n";
+			return false;
 		}
 	}
 
-	void SceneContext::CreateWindow(const Teapot::WindowProps& props)
+	bool SceneContext::CreateWindow(const Teapot::WindowProps& props)
 	{
 		m_Window = std::unique_ptr<Teapot::Window>(Window::Create(props));
+		if(m_Window) return true;
+		return false;
 	}
 
-	void SceneContext::CreateCamera()
+	bool SceneContext::CreateCamera()
 	{
-		m_Camera = std::make_unique<Teapot::Camera>(cameraPos, cameraCenter, cameraUp, m_Window->GetWidthRef(), m_Window->GetHeigthRef());
+		m_Camera = std::make_unique<Teapot::Camera>(cameraPos, cameraCenter, cameraUp, m_Window->GetWidthRef(), m_Window->GetHeightRef());
+		if (m_Camera) return true;
+		return false;
 	}
 
 

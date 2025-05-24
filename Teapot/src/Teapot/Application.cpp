@@ -10,9 +10,17 @@ namespace Teapot
 		s_Instance = this;
 		std::cout << "Hello From API" << std::endl;
 
-		Teapot::SceneContext::Init();
-		Teapot::SceneContext::Get().CreateWindow(props);
-		Teapot::SceneContext::Get().CreateCamera();
+		try
+		{
+			if (!Teapot::SceneContext::Init()) { throw std::runtime_error("Scene not initalized"); }
+			if (!Teapot::SceneContext::Get().CreateWindow(props)) { throw std::runtime_error("Window not created"); }
+			if (!Teapot::SceneContext::Get().CreateCamera()) { throw std::runtime_error("Camera not created"); }
+
+		}
+		catch (std::runtime_error e)
+		{
+			std::cout << "Caught runtime error: " << e.what() << std::endl;
+		}
 
 		shaderManager = Teapot::ShaderManager::GetInstance();
 		windowUI = std::make_unique<Teapot::WindowControlUI>();
