@@ -36,7 +36,7 @@ namespace Teapot
 	struct SpotLight
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
-		glm::vec3 direction{ 0.0f, 0.0f,-1.0f};
+		glm::vec3 direction{ 0.0f, -1.0f, 0.0f};
 		glm::vec3 ambient  { 0.3f };
 		glm::vec3 diffuse  { 0.3f };
 		glm::vec3 specular { 0.1f };

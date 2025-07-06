@@ -16,8 +16,7 @@ namespace Teapot
 			return;
 		}
 
-		const char* combo_preview_value = ModelManager::GetSelectedModel()->name.c_str();
-		if (ImGui::BeginCombo("Objects", combo_preview_value))
+		if (ImGui::BeginCombo("Objects", ModelManager::GetSelectedModel()->name.c_str()))
 		{
 			for (int n = 0; n < ModelManager::GetModelVectorSize(); n++)
 			{

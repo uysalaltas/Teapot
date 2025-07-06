@@ -4,12 +4,12 @@
 class Sandbox : public Teapot::Application
 {
 public:
-	explicit Sandbox(const Teapot::WindowProps& props) :
+	explicit Sandbox(Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
 		Teapot::ModelReader::CreateSceneFromXML("TeapotApp/Objects.xml");
-		dirLight.position  = glm::vec3(1.2f, 5.0f, 5.0f);
-		spotLight.position = glm::vec3(0.0f, 0.0f, 3.0f);
+		dirLight.position  = glm::vec3(3.0f, 5.0f, 5.0f);
+		spotLight.position = glm::vec3(0.0f, 3.0f, 0.0f);
 		spotLight.ambient  = glm::vec3(0.15f);
 
 		GetShaderManager().CreateDirectionalLight(dirLight);
@@ -17,6 +17,7 @@ public:
 		GetShaderManager().ActivateShadow(true);
 
 		GetUI().ActivateGizmos(true);
+		GetWindow().ActivateSnap(0.05f, 0.05f, 0.05f);
 	}
 
 	void OnUpdateAwake() override

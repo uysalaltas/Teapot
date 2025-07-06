@@ -6,7 +6,7 @@ namespace Teapot
 {
 	static bool s_GLFWInitialized = false;
 
-	ApplicationWindow::ApplicationWindow(const WindowProps& props)
+	ApplicationWindow::ApplicationWindow(WindowProps& props)
 	{
 		Init(props);
 	}
@@ -16,12 +16,9 @@ namespace Teapot
 		Shutdown();
 	}
 
-	void ApplicationWindow::Init(const WindowProps& props)
+	void ApplicationWindow::Init(WindowProps& props)
 	{
-		m_WindowData.Title = props.Title;
-		m_WindowData.Height = props.Height;
-		m_WindowData.Width = props.Width;
-		m_WindowData.BackgroundColor = props.BackgroundColor;
+		m_WindowData = std::move(props);
 
 		if (!s_GLFWInitialized && glfwInit())
 		{
@@ -35,7 +32,7 @@ namespace Teapot
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow((int)m_WindowData.Width, (int)m_WindowData.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
@@ -162,7 +159,9 @@ namespace Teapot
 				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetProjMatrix()),
 				static_cast<ImGuizmo::OPERATION>(Teapot::SceneContext::Get().SelectedGizmo),
 				ImGuizmo::MODE::WORLD,
-				glm::value_ptr(ModelManager::GetSelectedModel()->objModel)
+				glm::value_ptr(ModelManager::GetSelectedModel()->objModel),
+				0,
+				snap
 			);
 
 			float viewManipulateRight = ImGui::GetWindowPos().x + ImGui::GetContentRegionAvail().x;
@@ -193,7 +192,7 @@ namespace Teapot
 			glm::vec3(m[2]) / scale[2]);
 
 		auto rotQuat = glm::quat_cast(rotMtx);
-		//rot  = glm::degrees(glm::eulerAngles(rotQuat));
+		rot = glm::degrees(glm::eulerAngles(rotQuat));
 	}
 
 	void ApplicationWindow::Shutdown()

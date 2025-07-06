@@ -18,10 +18,8 @@ namespace Teapot
 	class ApplicationWindow : public Window
 	{
 	public:
-		ApplicationWindow(const WindowProps& props);
+		explicit ApplicationWindow(WindowProps& props);
 		~ApplicationWindow() override;
-		ApplicationWindow(ApplicationWindow const&) = delete;
-		ApplicationWindow& operator=(ApplicationWindow const&) = delete;
 
 		void OnFistUpdate() override;
 		void OnLastUpdate() override;
@@ -37,19 +35,11 @@ namespace Teapot
 		inline unsigned int& GetHeightRef() override   { return m_WindowData.Height; }
 
 	private:
-		void Init(const WindowProps& props);
+		void Init(WindowProps& props);
 		void Shutdown();
 
 		GLFWwindow* m_Window;
-
-		struct WindowData
-		{
-			std::string Title;
-			unsigned int Width{};
-			unsigned int Height{};
-			glm::vec4 BackgroundColor{};
-		};
-		WindowData m_WindowData;
+		WindowProps m_WindowData;
 
 		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale);
 	};

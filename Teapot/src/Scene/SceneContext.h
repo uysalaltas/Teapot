@@ -1,7 +1,6 @@
 ﻿#pragma once
-#include "Teapot/Window.h"
 #include "Camera/Camera.h"
-
+#include "Scene/ApplicationWindow.h"
 #include <memory>
 
 namespace Teapot
@@ -17,8 +16,9 @@ namespace Teapot
 
 		static SceneContext& Get();
 		static bool Init();
-		bool CreateWindow(const Teapot::WindowProps& props);
+		bool CreateWindow(Teapot::WindowProps& props);
 		bool CreateCamera();
+		void ActivateSnap(const float x, const float y, const float z);
 
 		inline Window& GetWindow() { return *m_Window; }
 		inline Camera& GetCamera() { return *m_Camera; }
@@ -28,13 +28,13 @@ namespace Teapot
 
 	private:
 		static std::unique_ptr<SceneContext> s_SceneContext;
-		
+
 		std::unique_ptr<Window> m_Window;
 		std::unique_ptr<Camera> m_Camera;
 
-		glm::vec3 cameraPos{ 3.0f, 3.0f, 3.0f };
-		glm::vec3 cameraCenter{ 0.0f, 0.0f, 0.0f };
-		glm::vec3 cameraUp{ 0.0f, 0.0f, 1.0f };
+		glm::vec3 m_cameraPos{ 3.0f, 3.0f, 3.0f };
+		glm::vec3 m_cameraCenter{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 m_cameraUp{ 0.0f, 1.0f, 0.0f };
 
 	};
 }

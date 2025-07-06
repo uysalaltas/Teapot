@@ -66,9 +66,9 @@ namespace Teapot
     void Model::Manipulate()
     {
         objModel = glm::translate(glm::mat4(1.0f), objTranslation);
-        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
         objModel = glm::rotate(objModel, glm::radians(objRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
         objModel = glm::scale(objModel, objScale);
     }
 

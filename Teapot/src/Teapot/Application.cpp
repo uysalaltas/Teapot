@@ -1,11 +1,10 @@
 #include "Application.h"
-#include "EntryPoint.h"
 
 namespace Teapot
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const Teapot::WindowProps& props)
+	Application::Application(Teapot::WindowProps& props)
 	{
 		s_Instance = this;
 		std::cout << "Hello From API" << std::endl;
