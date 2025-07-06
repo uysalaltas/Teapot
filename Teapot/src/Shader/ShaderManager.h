@@ -3,7 +3,7 @@
 #include "Shader.h"
 #include "Renderer/Model.h"
 #include "Shadow/Shadow.h"
-#include "Camera/Camera.h"
+#include "Scene/SceneContext.h"
 
 #include <imgui.h>
 #include <functional>
@@ -36,7 +36,7 @@ namespace Teapot
 	struct SpotLight
 	{
 		glm::vec3 position { 0.0f, 0.0f, 5.0f };
-		glm::vec3 direction{ 0.0f, 0.0f,-1.0f};
+		glm::vec3 direction{ 0.0f, -1.0f, 0.0f};
 		glm::vec3 ambient  { 0.3f };
 		glm::vec3 diffuse  { 0.3f };
 		glm::vec3 specular { 0.1f };
@@ -53,10 +53,9 @@ namespace Teapot
 	public:
 		ShaderManager() = default;
 
-		void SetShaderValues(Camera& camera);
 		void RunShader();
-
-		static std::shared_ptr<ShaderManager> GetInstance();
+		static ShaderManager& GetInstance();
+		static bool Init();
 
 	// Inline functions
 	public:
@@ -79,7 +78,7 @@ namespace Teapot
 		void UIRenderShadowMap();
 
 	private:
-		static std::shared_ptr<ShaderManager> s_ShaderManager;
+		static std::unique_ptr<ShaderManager> s_ShaderManager;
 
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};
@@ -92,7 +91,5 @@ namespace Teapot
 		std::vector<DirectionalLight> m_DirectionalLights;
 		std::vector<PointLight> m_pointLights;
 		std::vector<SpotLight> m_SpotLights;
-
-		Camera* m_Camera{};
 	};
 }

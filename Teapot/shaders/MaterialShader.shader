@@ -246,18 +246,18 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
 
     if (hasTexture == 1)
     {
-        ambient = light.ambient * vec3(texture(material.diffuse, fs_in.TexCoords));
+        //ambient = light.ambient * vec3(texture(material.diffuse, fs_in.TexCoords));
         diffuse = light.diffuse * diff * vec3(texture(material.diffuse, fs_in.TexCoords));
         specular = light.specular * spec * vec3(texture(material.diffuse, fs_in.TexCoords));
     }
     else
     {
-        ambient = light.ambient;
+        //ambient = light.ambient;
         diffuse = light.diffuse * diff;
         specular = light.specular * spec;
     }
 
-    ambient *= attenuation * intensity;
+    //ambient *= attenuation * intensity;
     diffuse *= attenuation * intensity;
     specular *= attenuation * intensity;
 
@@ -279,6 +279,11 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
 // calculates shadow
 float ShadowCalculation(sampler2D shadowMap, vec4 fragPosLightSpace, vec3 lightDir)
 {
+    if (dot(lightDir, normalize(fs_in.Normal)) < 0.0)
+    {
+        return 0.0; // No shadow if the fragment is facing away from the light
+    }
+
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     projCoords = projCoords * 0.5 + 0.5;
     float currentDepth = projCoords.z;

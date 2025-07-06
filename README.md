@@ -78,3 +78,8 @@ sudo ./bin/Debug-linux-x86_64/TeapotApp/TeapotApp
 * GLAD
 * Assimp
 * stb_image
+
+## All 3D models
+* [Chair](https://free3d.com/3d-model/office-chair-871087.html)
+* [Desk](https://free3d.com/3d-model/desk-95237.html)
+* [Laptop](https://free3d.com/3d-model/hp-laptop-high-poly--29640.html)

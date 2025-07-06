@@ -3,34 +3,37 @@
 
 namespace Teapot
 {
-	std::shared_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
+	std::unique_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
 
-	std::shared_ptr<ShaderManager> ShaderManager::GetInstance()
+	ShaderManager& ShaderManager::GetInstance()
 	{
 		if (s_ShaderManager == nullptr) {
 			std::cout << "ShaderManager Created!\n";
 			s_ShaderManager = std::make_unique<ShaderManager>();
 		}
-		return s_ShaderManager;
+		return *s_ShaderManager;
 	}
 
-	void ShaderManager::SetShaderValues(Camera& camera)
+	bool ShaderManager::Init()
 	{
-		m_Camera = &camera;
+		if (!s_ShaderManager)
+		{
+			s_ShaderManager = std::make_unique<ShaderManager>();
+			return true;
+		}
+		else
+		{
+			std::cerr << "ShaderManager already initialized!\n";
+			return false;
+		}
 	}
 
 	void ShaderManager::RunShader()
 	{
-		if (!m_Camera)
-		{
-			std::cout << "Camera not found!\n";
-			return;
-		}
-
 		m_Shader.Bind();
 
-        m_Shader.SetUniform1i("material.diffuse"  , 0    );
-        m_Shader.SetUniform1i("material.specular" , 1    );
+		m_Shader.SetUniform1i("material.diffuse"  , 0    );
+		m_Shader.SetUniform1i("material.specular" , 1    );
 		m_Shader.SetUniform1f("material.shininess", 32.0f);
 
 		auto directionalLightCount = m_DirectionalLights.size();
@@ -48,11 +51,11 @@ namespace Teapot
 		m_Shader.SetUniform1i("pointLightCount", pointLightCount);
         for (int i = 0; i < pointLightCount; i++)
         {
-            m_Shader.SetUniformVec3f(std::format("pointLights[{}].position", i), m_pointLights[i].position );
-            m_Shader.SetUniformVec3f(std::format("pointLights[{}].ambient" , i), m_pointLights[i].ambient  );
-            m_Shader.SetUniformVec3f(std::format("pointLights[{}].diffuse" , i), m_pointLights[i].diffuse  );
-            m_Shader.SetUniformVec3f(std::format("pointLights[{}].specular", i), m_pointLights[i].specular );
-            m_Shader.SetUniform1f(std::format("pointLights[{}].constant" , i), m_pointLights[i].constant );
+			m_Shader.SetUniformVec3f(std::format("pointLights[{}].position", i), m_pointLights[i].position );
+			m_Shader.SetUniformVec3f(std::format("pointLights[{}].ambient" , i), m_pointLights[i].ambient  );
+			m_Shader.SetUniformVec3f(std::format("pointLights[{}].diffuse" , i), m_pointLights[i].diffuse  );
+			m_Shader.SetUniformVec3f(std::format("pointLights[{}].specular", i), m_pointLights[i].specular );
+			m_Shader.SetUniform1f(std::format("pointLights[{}].constant" , i), m_pointLights[i].constant );
 			m_Shader.SetUniform1f(std::format("pointLights[{}].linear"   , i), m_pointLights[i].linear   );
 			m_Shader.SetUniform1f(std::format("pointLights[{}].quadratic", i), m_pointLights[i].quadratic);
         }
@@ -73,9 +76,9 @@ namespace Teapot
 			m_Shader.SetUniform1f(std::format("spotLights[{}].outerCutOff", i), m_SpotLights[i].outerCutOff);
 		}
 
-		m_Shader.SetUniformMat4f("view"      , m_Camera->GetViewMatrix());
-		m_Shader.SetUniformMat4f("projection", m_Camera->GetProjMatrix());
-		m_Shader.SetUniformVec3f("camPos"    , m_Camera->GetEye());
+		m_Shader.SetUniformMat4f("view"      , Teapot::SceneContext::Get().GetCamera().GetViewMatrix());
+		m_Shader.SetUniformMat4f("projection", Teapot::SceneContext::Get().GetCamera().GetProjMatrix());
+		m_Shader.SetUniformVec3f("camPos"    , Teapot::SceneContext::Get().GetCamera().GetEye());
 
 		for (int i = 0; i < m_Shadows.size(); i++)
 		{

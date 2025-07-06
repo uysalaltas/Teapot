@@ -1,24 +1,27 @@
 #include "Application.h"
-#include "EntryPoint.h"
-#include "Shader/ShaderManager.h"
 
 namespace Teapot
 {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const Teapot::WindowProps& props)
+	Application::Application(Teapot::WindowProps& props)
 	{
 		s_Instance = this;
 		std::cout << "Hello From API" << std::endl;
 
-		m_Window = std::unique_ptr<Window>(Window::Create(props));
-		camera = std::make_shared<Teapot::Camera>(cameraPos, cameraCenter, cameraUp, GetWindow().GetWidthRef(), GetWindow().GetHeigthRef());
+		try
+		{
+			if (!Teapot::SceneContext::Init()) { throw std::runtime_error("Scene not initalized"); }
+			if (!Teapot::SceneContext::Get().CreateWindow(props)) { throw std::runtime_error("Window not created"); }
+			if (!Teapot::SceneContext::Get().CreateCamera()) { throw std::runtime_error("Camera not created"); }
+			if (!Teapot::ShaderManager::Init()) { throw std::runtime_error("ShaderManager not initalized"); }
+		}
+		catch (std::runtime_error& e)
+		{
+			std::cout << "Caught runtime error: " << e.what() << std::endl;
+		}
 
-		m_Window->ActivateGizmo(camera);
-		shaderManager = Teapot::ShaderManager::GetInstance();
-		shaderManager->SetShaderValues(*camera);
-
-		windowUI = std::make_unique<Teapot::WindowControlUI>(*m_Window);
+		windowUI = std::make_unique<Teapot::WindowControlUI>();
 	}
 
 	Application::~Application()	
@@ -28,19 +31,19 @@ namespace Teapot
 
 	void Application::Run()
 	{
-		m_Window->RenderSceneOnImGuiWindow();
+		Teapot::SceneContext::Get().GetWindow().RenderSceneOnImGuiWindow();
 
 		while (m_Running)
 		{
-			m_Window->OnFistUpdate();
+			Teapot::SceneContext::Get().GetWindow().OnFistUpdate();
 			OnUpdateAwake();
-			shaderManager->RenderShadow();
-			GetWindow().BindFrameBuffer();
-			m_Window->UpdateViewport();
-			shaderManager->RunShader();
+			Teapot::ShaderManager::GetInstance().RenderShadow();
+			Teapot::SceneContext::Get().GetWindow().BindFrameBuffer();
+			Teapot::SceneContext::Get().GetWindow().UpdateViewport();
+			Teapot::ShaderManager::GetInstance().RunShader();
 			OnUpdate();
-			GetWindow().UnbindFrameBuffer();
-			m_Window->OnLastUpdate();
+			Teapot::SceneContext::Get().GetWindow().UnbindFrameBuffer();
+			Teapot::SceneContext::Get().GetWindow().OnLastUpdate();
 		}
 	}
 }

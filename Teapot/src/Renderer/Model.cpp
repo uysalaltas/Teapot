@@ -25,7 +25,7 @@ namespace Teapot
 
     void Model::Draw() const
     {
-        auto& shader = ShaderManager::GetInstance()->GetShader();
+        auto& shader = ShaderManager::GetInstance().GetShader();
         shader.SetUniformMat4f("model", objModel);
         shader.SetUniform1i("hasTexture", m_HasTexture);
         for (const auto& mesh : meshes)
@@ -36,7 +36,7 @@ namespace Teapot
 
     void Model::DrawShadow() const
     {
-        auto& shaderShadow = ShaderManager::GetInstance()->GetShadowShader();
+        auto& shaderShadow = ShaderManager::GetInstance().GetShadowShader();
         shaderShadow.SetUniformMat4f("model", objModel);
 
         for (const auto& mesh : meshes)
@@ -48,29 +48,27 @@ namespace Teapot
     void Model::Translate(const glm::vec3& translation)
     {
         objTranslation = translation;
-        objModel = glm::translate(glm::mat4(1.0f), objTranslation);
+        Manipulate();
     }
 
     void Model::Rotate(const glm::vec3& rotation)
     {
         objRotation = rotation;
-        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        Manipulate();
     }
 
     void Model::Scale(const glm::vec3& scale)
     {
         objScale = scale;
-        objModel = glm::scale(objModel, objScale);
+        Manipulate();
     }
 
     void Model::Manipulate()
     {
         objModel = glm::translate(glm::mat4(1.0f), objTranslation);
-        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
         objModel = glm::rotate(objModel, glm::radians(objRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
         objModel = glm::scale(objModel, objScale);
     }
 
@@ -151,8 +149,8 @@ namespace Teapot
 
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
-            Vertex vertex;
-            glm::vec3 vector;
+            Vertex vertex{};
+            glm::vec3 vector{};
             // Positions
             vector.x = mesh->mVertices[i].x;
             vector.y = mesh->mVertices[i].y;
@@ -195,9 +193,6 @@ namespace Teapot
 
             vertices.push_back(vertex);
         }
-
-        //std::cout << "Face Count " << mesh->mNumFaces << std::endl;
-        //std::cout << "Vertex Count " << mesh->mNumVertices << std::endl;
 
         for (unsigned int i = 0; i < mesh->mNumFaces; i++)
         {
