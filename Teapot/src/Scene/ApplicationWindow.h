@@ -35,12 +35,12 @@ namespace Teapot
 		inline unsigned int& GetHeightRef() override   { return m_WindowData.Height; }
 
 	private:
-		void Init(WindowProps& props);
+		void Init();
 		void Shutdown();
 
 		GLFWwindow* m_Window;
-		WindowProps m_WindowData;
+		WindowProps& m_WindowData;
 
-		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale);
+		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale) const;
 	};
 }

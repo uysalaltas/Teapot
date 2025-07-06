@@ -32,7 +32,7 @@ namespace Teapot
 
 	bool SceneContext::CreateWindow(Teapot::WindowProps& props)
 	{
-		m_Window = std::unique_ptr<Teapot::Window>(new ApplicationWindow(props));
+		m_Window = std::make_unique<Teapot::ApplicationWindow>(props);
 		if(m_Window) return true;
 		return false;
 	}

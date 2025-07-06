@@ -5,11 +5,11 @@ namespace Teapot
 	void WindowControlUI::UIGizmos() const
 	{
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::Checkbox("Activate Gizmo", &Teapot::SceneContext::Get().IsGizmoActive);
+		ImGui::Checkbox("Activate Gizmo", &Teapot::SceneContext::Get().IsGizmoActive());
 
-		ImGui::RadioButton("Translate", &Teapot::SceneContext::Get().SelectedGizmo, ImGuizmo::OPERATION::TRANSLATE); ImGui::SameLine();
-		ImGui::RadioButton("Scale", &Teapot::SceneContext::Get().SelectedGizmo, ImGuizmo::OPERATION::SCALE); ImGui::SameLine();
-		ImGui::RadioButton("Rotate", &Teapot::SceneContext::Get().SelectedGizmo, ImGuizmo::OPERATION::ROTATE);
+		ImGui::RadioButton("Translate", &Teapot::SceneContext::Get().GetSelectedGizmo(), ImGuizmo::OPERATION::TRANSLATE); ImGui::SameLine();
+		ImGui::RadioButton("Scale", &Teapot::SceneContext::Get().GetSelectedGizmo(), ImGuizmo::OPERATION::SCALE); ImGui::SameLine();
+		ImGui::RadioButton("Rotate", &Teapot::SceneContext::Get().GetSelectedGizmo(), ImGuizmo::OPERATION::ROTATE);
 
 		if (ModelManager::GetModelVectorSize() == 0)
 		{

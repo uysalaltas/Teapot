@@ -22,9 +22,9 @@ namespace Teapot
 
 		inline Window& GetWindow() { return *m_Window; }
 		inline Camera& GetCamera() { return *m_Camera; }
+		inline int& GetSelectedGizmo() { return m_selectedGizmo; }
+		inline bool& IsGizmoActive() { return m_isGizmoActive; }
 
-		bool IsGizmoActive = false;
-		int SelectedGizmo = 7; // ImGuizmo Translate enum number
 
 	private:
 		static std::unique_ptr<SceneContext> s_SceneContext;
@@ -35,6 +35,9 @@ namespace Teapot
 		glm::vec3 m_cameraPos{ 3.0f, 3.0f, 3.0f };
 		glm::vec3 m_cameraCenter{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_cameraUp{ 0.0f, 1.0f, 0.0f };
+
+		int m_selectedGizmo = 7; // ImGuizmo Translate enum number
+		bool m_isGizmoActive = false;
 
 	};
 }

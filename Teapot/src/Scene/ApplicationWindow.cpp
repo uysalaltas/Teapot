@@ -6,9 +6,10 @@ namespace Teapot
 {
 	static bool s_GLFWInitialized = false;
 
-	ApplicationWindow::ApplicationWindow(WindowProps& props)
+	ApplicationWindow::ApplicationWindow(WindowProps& props) :
+		m_WindowData(props)
 	{
-		Init(props);
+		Init();
 	}
 
 	ApplicationWindow::~ApplicationWindow()
@@ -16,10 +17,8 @@ namespace Teapot
 		Shutdown();
 	}
 
-	void ApplicationWindow::Init(WindowProps& props)
+	void ApplicationWindow::Init()
 	{
-		m_WindowData = std::move(props);
-
 		if (!s_GLFWInitialized && glfwInit())
 		{
 			s_GLFWInitialized = true;
@@ -150,17 +149,17 @@ namespace Teapot
 	void ApplicationWindow::RenderGizmo()
 	{
 		auto selected = ModelManager::GetSelectedModel();
-		if (Teapot::SceneContext::Get().IsGizmoActive && selected)
+		if (Teapot::SceneContext::Get().IsGizmoActive() && selected)
 		{
 			ImGuizmo::SetDrawlist();
 			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
 			ImGuizmo::Manipulate(
 				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetViewMatrix()),
 				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetProjMatrix()),
-				static_cast<ImGuizmo::OPERATION>(Teapot::SceneContext::Get().SelectedGizmo),
+				static_cast<ImGuizmo::OPERATION>(Teapot::SceneContext::Get().GetSelectedGizmo()),
 				ImGuizmo::MODE::WORLD,
 				glm::value_ptr(ModelManager::GetSelectedModel()->objModel),
-				0,
+				nullptr,
 				snap
 			);
 
@@ -181,7 +180,7 @@ namespace Teapot
 		}
 	}
 
-	void ApplicationWindow::DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale)
+	void ApplicationWindow::DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale) const
 	{
 		pos = m[3];
 		for (int i = 0; i < 3; i++)
