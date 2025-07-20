@@ -1,15 +1,13 @@
 #pragma once
 
-#include "Shader.h"
-#include "Renderer/Model.h"
+#include "Shader/Shader.h"
+#include "Models/Model.h"
 #include "Shadow/Shadow.h"
 #include "Scene/SceneContext.h"
 
 #include <imgui.h>
 #include <functional>
 #include <format>
-
-inline const std::string SHADERPATH = "Teapot/shaders/";
 
 namespace Teapot
 {
@@ -47,30 +45,25 @@ namespace Teapot
 		float outerCutOff{ glm::cos(glm::radians(15.0f)) };
 	};
 
-	class ShaderManager
+	class Light
 	{
-	// Core functions
 	public:
-		ShaderManager() = default;
-
+		Light(Teapot::Shader& shader, Teapot::Shader& shaderDepthBasic);
 		void RunShader();
-		static ShaderManager& GetInstance();
-		static bool Init();
 
-	// Inline functions
 	public:
-		inline Teapot::Shader& GetShader() { return m_Shader; }
-		inline Teapot::Shader& GetShadowShader() { return m_ShaderDepthBasic; }
 		inline int GetShadowID() { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
 		inline void ActivateShadow(bool activateShadow) { m_activateShadow = activateShadow;  }
+		inline bool IsShadowActive() const { return m_activateShadow; }
 
-	// Functions
+		inline std::vector<std::unique_ptr<Shadow>>& GetShadows() { return m_Shadows; };
+
 	public:
 		void CreateDirectionalLight(const DirectionalLight& directionalLight);
 		void CreateSpotLight(const SpotLight& spotLight);
 		void CreatePointLight(const PointLight& pointLight);
 		
-		void RenderShadow();
+		bool RenderShadow();
 		
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();
@@ -78,13 +71,11 @@ namespace Teapot
 		void UIRenderShadowMap();
 
 	private:
-		static std::unique_ptr<ShaderManager> s_ShaderManager;
-
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};
 
-		Teapot::Shader m_ShaderDepthBasic{ SHADERPATH + "BasicDepth.shader"};
-		Teapot::Shader m_Shader { SHADERPATH + "MaterialShader.shader" };
+		Teapot::Shader m_shaderDepthBasic;
+		Teapot::Shader m_shader;
 
 		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 

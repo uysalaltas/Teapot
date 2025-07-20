@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ShadowMapping.h"
-#include "Renderer/Model.h"
+#include "Models/Model.h"
 #include <glm/glm.hpp>
 
 namespace Teapot 
@@ -20,6 +20,8 @@ namespace Teapot
 		void RenderShadow();
 
 		inline void BindShadow() const { shadowMapping->BindTexture(); };
+		inline void UnbindShadow() const { shadowMapping->UnbindFrameBuffer(); };
+
 		inline glm::mat4 GetLightSpaceMatrix() const { return m_lightSpaceMatrix; };
 		std::unique_ptr<ShadowMapping> shadowMapping;
 

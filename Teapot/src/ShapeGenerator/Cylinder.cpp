@@ -26,7 +26,7 @@ namespace Shapes
 		// ------------------------
 		// SIDE
 		// ------------------------
-		std::vector<Vertex> tmp_vertices = {};
+		std::vector<Teapot::Vertex> tmp_vertices = {};
 
 		for (int i = 0; i <= m_stackCount; ++i)
 		{
@@ -38,7 +38,7 @@ namespace Shapes
 				float ux = m_unitCircleVertices[k];
 				float uy = m_unitCircleVertices[k + 1];
 				
-				Vertex tmp;
+				Teapot::Vertex tmp;
 				tmp.position.x = ux * radius * m_size;
 				tmp.position.y = uy * radius * m_size;
 				tmp.position.z = h  * m_size;
@@ -81,7 +81,7 @@ namespace Shapes
 			float h = -m_height / 2.0f + i * m_height;			// z value; -h/2 to h/2
 			float nz = -1 + i * 2;								// z value of normal; -1 to 1
 
-			Vertex centerVertex;
+			Teapot::Vertex centerVertex;
 			centerVertex.position.x = 0.0f;
 			centerVertex.position.y = 0.0f;
 			centerVertex.position.z = h * m_size;
@@ -102,7 +102,7 @@ namespace Shapes
 				float ux = m_unitCircleVertices[k];
 				float uy = m_unitCircleVertices[k + 1];
 
-				Vertex tmp;
+				Teapot::Vertex tmp;
 				tmp.position.x = ux * m_topRadius * m_size;
 				tmp.position.y = uy * m_topRadius * m_size;
 				tmp.position.z = h  * m_size;

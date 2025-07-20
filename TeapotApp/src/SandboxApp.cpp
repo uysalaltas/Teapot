@@ -7,14 +7,15 @@ public:
 	explicit Sandbox(Teapot::WindowProps& props) :
 		Teapot::Application(props)
 	{
-		Teapot::ModelReader::CreateSceneFromXML("TeapotApp/Objects.xml");
+		CreateModelsFromXML("TeapotApp/Objects.xml");
+
 		dirLight.position  = glm::vec3(3.0f, 5.0f, 5.0f);
 		spotLight.position = glm::vec3(0.0f, 3.0f, 0.0f);
 		spotLight.ambient  = glm::vec3(0.15f);
 
-		GetShaderManager().CreateDirectionalLight(dirLight);
-		GetShaderManager().CreateSpotLight(spotLight);
-		GetShaderManager().ActivateShadow(true);
+		GetLight().CreateDirectionalLight(dirLight);
+		GetLight().CreateSpotLight(spotLight);
+		GetLight().ActivateShadow(true);
 
 		GetUI().ActivateGizmos(true);
 		GetWindow().ActivateSnap(0.05f, 0.05f, 0.05f);
@@ -34,12 +35,10 @@ public:
 		GetCamera().ActivateZoomCamera();
 		GetCamera().ActivateFreeMovement();
 
-		RenderScene();
-
 		// Ui Stuff
-		GetShaderManager().UIModifySpotLight();
-		GetShaderManager().UIModifyDirectionLight();
-		GetShaderManager().UIRenderShadowMap();
+		GetLight().UIModifySpotLight();
+		GetLight().UIModifyDirectionLight();
+		GetLight().UIRenderShadowMap();
 
 		GetUI().UIBegin("Control");
 		GetUI().UIGizmos();
@@ -49,11 +48,6 @@ public:
 		AddShape();
 
 		//ImGui::ShowDemoWindow();
-	}
-
-	void RenderScene() const
-	{
-		Teapot::ModelManager::DrawModels();
 	}
 
 	void AddShape()
@@ -79,20 +73,19 @@ public:
 
 		if (ImGui::Button("Add Shape"))
 		{
-			auto shapeType = Teapot::ShapeObjects::Custom;
-			if (preshapes[preshapesIdx] == "Cube")         { selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor);                shapeType = Teapot::ShapeObjects::Cube;     }
-			else if (preshapes[preshapesIdx] == "Sphere")  { selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30);     shapeType = Teapot::ShapeObjects::Sphere;   }
-			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); shapeType = Teapot::ShapeObjects::Cylinder; }
+			if (preshapes[preshapesIdx] == "Cube")         { selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor);                }
+			else if (preshapes[preshapesIdx] == "Sphere")  { selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30);     }
+			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); }
 
 			static unsigned int counter = 0;
-			Teapot::Model::CreateModel(*selectedShape, std::format("Shape {}",counter), shapeType);
+			CreateModel(*selectedShape, std::format("Shape {}",counter));
 			counter++;
 		}
 
-		ImGui::SameLine(); if (ImGui::Button("Remove Shape"))	{ Teapot::Model::RemoveModel();	}
-		ImGui::SameLine(); if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
+		//ImGui::SameLine(); if (ImGui::Button("Remove Shape"))	{ Teapot::Model::RemoveModel();	}
+		//ImGui::SameLine(); if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
 		ImGui::AlignTextToFramePadding();
-		if (ImGui::Button("Focus Object")) { GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
+		//if (ImGui::Button("Focus Object")) { GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
 
 		ImGui::End();
 	}

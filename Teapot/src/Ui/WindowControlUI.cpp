@@ -11,19 +11,17 @@ namespace Teapot
 		ImGui::RadioButton("Scale", &Teapot::SceneContext::Get().GetSelectedGizmo(), ImGuizmo::OPERATION::SCALE); ImGui::SameLine();
 		ImGui::RadioButton("Rotate", &Teapot::SceneContext::Get().GetSelectedGizmo(), ImGuizmo::OPERATION::ROTATE);
 
-		if (ModelManager::GetModelVectorSize() == 0)
-		{
-			return;
-		}
+		if (ModelManager::GetModelVectorSize() == 0) { return; }
 
 		if (ImGui::BeginCombo("Objects", ModelManager::GetSelectedModel()->name.c_str()))
 		{
-			for (int n = 0; n < ModelManager::GetModelVectorSize(); n++)
+			for (const auto& model : ModelManager::GetModels())
 			{
-				const bool is_selected = (ModelManager::GetSelectedModelIndex() == n);
-				if (ImGui::Selectable(ModelManager::GetModel(n)->name.c_str(), is_selected)) { ModelManager::SetSelectedModelIndex(n); }
+				const bool is_selected = (model == ModelManager::GetSelectedModel());
+				if (ImGui::Selectable(model->name.c_str(), is_selected)) { ModelManager::SetSelectedModel(model); }
 				if (is_selected) { ImGui::SetItemDefaultFocus(); }
 			}
+
 			ImGui::EndCombo();
 		}
 

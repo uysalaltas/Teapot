@@ -6,9 +6,10 @@
 #include "Core.h"
 #include "Window.h"
 #include "Ui/WindowControlUI.h"
-#include "Shader/ShaderManager.h"
+#include "Light/Light.h"
 #include "Scene/SceneContext.h"
 #include "ModelReader.h"
+#include "Models/ModelHandler.h"
 
 namespace Teapot 
 {
@@ -24,11 +25,16 @@ namespace Teapot
 
 		inline Window& GetWindow() { return Teapot::SceneContext::Get().GetWindow(); }
 		inline Camera& GetCamera() { return Teapot::SceneContext::Get().GetCamera(); }
-		inline WindowControlUI& GetUI() { return *windowUI; }
-		inline ShaderManager& GetShaderManager() { return Teapot::ShaderManager::GetInstance(); }
+		inline WindowControlUI& GetUI() { return *m_windowUI; }
+		inline Light& GetLight() { return m_modelHander->light; }
+
+		inline void CreateModel(const Shapes::Shape& shapes, const std::string& nameObject){ m_modelHander->CreateModel(shapes, nameObject); };
+		inline void CreateModelsFromXML(const std::string& path) { m_modelReader->CreateSceneFromXML(path); };
 
 	private:
-		std::unique_ptr<Teapot::WindowControlUI> windowUI;
+		std::unique_ptr<Teapot::WindowControlUI> m_windowUI;
+		std::shared_ptr<Teapot::ModelHandler> m_modelHander;
+		std::unique_ptr<Teapot::ModelReader> m_modelReader;
 
 		bool m_Running = true;
 		static Application* s_Instance;

@@ -7,7 +7,7 @@ namespace Shapes
 	{
 	public:
 		Utils() = default;
-		glm::vec3 ComputeFaceNormals(const Vertex& v1, const Vertex& v2, const Vertex& v3) const
+		glm::vec3 ComputeFaceNormals(const Teapot::Vertex& v1, const Teapot::Vertex& v2, const Teapot::Vertex& v3) const
 		{
 			const float EPSILON = 0.000001f;
 

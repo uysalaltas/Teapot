@@ -3,20 +3,24 @@
 
 namespace Teapot
 {
-	Renderer::Renderer(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const std::vector<Texture>& textures)
+	Renderer::Renderer(
+		const std::vector<Teapot::Vertex>& vertices, 
+		const std::vector<GLuint>& indices, 
+		const std::vector<Teapot::Texture>& textures
+	)
 		: vertices(vertices)
 		, indices(indices)
 		, textures(textures)
 	{
 		m_va.Bind();
 
-		m_vb = std::make_unique<VertexBuffer>(vertices);
-		m_ib = std::make_unique<IndexBuffer>(indices);
+		m_vb = std::make_unique<Teapot::VertexBuffer>(vertices);
+		m_ib = std::make_unique<Teapot::IndexBuffer>(indices);
 
-		m_va.AddBuffer(*m_vb, 0, 3, sizeof(Vertex), nullptr);
-		m_va.AddBuffer(*m_vb, 1, 3, sizeof(Vertex), (void*)offsetof(Vertex, color));
-		m_va.AddBuffer(*m_vb, 2, 3, sizeof(Vertex), (void*)offsetof(Vertex, normal));
-		m_va.AddBuffer(*m_vb, 3, 2, sizeof(Vertex), (void*)offsetof(Vertex, texUV));
+		m_va.AddBuffer(*m_vb, 0, 3, sizeof(Teapot::Vertex), nullptr);
+		m_va.AddBuffer(*m_vb, 1, 3, sizeof(Teapot::Vertex), (void*)offsetof(Teapot::Vertex, color));
+		m_va.AddBuffer(*m_vb, 2, 3, sizeof(Teapot::Vertex), (void*)offsetof(Teapot::Vertex, normal));
+		m_va.AddBuffer(*m_vb, 3, 2, sizeof(Teapot::Vertex), (void*)offsetof(Teapot::Vertex, texUV));
 		//va.AddBuffer(*vb, 4, 3, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 		//va.AddBuffer(*vb, 5, 3, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 		//va.AddBuffer(*vb, 6, 4, sizeof(Vertex), (void*)offsetof(Vertex, m_BoneIDs));
@@ -47,7 +51,7 @@ namespace Teapot
 		}
 	}
 
-	void Renderer::DrawTriangle(Shader& shader) const
+	void Renderer::DrawTriangle(Teapot::Shader& shader) const
 	{
 		//shader.Bind();
 		m_va.Bind();
