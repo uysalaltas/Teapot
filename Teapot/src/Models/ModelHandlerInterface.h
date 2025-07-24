@@ -6,6 +6,7 @@
 
 namespace Teapot
 {
+	inline const std::string SHADERPATH = "Teapot/shaders/";
 
 	class ModelHandlerInterface
 	{
@@ -14,8 +15,8 @@ namespace Teapot
 		{
 			s_Models = std::make_shared<ModelVector>();
 			Teapot::ModelManager::PushModel(s_Models);
-			m_runAwakeFuncVec.push_back([this]() {this->RunAwake(); });
-			m_drawModelsFuncVec.push_back([this]() {this->DrawModels(); });
+			m_runAwakeFuncVec.emplace_back([this]() {this->RunAwake(); });
+			m_drawModelsFuncVec.emplace_back([this]() {this->DrawModels(); });
 		}
 
 		virtual ~ModelHandlerInterface() = default;

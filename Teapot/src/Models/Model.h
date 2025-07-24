@@ -20,7 +20,7 @@ namespace Teapot
 	private:
 		void LoadModel(const std::string& modelPath);
 		void ProcessNode(const aiNode* node, const aiScene* scene);
-		std::unique_ptr<Renderer> ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		std::unique_ptr<Renderer> ProcessMesh(const aiMesh* mesh, const aiScene* scene);
 		std::vector<Texture> LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName);
 
 	private:

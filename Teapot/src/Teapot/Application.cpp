@@ -20,9 +20,11 @@ namespace Teapot
 			std::cout << "Caught runtime error: " << e.what() << std::endl;
 		}
 
-		m_modelHander = std::make_unique<Teapot::ModelHandler>();
+		m_modelHandler = std::make_shared<Teapot::ModelHandler>();
+		m_debugModelHander = std::make_shared<Teapot::DebugModelHandler>();
+
 		m_windowUI = std::make_unique<Teapot::WindowControlUI>();
-		m_modelReader = std::make_unique<Teapot::ModelReader>(m_modelHander);
+		m_modelReader = std::make_unique<Teapot::ModelReader>(m_modelHandler, m_debugModelHander);
 	}
 
 	Application::~Application()	

@@ -2,9 +2,9 @@
 
 namespace Teapot
 {
-	unsigned int ModelManager::GetModelVectorSize()
+	size_t ModelManager::GetModelVectorSize()
 	{
-		int size = 0;
+		size_t size = 0;
 		for (const auto& modelVec : s_AllModels)
 		{
 			size += modelVec->size();

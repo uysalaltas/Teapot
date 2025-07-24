@@ -6,8 +6,8 @@ namespace Teapot
     {
         path = pathObject;
         name = nameObject;
+        modelType = ModelType::model;
         LoadModel(path);
-        hasTexture = true;
     }
 
     Model::Model(const Shapes::Shape& shapes, const std::string& nameObject)
@@ -15,6 +15,7 @@ namespace Teapot
         std::vector<Texture> textures;
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         name = nameObject;
+        modelType = ModelType::model;
         meshes.push_back(std::make_unique<Renderer>(shapes.vertices, shapes.indices, textures));
     }
 
@@ -53,6 +54,7 @@ namespace Teapot
             return;
         }
         m_directory = modelPath.substr(0, modelPath.find_last_of('/'));
+        hasTexture = true;
 
         ProcessNode(scene->mRootNode, scene);
     }
@@ -61,7 +63,7 @@ namespace Teapot
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
-            aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+            const aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
             meshes.push_back(ProcessMesh(mesh, scene));
         }
 
@@ -71,7 +73,7 @@ namespace Teapot
         }
     }
 
-    std::unique_ptr<Renderer> Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+    std::unique_ptr<Renderer> Model::ProcessMesh(const aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
         std::vector<Vertex> vertices;
@@ -134,7 +136,7 @@ namespace Teapot
             }
         }
 
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
         std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "material.diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "material.specular");

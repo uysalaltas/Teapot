@@ -15,7 +15,7 @@ namespace Teapot
 	public:
 		ModelManager() = default;
 
-		static unsigned int GetModelVectorSize();
+		static size_t GetModelVectorSize();
 		static std::vector<ModelInterfacePtr> GetModels();
 		static void SetSelectedModel(ModelInterfacePtr modelInterfacePtr);
 		static std::shared_ptr<Teapot::ModelInterface> GetSelectedModel();

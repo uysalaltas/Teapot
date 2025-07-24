@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Shader/Shader.h"
-#include "Models/Model.h"
 #include "Shadow/Shadow.h"
 #include "Scene/SceneContext.h"
 
@@ -51,14 +50,12 @@ namespace Teapot
 		Light(Teapot::Shader& shader, Teapot::Shader& shaderDepthBasic);
 		void RunShader();
 
-	public:
-		inline int GetShadowID() { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
+		inline int GetShadowID() const { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
 		inline void ActivateShadow(bool activateShadow) { m_activateShadow = activateShadow;  }
 		inline bool IsShadowActive() const { return m_activateShadow; }
 
 		inline std::vector<std::unique_ptr<Shadow>>& GetShadows() { return m_Shadows; };
 
-	public:
 		void CreateDirectionalLight(const DirectionalLight& directionalLight);
 		void CreateSpotLight(const SpotLight& spotLight);
 		void CreatePointLight(const PointLight& pointLight);
@@ -74,8 +71,8 @@ namespace Teapot
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};
 
-		Teapot::Shader m_shaderDepthBasic;
-		Teapot::Shader m_shader;
+		Teapot::Shader& m_shader;
+		Teapot::Shader& m_shaderDepthBasic;
 
 		std::vector<std::unique_ptr<Shadow>> m_Shadows;
 

@@ -1,4 +1,5 @@
 #include "ModelHandler.h"
+#include "Model.h"
 
 namespace Teapot
 {

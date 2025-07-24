@@ -3,8 +3,10 @@
 
 namespace Teapot
 {
-	ModelReader::ModelReader(std::shared_ptr<Teapot::ModelHandler> modelHandler)
+	ModelReader::ModelReader(std::shared_ptr<Teapot::ModelHandler> modelHandler
+							,std::shared_ptr<Teapot::DebugModelHandler> debugModelHandler)
 		: m_modelHandler(modelHandler)
+		, m_debugModelHandler(debugModelHandler)
 	{
 	}
 
@@ -35,7 +37,7 @@ namespace Teapot
 			{
 				using enum Teapot::ModelType;
 				case model: modelHandlerInterface = m_modelHandler; break;
-				case debugModel: break;
+				case debugModel: modelHandlerInterface = m_debugModelHandler; break;
 				default: break;
 			}
 
@@ -112,7 +114,7 @@ namespace Teapot
 		}
 	}
 
-	glm::vec3 ModelReader::StringToVec3(const std::string& str)
+	glm::vec3 ModelReader::StringToVec3(const std::string& str) const
 	{
 		try
 		{
@@ -135,7 +137,7 @@ namespace Teapot
 		}
 	}
 
-	std::string ModelReader::Vec3ToString(const glm::vec3& vec)
+	std::string ModelReader::Vec3ToString(const glm::vec3& vec) const
 	{
 		std::string result = std::format("{}, {}, {}", vec.x, vec.y, vec.z);
 		return result;
