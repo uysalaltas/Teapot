@@ -1,104 +1,36 @@
 #include "Model.h"
-#include <glm/gtx/string_cast.hpp>
-#include "Shader/ShaderManager.h"
 
 namespace Teapot
 {
     Model::Model(const std::string& pathObject,const std::string& nameObject)
-        : path(pathObject)
-        , name(nameObject)
-        , shapeType(ShapeObjects::PathObj)
-        , m_HasTexture(true)
     {
+        path = pathObject;
+        name = nameObject;
+        modelType = ModelType::model;
         LoadModel(path);
     }
 
-    Model::Model(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
-        : name(nameObject)
-        , modelColor(shapes.colors[0])
-        , shapeType(type)
+    Model::Model(const Shapes::Shape& shapes, const std::string& nameObject)
     {
         std::vector<Texture> textures;
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
+        name = nameObject;
+        modelType = ModelType::model;
         meshes.push_back(std::make_unique<Renderer>(shapes.vertices, shapes.indices, textures));
     }
 
-    void Model::Draw() const
+    void Model::Draw(Teapot::Shader& shader)
     {
-        auto& shader = ShaderManager::GetInstance().GetShader();
-        shader.SetUniformMat4f("model", objModel);
-        shader.SetUniform1i("hasTexture", m_HasTexture);
         for (const auto& mesh : meshes)
         {
             mesh->DrawTriangle(shader);
         }
     }
 
-    void Model::DrawShadow() const
-    {
-        auto& shaderShadow = ShaderManager::GetInstance().GetShadowShader();
-        shaderShadow.SetUniformMat4f("model", objModel);
-
-        for (const auto& mesh : meshes)
-        {
-            mesh->DrawTriangle(shaderShadow);
-        }
-    }
-
-    void Model::Translate(const glm::vec3& translation)
-    {
-        objTranslation = translation;
-        Manipulate();
-    }
-
-    void Model::Rotate(const glm::vec3& rotation)
-    {
-        objRotation = rotation;
-        Manipulate();
-    }
-
-    void Model::Scale(const glm::vec3& scale)
-    {
-        objScale = scale;
-        Manipulate();
-    }
-
-    void Model::Manipulate()
-    {
-        objModel = glm::translate(glm::mat4(1.0f), objTranslation);
-        objModel = glm::rotate(objModel, glm::radians(objRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-        objModel = glm::rotate(objModel, glm::radians(objRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-        objModel = glm::scale(objModel, objScale);
-    }
-
     void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
         Texture texture(texturePath.c_str(), textureType, unit);
         meshes[0]->textures.push_back(texture);
-    }
-
-    std::shared_ptr<Model> Model::CreateModel(const Shapes::Shape& shapes, const std::string& nameObject, const ShapeObjects type)
-    {
-        auto model = std::make_shared<Model>(shapes, nameObject, type);
-        Teapot::ModelManager::s_Models.push_back(model);
-        return model;
-    }
-
-    std::shared_ptr<Model> Model::CreateModel(const std::string& pathObject, const std::string& nameObject)
-    {
-        auto model = std::make_shared<Model>(pathObject, nameObject);
-        Teapot::ModelManager::s_Models.push_back(model);
-        return model;
-    }
-
-    void Model::RemoveModel()
-    {
-        if (!Teapot::ModelManager::s_Models.empty())
-        {
-            Teapot::ModelManager::s_Models.erase(Teapot::ModelManager::s_Models.begin() + Teapot::ModelManager::s_SelectedModel);
-            if (Teapot::ModelManager::s_SelectedModel > 0) { Teapot::ModelManager::s_SelectedModel -= 1; }
-        }
     }
 
     void Model::LoadModel(const std::string& modelPath)
@@ -122,6 +54,7 @@ namespace Teapot
             return;
         }
         m_directory = modelPath.substr(0, modelPath.find_last_of('/'));
+        hasTexture = true;
 
         ProcessNode(scene->mRootNode, scene);
     }
@@ -130,7 +63,7 @@ namespace Teapot
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
-            aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+            const aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
             meshes.push_back(ProcessMesh(mesh, scene));
         }
 
@@ -140,7 +73,7 @@ namespace Teapot
         }
     }
 
-    std::unique_ptr<Renderer> Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+    std::unique_ptr<Renderer> Model::ProcessMesh(const aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
         std::vector<Vertex> vertices;
@@ -203,7 +136,7 @@ namespace Teapot
             }
         }
 
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
         std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "material.diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
         //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "material.specular");

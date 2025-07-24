@@ -44,7 +44,7 @@ namespace Shapes
             {
                 sectorAngle = j * sectorStep;           // starting from 0 to 2pi
 
-                Vertex tmp{};
+                Teapot::Vertex tmp{};
                 // vertex position (x, y, z)
                 x = xy * cosf(sectorAngle);             // r * cos(u) * cos(v)
                 y = xy * sinf(sectorAngle);             // r * cos(u) * sin(v)

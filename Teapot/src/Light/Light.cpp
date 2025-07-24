@@ -1,126 +1,107 @@
-#include "ShaderManager.h"
+#include "Light.h"
 #include <glm/gtx/string_cast.hpp>
 
 namespace Teapot
 {
-	std::unique_ptr<ShaderManager> ShaderManager::s_ShaderManager = nullptr;
-
-	ShaderManager& ShaderManager::GetInstance()
+	Light::Light(Teapot::Shader& shader, Teapot::Shader& shaderDepthBasic)
+		: m_shader(shader)
+		, m_shaderDepthBasic(shaderDepthBasic)
 	{
-		if (s_ShaderManager == nullptr) {
-			std::cout << "ShaderManager Created!\n";
-			s_ShaderManager = std::make_unique<ShaderManager>();
-		}
-		return *s_ShaderManager;
+
 	}
 
-	bool ShaderManager::Init()
+	void Light::RunShader()
 	{
-		if (!s_ShaderManager)
-		{
-			s_ShaderManager = std::make_unique<ShaderManager>();
-			return true;
-		}
-		else
-		{
-			std::cerr << "ShaderManager already initialized!\n";
-			return false;
-		}
-	}
+		m_shader.Bind();
 
-	void ShaderManager::RunShader()
-	{
-		m_Shader.Bind();
-
-		m_Shader.SetUniform1i("material.diffuse"  , 0    );
-		m_Shader.SetUniform1i("material.specular" , 1    );
-		m_Shader.SetUniform1f("material.shininess", 32.0f);
+		m_shader.SetUniform1i("material.diffuse"  , 0    );
+		m_shader.SetUniform1i("material.specular" , 1    );
+		m_shader.SetUniform1f("material.shininess", 32.0f);
 
 		auto directionalLightCount = m_DirectionalLights.size();
-		m_Shader.SetUniform1i("directionalLightCount", directionalLightCount);
+		m_shader.SetUniform1i("directionalLightCount", directionalLightCount);
 		for (int i = 0; i < directionalLightCount; i++)
 		{
-			m_Shader.SetUniformVec3f(std::format("dirLights[{}].position" , i), m_DirectionalLights[i].position );
-			m_Shader.SetUniformVec3f(std::format("dirLights[{}].direction", i), m_DirectionalLights[i].direction);
-			m_Shader.SetUniformVec3f(std::format("dirLights[{}].ambient"  , i), m_DirectionalLights[i].ambient  );
-			m_Shader.SetUniformVec3f(std::format("dirLights[{}].diffuse"  , i), m_DirectionalLights[i].diffuse  );
-			m_Shader.SetUniformVec3f(std::format("dirLights[{}].specular" , i), m_DirectionalLights[i].specular );
+			m_shader.SetUniformVec3f(std::format("dirLights[{}].position" , i), m_DirectionalLights[i].position );
+			m_shader.SetUniformVec3f(std::format("dirLights[{}].direction", i), m_DirectionalLights[i].direction);
+			m_shader.SetUniformVec3f(std::format("dirLights[{}].ambient"  , i), m_DirectionalLights[i].ambient  );
+			m_shader.SetUniformVec3f(std::format("dirLights[{}].diffuse"  , i), m_DirectionalLights[i].diffuse  );
+			m_shader.SetUniformVec3f(std::format("dirLights[{}].specular" , i), m_DirectionalLights[i].specular );
 		}
 
 		auto pointLightCount = m_pointLights.size();
-		m_Shader.SetUniform1i("pointLightCount", pointLightCount);
+		m_shader.SetUniform1i("pointLightCount", pointLightCount);
         for (int i = 0; i < pointLightCount; i++)
         {
-			m_Shader.SetUniformVec3f(std::format("pointLights[{}].position", i), m_pointLights[i].position );
-			m_Shader.SetUniformVec3f(std::format("pointLights[{}].ambient" , i), m_pointLights[i].ambient  );
-			m_Shader.SetUniformVec3f(std::format("pointLights[{}].diffuse" , i), m_pointLights[i].diffuse  );
-			m_Shader.SetUniformVec3f(std::format("pointLights[{}].specular", i), m_pointLights[i].specular );
-			m_Shader.SetUniform1f(std::format("pointLights[{}].constant" , i), m_pointLights[i].constant );
-			m_Shader.SetUniform1f(std::format("pointLights[{}].linear"   , i), m_pointLights[i].linear   );
-			m_Shader.SetUniform1f(std::format("pointLights[{}].quadratic", i), m_pointLights[i].quadratic);
+			m_shader.SetUniformVec3f(std::format("pointLights[{}].position", i), m_pointLights[i].position );
+			m_shader.SetUniformVec3f(std::format("pointLights[{}].ambient" , i), m_pointLights[i].ambient  );
+			m_shader.SetUniformVec3f(std::format("pointLights[{}].diffuse" , i), m_pointLights[i].diffuse  );
+			m_shader.SetUniformVec3f(std::format("pointLights[{}].specular", i), m_pointLights[i].specular );
+			m_shader.SetUniform1f(std::format("pointLights[{}].constant" , i), m_pointLights[i].constant );
+			m_shader.SetUniform1f(std::format("pointLights[{}].linear"   , i), m_pointLights[i].linear   );
+			m_shader.SetUniform1f(std::format("pointLights[{}].quadratic", i), m_pointLights[i].quadratic);
         }
 
 		auto spotLightCount = m_SpotLights.size();
-		m_Shader.SetUniform1i("spotLightCount", spotLightCount);
+		m_shader.SetUniform1i("spotLightCount", spotLightCount);
 		for (int i = 0; i < spotLightCount; i++)
 		{
-			m_Shader.SetUniformVec3f(std::format("spotLights[{}].position" , i), m_SpotLights[i].position   );
-			m_Shader.SetUniformVec3f(std::format("spotLights[{}].direction", i), m_SpotLights[i].direction  );
-			m_Shader.SetUniformVec3f(std::format("spotLights[{}].ambient"  , i), m_SpotLights[i].ambient    );
-			m_Shader.SetUniformVec3f(std::format("spotLights[{}].diffuse"  , i), m_SpotLights[i].diffuse    );
-			m_Shader.SetUniformVec3f(std::format("spotLights[{}].specular" , i), m_SpotLights[i].specular   );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].constant"   , i), m_SpotLights[i].constant   );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].linear"     , i), m_SpotLights[i].linear     );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].quadratic"  , i), m_SpotLights[i].quadratic  );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].cutOff"     , i), m_SpotLights[i].cutOff     );
-			m_Shader.SetUniform1f(std::format("spotLights[{}].outerCutOff", i), m_SpotLights[i].outerCutOff);
+			m_shader.SetUniformVec3f(std::format("spotLights[{}].position" , i), m_SpotLights[i].position   );
+			m_shader.SetUniformVec3f(std::format("spotLights[{}].direction", i), m_SpotLights[i].direction  );
+			m_shader.SetUniformVec3f(std::format("spotLights[{}].ambient"  , i), m_SpotLights[i].ambient    );
+			m_shader.SetUniformVec3f(std::format("spotLights[{}].diffuse"  , i), m_SpotLights[i].diffuse    );
+			m_shader.SetUniformVec3f(std::format("spotLights[{}].specular" , i), m_SpotLights[i].specular   );
+			m_shader.SetUniform1f(std::format("spotLights[{}].constant"   , i), m_SpotLights[i].constant   );
+			m_shader.SetUniform1f(std::format("spotLights[{}].linear"     , i), m_SpotLights[i].linear     );
+			m_shader.SetUniform1f(std::format("spotLights[{}].quadratic"  , i), m_SpotLights[i].quadratic  );
+			m_shader.SetUniform1f(std::format("spotLights[{}].cutOff"     , i), m_SpotLights[i].cutOff     );
+			m_shader.SetUniform1f(std::format("spotLights[{}].outerCutOff", i), m_SpotLights[i].outerCutOff);
 		}
 
-		m_Shader.SetUniformMat4f("view"      , Teapot::SceneContext::Get().GetCamera().GetViewMatrix());
-		m_Shader.SetUniformMat4f("projection", Teapot::SceneContext::Get().GetCamera().GetProjMatrix());
-		m_Shader.SetUniformVec3f("camPos"    , Teapot::SceneContext::Get().GetCamera().GetEye());
+		m_shader.SetUniformMat4f("view"      , Teapot::SceneContext::Get().GetCamera().GetViewMatrix());
+		m_shader.SetUniformMat4f("projection", Teapot::SceneContext::Get().GetCamera().GetProjMatrix());
+		m_shader.SetUniformVec3f("camPos"    , Teapot::SceneContext::Get().GetCamera().GetEye());
 
 		for (int i = 0; i < m_Shadows.size(); i++)
 		{
-			m_Shader.SetUniformMat4f(std::format("lightSpaceMatrix[{}]", i), m_Shadows[i]->GetLightSpaceMatrix());
+			m_shader.SetUniformMat4f(std::format("lightSpaceMatrix[{}]", i), m_Shadows[i]->GetLightSpaceMatrix());
 			m_Shadows[i]->BindShadow();
 		}
 	}
 
-	void ShaderManager::CreateDirectionalLight(const DirectionalLight& directionalLight)
+	void Light::CreateDirectionalLight(const DirectionalLight& directionalLight)
 	{
 		m_DirectionalLights.push_back(directionalLight);
-		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic, m_DirectionalLights.back().position, Shadow::RenderType::Ortho));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_shader, m_shaderDepthBasic, m_DirectionalLights.back().position, Shadow::RenderType::Ortho));
 	}
 
-	void ShaderManager::CreateSpotLight(const SpotLight& spotLight)
+	void Light::CreateSpotLight(const SpotLight& spotLight)
 	{
 		m_SpotLights.push_back(spotLight);
-		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_Shader, m_ShaderDepthBasic, m_SpotLights.back().position, Shadow::RenderType::Perspective));
+		m_Shadows.push_back(std::make_unique<Teapot::Shadow>(m_shader, m_shaderDepthBasic, m_SpotLights.back().position, Shadow::RenderType::Perspective));
 	}
 
-	void ShaderManager::CreatePointLight(const PointLight& pointLight)
+	void Light::CreatePointLight(const PointLight& pointLight)
     {
         m_pointLights.push_back(pointLight);
     }
 
-	void ShaderManager::RenderShadow()
+	bool Light::RenderShadow()
 	{
+		m_shader.Bind();
 		if (m_activateShadow)
 		{
-			m_Shader.SetUniform1i("activateShadow", 1);
-			for (const auto& shadow : m_Shadows)
-			{
-				shadow->RenderShadow();
-			}
+			m_shader.SetUniform1i("activateShadow", 1);
+			return true;
 		}
 		else
 		{
-			m_Shader.SetUniform1i("activateShadow", 0);
+			m_shader.SetUniform1i("activateShadow", 0);
+			return false;
 		}
 	}
 	
-	void ShaderManager::UIModifyDirectionLight()
+	void Light::UIModifyDirectionLight()
 	{
 		for (int i = 0; i < m_DirectionalLights.size(); i++)
 		{
@@ -142,7 +123,7 @@ namespace Teapot
 		}
 	}
 	
-	void ShaderManager::UIModifyPointLight()
+	void Light::UIModifyPointLight()
 	{
 		for (int i = 0; i < m_pointLights.size(); i++)
 		{
@@ -166,7 +147,7 @@ namespace Teapot
 		}
 	}
 
-	void ShaderManager::UIModifySpotLight()
+	void Light::UIModifySpotLight()
 	{
 		for (int i = 0; i < m_SpotLights.size(); i++)
 		{
@@ -191,7 +172,7 @@ namespace Teapot
 		}
 	}
 
-	void ShaderManager::UIRenderShadowMap()
+	void Light::UIRenderShadowMap()
 	{
 		ImGui::Begin("Shadow Map Debug");
 		{

@@ -2,7 +2,7 @@
 #include <imgui.h>
 
 #include "Teapot/Window.h"
-#include "Renderer/Model.h"
+#include "Models/ModelManager.h"
 #include "Scene/SceneContext.h"
 
 #include <ImGuizmo.h>

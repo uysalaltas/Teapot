@@ -20,7 +20,7 @@ namespace Shapes
 		// ------------------------
 		// SIDE
 		// ------------------------
-		std::vector<Vertex> tmp_vertices = {};
+		std::vector<Teapot::Vertex> tmp_vertices = {};
 
 		for (int i = 0; i <= 1; ++i)
 		{
@@ -30,7 +30,7 @@ namespace Shapes
 				float ux = m_unitVertices[j].x;
 				float uy = m_unitVertices[j].y;
 
-				Vertex tmp;
+				Teapot::Vertex tmp;
 				tmp.position.x = ux * m_size;
 				tmp.position.y = uy * m_size;
 				tmp.position.z = h  * m_size;
@@ -73,7 +73,7 @@ namespace Shapes
 				float ux = m_unitVertices[j].x;
 				float uy = m_unitVertices[j].y;
 				
-				Vertex tmp;
+				Teapot::Vertex tmp;
 				tmp.position.x = ux * m_size;
 				tmp.position.y = uy * m_size;
 				tmp.position.z = h * m_size;
