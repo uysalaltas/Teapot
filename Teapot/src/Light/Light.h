@@ -54,7 +54,7 @@ namespace Teapot
 		inline void ActivateShadow(bool activateShadow) { m_activateShadow = activateShadow;  }
 		inline bool IsShadowActive() const { return m_activateShadow; }
 
-		inline std::vector<std::unique_ptr<Shadow>>& GetShadows() { return m_Shadows; };
+		inline const std::vector<std::unique_ptr<Shadow>>& GetShadows() const { return m_Shadows; };
 
 		void CreateDirectionalLight(const DirectionalLight& directionalLight);
 		void CreateSpotLight(const SpotLight& spotLight);

@@ -41,14 +41,44 @@ namespace Teapot
 				default: break;
 			}
 
+			if (!modelHandlerInterface)
+			{
+				std::cerr << "Invalid model type: " << static_cast<int>(modelType) << " for object: " << alias << std::endl;
+				continue;
+			}
+
 			switch (shapeType)
 			{
 				using enum Shapes::ShapeObjects;
-				case NoShape:  modelInt = modelHandlerInterface->CreateModel(object.attribute("path").as_string(), alias); break;
-				case Cube:     modelInt = modelHandlerInterface->CreateModel(Shapes::Cube(1.0f, color), alias);	break;
-				case Cylinder: modelInt = modelHandlerInterface->CreateModel(Shapes::Cylinder(1.0f, color, 30, 30), alias); break;
-				case Plane:    modelInt = modelHandlerInterface->CreateModel(Shapes::Plane(30, 30, 1.0f, color), alias); break;
-				case Sphere:   modelInt = modelHandlerInterface->CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias); break;
+				case NoShape:
+				{
+					modelInt = modelHandlerInterface->CreateModel(object.attribute("path").as_string(), alias); 
+					break;
+				}
+				case Cube:    
+				{
+					Shapes::Cube cube(1.0f, color);
+					modelInt = modelHandlerInterface->CreateModel(cube, alias);
+					break;
+				}
+				case Cylinder:
+				{
+					Shapes::Cylinder cylinder(1.0f, color, 30, 30);
+					modelInt = modelHandlerInterface->CreateModel(cylinder, alias);
+					break;
+				}
+				case Plane:
+				{
+					Shapes::Plane plane(30, 30, 1.0f, color); 
+					modelInt = modelHandlerInterface->CreateModel(plane, alias);
+					break;
+				}
+				case Sphere:
+				{
+					Shapes::Sphere sphere(1.0f, color, 30, 30);
+					modelInt = modelHandlerInterface->CreateModel(sphere, alias);
+					break;
+				}
 			}
 
 			if (modelInt)
@@ -62,7 +92,7 @@ namespace Teapot
 		return true;
 	}
 
-	void ModelReader::SaveSceneToXML(const std::string& xmlPath)
+	void ModelReader::SaveSceneToXML(const std::string& xmlPath) const
 	{
 		// File exists, clear its content
 		if (std::ifstream fileCheck(xmlPath); fileCheck.is_open())

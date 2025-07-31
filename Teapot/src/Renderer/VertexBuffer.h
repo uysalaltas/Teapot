@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <vector>
 #include <glm/glm.hpp>
-
+#include <iostream>
 
 namespace Teapot
 {

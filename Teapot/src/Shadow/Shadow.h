@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ShadowMapping.h"
-#include "Models/Model.h"
+#include "Models/Model/Model.h"
 #include <glm/glm.hpp>
 
 namespace Teapot 

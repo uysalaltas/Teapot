@@ -13,21 +13,22 @@ namespace Teapot
 	class Renderer
 	{
 	public:
-		std::vector<Teapot::Vertex> vertices;
-		std::vector<GLuint> indices;
-		std::vector<Teapot::Texture> textures;
-
 		Renderer(
-			const std::vector<Teapot::Vertex>& vertices,
-			const std::vector<GLuint>& indices, 
-			const std::vector<Teapot::Texture>& textures
+			std::vector<Teapot::Vertex>&& vertices,
+			std::vector<GLuint>&& indices, 
+			std::vector<Teapot::Texture>&& textures
 		);
 
 		void Clear() const;
 		void DrawShape(uint8_t renderType) const;
 		void DrawTriangle(Teapot::Shader& shader) const;
+		void PushTexture(const Texture& texture);
 
 	private:
+		std::vector<Teapot::Vertex> m_vertices;
+		std::vector<GLuint> m_indices;
+		std::vector<Teapot::Texture> m_textures;
+
 		VertexArray m_va;
 		std::unique_ptr<Teapot::VertexBuffer> m_vb;
 		std::unique_ptr<Teapot::IndexBuffer> m_ib;

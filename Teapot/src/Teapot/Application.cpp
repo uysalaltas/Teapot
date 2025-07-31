@@ -21,10 +21,10 @@ namespace Teapot
 		}
 
 		m_modelHandler = std::make_shared<Teapot::ModelHandler>();
-		m_debugModelHander = std::make_shared<Teapot::DebugModelHandler>();
+		m_debugModelHandler = std::make_shared<Teapot::DebugModelHandler>();
 
 		m_windowUI = std::make_unique<Teapot::WindowControlUI>();
-		m_modelReader = std::make_unique<Teapot::ModelReader>(m_modelHandler, m_debugModelHander);
+		m_modelReader = std::make_unique<Teapot::ModelReader>(m_modelHandler, m_debugModelHandler);
 	}
 
 	Application::~Application()	

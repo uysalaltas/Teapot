@@ -10,13 +10,18 @@ namespace Teapot
         LoadModel(path);
     }
 
-    Model::Model(const Shapes::Shape& shapes, const std::string& nameObject)
+    Model::Model(Shapes::Shape& shapes, const std::string& nameObject)
     {
         std::vector<Texture> textures;
+
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         name = nameObject;
         modelType = ModelType::model;
-        meshes.push_back(std::make_unique<Renderer>(shapes.vertices, shapes.indices, textures));
+        meshes.push_back(std::make_unique<Renderer>(
+            std::move(shapes.vertices), 
+            std::move(shapes.indices), 
+            std::move(textures))
+        );
     }
 
     void Model::Draw(Teapot::Shader& shader)
@@ -30,7 +35,7 @@ namespace Teapot
     void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
         Texture texture(texturePath.c_str(), textureType, unit);
-        meshes[0]->textures.push_back(texture);
+        meshes[0]->PushTexture(texture);
     }
 
     void Model::LoadModel(const std::string& modelPath)
@@ -83,12 +88,10 @@ namespace Teapot
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
             Vertex vertex{};
-            glm::vec3 vector{};
             // Positions
-            vector.x = mesh->mVertices[i].x;
-            vector.y = mesh->mVertices[i].y;
-            vector.z = mesh->mVertices[i].z;
-            vertex.position = vector;
+            vertex.position.x = mesh->mVertices[i].x;
+            vertex.position.y = mesh->mVertices[i].y;
+            vertex.position.z = mesh->mVertices[i].z;
             // Color
             vertex.color.x = modelColor.x;
             vertex.color.y = modelColor.y;
@@ -96,35 +99,31 @@ namespace Teapot
             // Normals
             if (mesh->HasNormals())
             {
-                vector.x = mesh->mNormals[i].x;
-                vector.y = mesh->mNormals[i].y;
-                vector.z = mesh->mNormals[i].z;
-                vertex.normal = vector;
+                vertex.normal.x = mesh->mNormals[i].x;
+                vertex.normal.y = mesh->mNormals[i].y;
+                vertex.normal.z = mesh->mNormals[i].z;
             }
             // Texture coordinates
             if (mesh->mTextureCoords[0])
             {
-                glm::vec2 vec;
-                vec.x = mesh->mTextureCoords[0][i].x;
-                vec.y = mesh->mTextureCoords[0][i].y;
-
-                vertex.texUV = vec;
+                vertex.texUV.x = mesh->mTextureCoords[0][i].x;
+                vertex.texUV.y = mesh->mTextureCoords[0][i].y;
 
                 // tangent
-                vector.x = mesh->mTangents[i].x;
-                vector.y = mesh->mTangents[i].y;
-                vector.z = mesh->mTangents[i].z;
-                vertex.tangent = vector;
+                vertex.tangent.x = mesh->mTangents[i].x;
+                vertex.tangent.y = mesh->mTangents[i].y;
+                vertex.tangent.z = mesh->mTangents[i].z;
                 // bitangent
-                vector.x = mesh->mBitangents[i].x;
-                vector.y = mesh->mBitangents[i].y;
-                vector.z = mesh->mBitangents[i].z;
-                vertex.bitangent = vector;
+                vertex.bitangent.x = mesh->mBitangents[i].x;
+                vertex.bitangent.y = mesh->mBitangents[i].y;
+                vertex.bitangent.z = mesh->mBitangents[i].z;
             }
             else
+            {
                 vertex.texUV = glm::vec2(0.0f, 0.0f);
+            }
 
-            vertices.push_back(vertex);
+            vertices.push_back(std::move(vertex));
         }
 
         for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -137,33 +136,29 @@ namespace Teapot
         }
 
         const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "material.diffuse");
-        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        //std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "material.specular");
-        //textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-        //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "texture_normal");
-        //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-        //std::vector<Texture> heightMaps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-        //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+        LoadMaterialTextures(textures, material, aiTextureType_DIFFUSE, "material.diffuse");
 
-        return std::make_unique<Renderer>(vertices, indices, textures);
+        return std::make_unique<Renderer>(std::move(vertices), std::move(indices), std::move(textures));
     }
 
-    std::vector<Texture> Model::LoadMaterialTextures(const aiMaterial* mat, const aiTextureType type, const std::string& typeName)
+    void Model::LoadMaterialTextures(
+        std::vector<Texture>& textures, 
+        const aiMaterial* mat, 
+        const aiTextureType type, 
+        const std::string& typeName
+    )
     {
-        std::vector<Texture> textures{};
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
             mat->GetTexture(type, i, &str);
             bool skip = false;
 
-            for (const auto& textureLoaded : m_texturesLoaded)
+            for (const auto& textureLoaded : textures)
             {
                 if (std::strcmp(textureLoaded.path.c_str(), str.C_Str()) == 0)
                 {
                     std::cout << "SAME PATH " << std::endl;
-                    textures.push_back(textureLoaded);
                     skip = true;
                     break;
                 }
@@ -171,11 +166,8 @@ namespace Teapot
             if (!skip)
             {
                 std::string texturePath = (m_directory + "//").append(str.C_Str());
-                Texture texture(texturePath.c_str(), typeName, i);
-                textures.push_back(texture);
-                m_texturesLoaded.push_back(texture);
+                textures.emplace_back(texturePath.c_str(), typeName, i);
             }
         }
-        return textures;
     }
 }

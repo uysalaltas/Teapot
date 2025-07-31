@@ -21,20 +21,12 @@ namespace Teapot
 
 		virtual ~ModelHandlerInterface() = default;
 
-		virtual std::shared_ptr<Teapot::ModelInterface> CreateModel(const Shapes::Shape& shapes, const std::string& nameObject) = 0;
+		virtual std::shared_ptr<Teapot::ModelInterface> CreateModel(Shapes::Shape& shapes, const std::string& nameObject) = 0;
 		virtual std::shared_ptr<Teapot::ModelInterface> CreateModel(const std::string& pathObject, const std::string& nameObject) = 0;
 		virtual void RunAwake() = 0;
 		virtual void DrawModels() = 0;
 
-
-		//virtual void RemoveModel()
-		//{
-		//    if (!s_Models.empty())
-		//    {
-		//        s_Models.erase(s_Models.begin() + Teapot::ModelManager::s_SelectedModel);
-		//        if (Teapot::ModelManager::s_SelectedModel > 0) { Teapot::ModelManager::s_SelectedModel -= 1; }
-		//    }
-		//}
+		std::string modelHandlerName{};
 
 		ModelVectorPtr s_Models;
 

@@ -6,9 +6,10 @@ namespace Teapot
 	ModelHandler::ModelHandler()
 		: light(m_shader, m_shaderDepthBasic)
 	{
+		modelHandlerName = "Model";
 	}
 
-	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(const Shapes::Shape& shapes, const std::string& nameObject)
+	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
 	{
 		auto model = std::make_shared<Teapot::Model>(shapes, nameObject);
 		s_Models->push_back(model);

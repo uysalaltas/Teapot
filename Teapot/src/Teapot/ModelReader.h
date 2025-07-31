@@ -5,8 +5,8 @@
 #include "ShapeGenerator/Cylinder.h"
 #include "ShapeGenerator/Plane.h"
 #include "ShapeGenerator/Sphere.h"
-#include "Models/ModelHandler.h"
-#include "Models/DebugModelHandler.h"
+#include "Models/Model/ModelHandler.h"
+#include "Models/DebugModel/DebugModelHandler.h"
 
 #include <string>
 #include <sstream>
@@ -23,7 +23,7 @@ namespace Teapot
 							,std::shared_ptr<Teapot::DebugModelHandler> debugModelHandler);
 
 		bool CreateSceneFromXML(const std::string& xmlPath);
-		void SaveSceneToXML(const std::string& xmlPath);
+		void SaveSceneToXML(const std::string& xmlPath) const;
 
 	private:
 		glm::vec3 StringToVec3(const std::string& str) const;

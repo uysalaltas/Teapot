@@ -43,51 +43,12 @@ public:
 		GetUI().UIBegin("Control");
 		GetUI().UIGizmos();
 		GetUI().UIFocusToObject();
+		GetUI().UIShape(GetModelHandler(), GetDebugModelHandler());
 		GetUI().UIEnd();
 
-		AddShape();
+		//AddShape();
 
 		//ImGui::ShowDemoWindow();
-	}
-
-	void AddShape()
-	{
-		std::array<const char*, 3> preshapes = { "Cube", "Sphere", "Cylinder"};
-		static int preshapesIdx = 0;
-		const char* comboShapeValue = preshapes[preshapesIdx];
-
-		ImGui::Begin("Add Shape", nullptr, 0);
-		static glm::vec3 shapeColor = { 1.0f, 0.5f, 0.0f };
-		ImGui::ColorEdit3("Color", &shapeColor[0]);
-
-		if (ImGui::BeginCombo("Shapes", comboShapeValue))
-		{
-			for (int n = 0; n < preshapes.size(); n++)
-			{
-				const bool is_selected = (preshapesIdx == n);
-				if (ImGui::Selectable(preshapes[n], is_selected)) { preshapesIdx = n; }
-				if (is_selected) { ImGui::SetItemDefaultFocus(); }
-			}
-			ImGui::EndCombo();
-		}
-
-		if (ImGui::Button("Add Shape"))
-		{
-			if (preshapes[preshapesIdx] == "Cube")         { selectedShape = std::make_unique<Shapes::Cube>(1.0f, shapeColor);                }
-			else if (preshapes[preshapesIdx] == "Sphere")  { selectedShape = std::make_unique<Shapes::Sphere>(0.30f, shapeColor, 30, 30);     }
-			else if (preshapes[preshapesIdx] == "Cylinder"){ selectedShape = std::make_unique<Shapes::Cylinder>(0.30f, shapeColor, 1.0f, 30); }
-
-			static unsigned int counter = 0;
-			CreateDebugModel(*selectedShape, std::format("Shape {}",counter));
-			counter++;
-		}
-
-		//ImGui::SameLine(); if (ImGui::Button("Remove Shape"))	{ Teapot::Model::RemoveModel();	}
-		//ImGui::SameLine(); if (ImGui::Button("Save Scene")){ Teapot::ModelReader::SaveSceneToXML("TeapotApp/Objects.xml");	}
-		ImGui::AlignTextToFramePadding();
-		//if (ImGui::Button("Focus Object")) { GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation); }
-
-		ImGui::End();
 	}
 
 private:

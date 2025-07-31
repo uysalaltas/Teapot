@@ -20,6 +20,7 @@ namespace Teapot
 		static void SetSelectedModel(ModelInterfacePtr modelInterfacePtr);
 		static std::shared_ptr<Teapot::ModelInterface> GetSelectedModel();
 		static void PushModel(const ModelVectorPtr& modelVec);
+		static void RemoveSelectedModel();
 
 	private:
 

@@ -1,5 +1,4 @@
 #include "ApplicationWindow.h"
-#include "Ui/WindowControlUI.h"
 #include "SceneContext.h"
 
 namespace Teapot

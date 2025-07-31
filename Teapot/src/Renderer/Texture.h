@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "Shader/Shader.h"
+#include <iostream>
 
 namespace Teapot
 {
@@ -12,12 +13,12 @@ namespace Teapot
 	{
 	public:
 		GLuint ID;
-		std::string type;
-		std::string path;
+		std::string type{};
+		std::string path{};
 		GLuint unit;
 
 		Texture(const char* filepath, const std::string& texType, GLuint unitType);
-		~Texture();
+		~Texture() { glDeleteTextures(1, &ID); std::cout << "Deleted Texture \n"; };
 
 		void TexUnit(Shader& shader) const;
 		void Bind() const;

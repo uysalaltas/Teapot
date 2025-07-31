@@ -6,10 +6,10 @@ namespace Teapot
 {
 	DebugModelHandler::DebugModelHandler()
 	{
-
+		modelHandlerName = "Debug Model";
 	}
 
-	std::shared_ptr<Teapot::ModelInterface> DebugModelHandler::CreateModel(const Shapes::Shape& shapes, const std::string& nameObject)
+	std::shared_ptr<Teapot::ModelInterface> DebugModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
 	{
 		auto model = std::make_shared<Teapot::DebugModel>(shapes, nameObject);
 		s_Models->push_back(model);
@@ -23,7 +23,7 @@ namespace Teapot
 
 	void DebugModelHandler::RunAwake()
 	{
-
+		// No action to run
 	}
 
 	void DebugModelHandler::DrawModels()
