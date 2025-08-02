@@ -9,9 +9,8 @@ namespace Teapot
 		, path(filepath)
 		, unit(unitType)
 	{
-		std::string filename = path;
-		std::ranges::replace(filename.begin(), filename.end(), '\\', '/');
-		std::cout << "Path Adress: " << filename << " Texture Type: " << texType << std::endl;
+		std::ranges::replace(path.begin(), path.end(), '\\', '/');
+		std::cout << "Path Adress: " << path << " Texture Type: " << type << std::endl;
 
 		glGenTextures(1, &ID);
 
@@ -20,7 +19,7 @@ namespace Teapot
 		int nrComponents{};
 
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* bytes = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
+		unsigned char* bytes = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
 		if (bytes)
 		{
 			GLenum format{};
@@ -44,14 +43,9 @@ namespace Teapot
 		}
 		else
 		{
-			std::cout << "Texture failed to load at path: " << filename << std::endl;
+			std::cout << "Texture failed to load at path: " << path << std::endl;
 			stbi_image_free(bytes);
 		}
-	}
-
-	Texture::~Texture()
-	{
-		//glDeleteTextures(1, &ID);
 	}
 
 	void Texture::TexUnit(Shader& shader) const

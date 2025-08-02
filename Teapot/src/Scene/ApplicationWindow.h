@@ -11,7 +11,7 @@
 
 #include "Teapot/Window.h"
 #include "Renderer/FrameBuffer.h"
-#include "Renderer/Model.h"
+#include "Models/ModelManager.h"
 
 namespace Teapot
 {

@@ -8,9 +8,18 @@
 
 namespace Shapes
 {
+	enum class ShapeObjects
+	{
+		NoShape = 0,
+		Cube = 1,
+		Cylinder = 2,
+		Plane  = 3,
+		Sphere = 4
+	};
+
 	struct Shape
 	{
-		std::vector<Vertex> vertices = {};
+		std::vector<Teapot::Vertex> vertices = {};
 		std::vector<GLuint> indices = {};
 		std::vector<glm::vec3> positions = {};
 		std::vector<glm::vec3> colors = {};
@@ -22,13 +31,13 @@ namespace Shapes
 	public:
 		virtual ~ShapeInterface() = default;
 		virtual std::vector<GLuint>& ShapeIndices() = 0;
-		virtual std::vector<Vertex>& ShapeVertices() = 0;
+		virtual std::vector<Teapot::Vertex>& ShapeVertices() = 0;
 
 		virtual std::vector<glm::vec3>& ShapePositions() = 0;
 		virtual std::vector<glm::vec3>& ShapeColors() = 0;
 		virtual std::vector<glm::vec3>& ShapeNormals() = 0;
 
-		void PushData(Vertex& v1, Vertex& v2, Vertex& v3, Vertex& v4)
+		void PushData(Teapot::Vertex& v1, Teapot::Vertex& v2, Teapot::Vertex& v3, Teapot::Vertex& v4)
 		{
 			glm::vec3 n = m_utils.ComputeFaceNormals(v1, v3, v2);
 			v1.normal = n;
