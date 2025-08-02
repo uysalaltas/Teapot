@@ -56,7 +56,7 @@ namespace Teapot
 	{
 		for (const auto& modelVec : s_AllModels)
 		{
-			unsigned int modelVecIdx{};
+			size_t modelVecIdx{};
 			for (const auto& model : *modelVec)
 			{
 				if (model == GetSelectedModel()) 

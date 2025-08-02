@@ -12,14 +12,14 @@ namespace Teapot
 	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
 	{
 		auto model = std::make_shared<Teapot::Model>(shapes, nameObject);
-		s_Models->push_back(model);
+		models->push_back(model);
 		return model;
 	}
 
 	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(const std::string& pathObject, const std::string& nameObject)
 	{
 		auto model = std::make_shared<Teapot::Model>(pathObject, nameObject);
-		s_Models->push_back(model);
+		models->push_back(model);
 		return model;
 	}
 
@@ -30,7 +30,7 @@ namespace Teapot
 			for (const auto& shadow : light.GetShadows())
 			{
 				shadow->RenderShadow();
-				for (const auto& model : *s_Models)
+				for (const auto& model : *models)
 				{
 					m_shaderDepthBasic.SetUniformMat4f("model", model->objModel);
 					model->Draw(m_shaderDepthBasic);
@@ -44,7 +44,7 @@ namespace Teapot
 	{
 		light.RenderShadow();
 		light.RunShader();
-		for (const auto& model : *s_Models)
+		for (const auto& model : *models)
 		{
 			m_shader.SetUniformMat4f("model", model->objModel);
 			m_shader.SetUniform1i("hasTexture", model->hasTexture);

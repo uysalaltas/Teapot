@@ -6,18 +6,18 @@ namespace Teapot
     {
         path = pathObject;
         name = nameObject;
-        modelType = ModelType::model;
+        modelType = Teapot::ModelType::model;
         LoadModel(path);
     }
 
     Model::Model(Shapes::Shape& shapes, const std::string& nameObject)
     {
-        std::vector<Texture> textures;
+        std::vector<Teapot::Texture> textures;
 
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         name = nameObject;
-        modelType = ModelType::model;
-        meshes.push_back(std::make_unique<Renderer>(
+        modelType = Teapot::ModelType::model;
+        meshes.push_back(std::make_unique<Teapot::Renderer>(
             std::move(shapes.vertices), 
             std::move(shapes.indices), 
             std::move(textures))
@@ -34,8 +34,11 @@ namespace Teapot
 
     void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
     {
-        Texture texture(texturePath.c_str(), textureType, unit);
-        meshes[0]->PushTexture(texture);
+        Teapot::Texture texture(texturePath.c_str(), textureType, unit);
+        for(auto& mesh : meshes)
+        {
+            mesh->PushTexture(texture);
+		}
     }
 
     void Model::LoadModel(const std::string& modelPath)
@@ -78,12 +81,12 @@ namespace Teapot
         }
     }
 
-    std::unique_ptr<Renderer> Model::ProcessMesh(const aiMesh* mesh, const aiScene* scene)
+    std::unique_ptr<Teapot::Renderer> Model::ProcessMesh(const aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
-        std::vector<Vertex> vertices;
+        std::vector<Teapot::Vertex> vertices;
         std::vector<GLuint> indices;
-        std::vector<Texture> textures;
+        std::vector<Teapot::Texture> textures;
 
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
@@ -108,7 +111,14 @@ namespace Teapot
             {
                 vertex.texUV.x = mesh->mTextureCoords[0][i].x;
                 vertex.texUV.y = mesh->mTextureCoords[0][i].y;
+            }
+            else
+            {
+                vertex.texUV = glm::vec2(0.0f, 0.0f);
+            }
 
+            if (mesh->HasTangentsAndBitangents())
+            {
                 // tangent
                 vertex.tangent.x = mesh->mTangents[i].x;
                 vertex.tangent.y = mesh->mTangents[i].y;
@@ -120,7 +130,8 @@ namespace Teapot
             }
             else
             {
-                vertex.texUV = glm::vec2(0.0f, 0.0f);
+                vertex.tangent = glm::vec3(0.0f);
+				vertex.bitangent = glm::vec3(0.0f);
             }
 
             vertices.push_back(std::move(vertex));
@@ -138,7 +149,7 @@ namespace Teapot
         const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
         LoadMaterialTextures(textures, material, aiTextureType_DIFFUSE, "material.diffuse");
 
-        return std::make_unique<Renderer>(std::move(vertices), std::move(indices), std::move(textures));
+        return std::make_unique<Teapot::Renderer>(std::move(vertices), std::move(indices), std::move(textures));
     }
 
     void Model::LoadMaterialTextures(
@@ -153,6 +164,7 @@ namespace Teapot
             aiString str;
             mat->GetTexture(type, i, &str);
             bool skip = false;
+			hasTexture = true;
 
             for (const auto& textureLoaded : textures)
             {

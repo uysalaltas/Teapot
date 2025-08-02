@@ -12,7 +12,7 @@ namespace Teapot
 	std::shared_ptr<Teapot::ModelInterface> DebugModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
 	{
 		auto model = std::make_shared<Teapot::DebugModel>(shapes, nameObject);
-		s_Models->push_back(model);
+		models->push_back(model);
 		return model;
 	}
 
@@ -31,7 +31,7 @@ namespace Teapot
 		m_shader.Bind();
 		m_shader.SetUniformMat4f("view", Teapot::SceneContext::Get().GetCamera().GetViewMatrix());
 		m_shader.SetUniformMat4f("projection", Teapot::SceneContext::Get().GetCamera().GetProjMatrix());
-		for (const auto& model : *s_Models)
+		for (const auto& model : *models)
 		{
 			m_shader.SetUniformMat4f("model", model->objModel);
 			model->Draw(m_shader);

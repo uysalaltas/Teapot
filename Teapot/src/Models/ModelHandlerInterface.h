@@ -13,8 +13,8 @@ namespace Teapot
 	public:
 		ModelHandlerInterface()
 		{
-			s_Models = std::make_shared<ModelVector>();
-			Teapot::ModelManager::PushModel(s_Models);
+			models = std::make_shared<ModelVector>();
+			Teapot::ModelManager::PushModel(models);
 			m_runAwakeFuncVec.emplace_back([this]() {this->RunAwake(); });
 			m_drawModelsFuncVec.emplace_back([this]() {this->DrawModels(); });
 		}
@@ -28,7 +28,7 @@ namespace Teapot
 
 		std::string modelHandlerName{};
 
-		ModelVectorPtr s_Models;
+		ModelVectorPtr models;
 
 		inline static void RunAwakeModels()
 		{

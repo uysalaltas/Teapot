@@ -18,7 +18,7 @@ namespace Teapot
 		GLuint unit;
 
 		Texture(const char* filepath, const std::string& texType, GLuint unitType);
-		~Texture() { glDeleteTextures(1, &ID); std::cout << "Deleted Texture \n"; };
+		~Texture() { glDeleteTextures(1, &ID); };
 
 		void TexUnit(Shader& shader) const;
 		void Bind() const;
