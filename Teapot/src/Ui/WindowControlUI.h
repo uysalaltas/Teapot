@@ -2,8 +2,10 @@
 #include <imgui.h>
 
 #include "Teapot/Window.h"
-#include "Renderer/Model.h"
+#include "Models/ModelManager.h"
 #include "Scene/SceneContext.h"
+#include "ShapeGenerator/ShapeFactory.h"
+#include "Models/ModelHandlerInterface.h"
 
 #include <ImGuizmo.h>
 
@@ -20,5 +22,13 @@ namespace Teapot
 
 		void UIGizmos() const;
 		void UIFocusToObject() const;
-	};
+		void UIShape(
+			std::shared_ptr<Teapot::ModelHandlerInterface> handler1 = nullptr,
+			std::shared_ptr<Teapot::ModelHandlerInterface> handler2 = nullptr);
+    private:
+        void CreateShapeButton(
+            std::shared_ptr<Teapot::ModelHandlerInterface> handler,
+            Shapes::ShapeObjects& selectedType,
+            glm::vec3& shapeColor);
+    };
 }

@@ -11,7 +11,7 @@
 
 #include "Teapot/Window.h"
 #include "Renderer/FrameBuffer.h"
-#include "Renderer/Model.h"
+#include "Models/ModelManager.h"
 
 namespace Teapot
 {
@@ -27,19 +27,19 @@ namespace Teapot
 		void RenderSceneOnImGuiWindow() override;
 		void RenderGizmo();
 
-		inline void* GetNativeWindow() const override { return m_Window; }
+		inline void* GetNativeWindow() const override { return m_window; }
 
-		inline unsigned int GetWidth() const override  { return m_WindowData.Width; }
-		inline unsigned int GetHeigth() const override { return m_WindowData.Height; }
-		inline unsigned int& GetWidthRef() override    { return m_WindowData.Width; }
-		inline unsigned int& GetHeightRef() override   { return m_WindowData.Height; }
+		inline unsigned int GetWidth() const override  { return m_windowData.Width; }
+		inline unsigned int GetHeigth() const override { return m_windowData.Height; }
+		inline unsigned int& GetWidthRef() override    { return m_windowData.Width; }
+		inline unsigned int& GetHeightRef() override   { return m_windowData.Height; }
 
 	private:
 		void Init();
 		void Shutdown();
 
-		GLFWwindow* m_Window;
-		WindowProps& m_WindowData;
+		GLFWwindow* m_window;
+		WindowProps& m_windowData;
 
 		void DecomposeMtx(const glm::mat4& m, glm::vec3& pos, glm::vec3& rot, glm::vec3& scale) const;
 	};

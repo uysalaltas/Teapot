@@ -16,8 +16,8 @@ namespace Teapot
 		void Bind() const;
 		void Unbind() const;
 	private:
-		unsigned int fbo;
-		unsigned int texture;
-		unsigned int rbo;
+		unsigned int m_fbo;
+		unsigned int m_texture;
+		unsigned int m_rbo;
 	};
 }

@@ -1,15 +1,12 @@
 #pragma once
 
-#include "Shader.h"
-#include "Renderer/Model.h"
+#include "Shader/Shader.h"
 #include "Shadow/Shadow.h"
 #include "Scene/SceneContext.h"
 
 #include <imgui.h>
 #include <functional>
 #include <format>
-
-inline const std::string SHADERPATH = "Teapot/shaders/";
 
 namespace Teapot
 {
@@ -47,30 +44,23 @@ namespace Teapot
 		float outerCutOff{ glm::cos(glm::radians(15.0f)) };
 	};
 
-	class ShaderManager
+	class Light
 	{
-	// Core functions
 	public:
-		ShaderManager() = default;
-
+		Light(Teapot::Shader& shader, Teapot::Shader& shaderDepthBasic);
 		void RunShader();
-		static ShaderManager& GetInstance();
-		static bool Init();
 
-	// Inline functions
-	public:
-		inline Teapot::Shader& GetShader() { return m_Shader; }
-		inline Teapot::Shader& GetShadowShader() { return m_ShaderDepthBasic; }
-		inline int GetShadowID() { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
+		inline int GetShadowID() const { return mv_shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
 		inline void ActivateShadow(bool activateShadow) { m_activateShadow = activateShadow;  }
+		inline bool IsShadowActive() const { return m_activateShadow; }
 
-	// Functions
-	public:
+		inline const std::vector<std::unique_ptr<Shadow>>& GetShadows() const { return mv_shadows; };
+
 		void CreateDirectionalLight(const DirectionalLight& directionalLight);
 		void CreateSpotLight(const SpotLight& spotLight);
 		void CreatePointLight(const PointLight& pointLight);
 		
-		void RenderShadow();
+		bool RenderShadow();
 		
 		void UIModifyDirectionLight();
 		void UIModifyPointLight();
@@ -78,18 +68,16 @@ namespace Teapot
 		void UIRenderShadowMap();
 
 	private:
-		static std::unique_ptr<ShaderManager> s_ShaderManager;
-
 		int m_selectedShadowMap{};
 		bool m_activateShadow{};
 
-		Teapot::Shader m_ShaderDepthBasic{ SHADERPATH + "BasicDepth.shader"};
-		Teapot::Shader m_Shader { SHADERPATH + "MaterialShader.shader" };
+		Teapot::Shader& m_shader;
+		Teapot::Shader& m_shaderDepthBasic;
 
-		std::vector<std::unique_ptr<Shadow>> m_Shadows;
+		std::vector<std::unique_ptr<Shadow>> mv_shadows;
 
-		std::vector<DirectionalLight> m_DirectionalLights;
-		std::vector<PointLight> m_pointLights;
-		std::vector<SpotLight> m_SpotLights;
+		std::vector<DirectionalLight> mv_directionalLights;
+		std::vector<PointLight> mv_pointLights;
+		std::vector<SpotLight> mv_spotLights;
 	};
 }

@@ -40,20 +40,20 @@ namespace Teapot
         {
             if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_RIGHT))
             {
-                if (firstMouseClick)
+                if (m_firstMouseClick)
                 {
-                    lastMousePosRightClick.x = Input::GetMouseX();
-                    lastMousePosRightClick.y = Input::GetMouseY();
-                    firstMouseClick = false;
+                    m_lastMousePosRightClick.x = Input::GetMouseX();
+                    m_lastMousePosRightClick.y = Input::GetMouseY();
+                    m_firstMouseClick = false;
                 }
 
-                ArcBallCamera((lastMousePosRightClick.x - Input::GetMouseX()), (lastMousePosRightClick.y - Input::GetMouseY()));
-                lastMousePosRightClick.x = Input::GetMouseX();
-                lastMousePosRightClick.y = Input::GetMouseY();
+                ArcBallCamera((m_lastMousePosRightClick.x - Input::GetMouseX()), (m_lastMousePosRightClick.y - Input::GetMouseY()));
+                m_lastMousePosRightClick.x = Input::GetMouseX();
+                m_lastMousePosRightClick.y = Input::GetMouseY();
             }
             else
             {
-                firstMouseClick = true;
+                m_firstMouseClick = true;
             }
         }
 
@@ -61,20 +61,20 @@ namespace Teapot
         {
             if (Input::IsMouseButtonPressed(KeyMacros::TEA_MOUSE_MIDDLE))
             {
-                if (firstRightMouseClick)
+                if (m_firstRightMouseClick)
                 {
-                    lastMousePosRightClick.x = Input::GetMouseX();
-                    lastMousePosRightClick.y = Input::GetMouseY();
-                    firstRightMouseClick = false;
+                    m_lastMousePosRightClick.x = Input::GetMouseX();
+                    m_lastMousePosRightClick.y = Input::GetMouseY();
+                    m_firstRightMouseClick = false;
                 }
 
-                PanCamera((Input::GetMouseX() - lastMousePosRightClick.x), (lastMousePosRightClick.y - Input::GetMouseY()));
-                lastMousePosRightClick.x = Input::GetMouseX();
-                lastMousePosRightClick.y = Input::GetMouseY();
+                PanCamera((Input::GetMouseX() - m_lastMousePosRightClick.x), (m_lastMousePosRightClick.y - Input::GetMouseY()));
+                m_lastMousePosRightClick.x = Input::GetMouseX();
+                m_lastMousePosRightClick.y = Input::GetMouseY();
             }
             else
             {
-                firstRightMouseClick = true;
+                m_firstRightMouseClick = true;
             }
         }
 
@@ -167,15 +167,14 @@ namespace Teapot
         unsigned int& m_width;
         unsigned int& m_height;
         float m_fov = 45;
-        float pan_speed = .5f;
         float m_yaw = 0.0f;
         float m_pitch = 0.0f;
 
         float m_freeCameraSpeed = 0.1f;
 
-        bool firstMouseClick;
-        bool firstRightMouseClick;
-        glm::vec2 lastMousePosRightClick = glm::vec2(0.0f, 0.0f);
+        bool m_firstMouseClick;
+        bool m_firstRightMouseClick;
+        glm::vec2 m_lastMousePosRightClick{0.0};
 
     private:
         void ArcBallCamera(float deltaX, float deltaY)

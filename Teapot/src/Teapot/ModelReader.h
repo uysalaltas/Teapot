@@ -5,143 +5,31 @@
 #include "ShapeGenerator/Cylinder.h"
 #include "ShapeGenerator/Plane.h"
 #include "ShapeGenerator/Sphere.h"
-#include "Renderer/Model.h"
+#include "Models/Model/ModelHandler.h"
+#include "Models/DebugModel/DebugModelHandler.h"
 
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 namespace Teapot
 {
 	class ModelReader
 	{
 	public:
-		ModelReader() = default;
+		explicit ModelReader(std::shared_ptr<Teapot::ModelHandler> modelHandler
+							,std::shared_ptr<Teapot::DebugModelHandler> debugModelHandler);
 
-		static inline bool CreateSceneFromXML(const std::string& xmlPath)
-		{
-			pugi::xml_document m_doc;
-
-			if (pugi::xml_parse_result result = m_doc.load_file(xmlPath.c_str()); !result)
-			{
-				std::cout << "No xml" << std::endl;
-				return false;
-			}
-
-			for (pugi::xml_node object : m_doc.child("objects"))
-			{
-				auto type = static_cast<ShapeObjects>(object.attribute("type").as_int());
-				auto pos = StringToVec3(object.attribute("pos").as_string());
-				auto color = StringToVec3(object.attribute("color").as_string());
-				auto scale = StringToVec3(object.attribute("scale").as_string());
-				auto rot = StringToVec3(object.attribute("rot").as_string());
-				auto alias = object.attribute("alias").as_string();
-
-				std::shared_ptr<Model> model;
-				switch (type)
-				{
-					using enum ShapeObjects;
-					case Custom  : break;
-					case Cube    : model = Teapot::Model::CreateModel(Shapes::Cube(1.0f, color), alias, Cube);	break;
-					case Cylinder: model = Teapot::Model::CreateModel(Shapes::Cylinder(1.0f, color, 30, 30), alias, Cylinder); break;
-					case Plane   : model = Teapot::Model::CreateModel(Shapes::Plane(30, 30, 1.0f, color), alias, Plane); break;
-					case Sphere  : model = Teapot::Model::CreateModel(Shapes::Sphere(1.0f, color, 30, 30), alias, Sphere); break;
-					case PathObj : model = Teapot::Model::CreateModel(object.attribute("path").as_string(), alias); break;
-				}
-
-				if (model)
-				{
-					model->Translate(pos);
-					model->Rotate(rot);
-					model->Scale(scale);
-				}
-			}
-
-			return true;
-		}
-
-		static inline void SaveSceneToXML(const std::string& xmlPath)
-		{
-			// File exists, clear its content
-			if (std::ifstream fileCheck(xmlPath); fileCheck.is_open())
-			{
-				fileCheck.close();
-				std::ofstream clearFile(xmlPath, std::ios::trunc);
-				if (clearFile.is_open()) 
-				{
-					clearFile.close();
-					std::cout << "Existing XML file cleared.\n";
-				}
-				else 
-				{
-					std::cerr << "Failed to clear the XML file.\n";
-					return;
-				}
-			}
-
-			pugi::xml_document doc;
-
-			// Add root node
-			pugi::xml_node objects = doc.append_child("objects");
-
-			for (std::shared_ptr<Model> model : ModelManager::GetModelVector())
-			{
-				auto shapeType = static_cast<unsigned int>(model->shapeType);
-				pugi::xml_node object = objects.append_child("object");
-				object.append_attribute("type") = shapeType;
-				object.append_attribute("alias") = model->name.c_str();
-				object.append_attribute("pos") = Vec3ToString(model->objTranslation).c_str();
-				object.append_attribute("color") = Vec3ToString(model->modelColor).c_str();
-				object.append_attribute("scale") = Vec3ToString(model->objScale).c_str();
-				object.append_attribute("rot") = Vec3ToString(model->objRotation).c_str();
-				
-				if (shapeType == static_cast<unsigned int>(ShapeObjects::PathObj))
-				{
-					object.append_attribute("path") = model->path.c_str();
-				}
-			}
-
-			// Save to file
-			if (doc.save_file(xmlPath.c_str())) 
-			{
-				std::cout << "XML document created successfully.\n";
-			}
-			else 
-			{
-				std::cerr << "Failed to create XML document.\n";
-			}
-		}
+		bool CreateSceneFromXML(const std::string& xmlPath);
+		void SaveSceneToXML(const std::string& xmlPath) const;
 
 	private:
-		static inline glm::vec3 StringToVec3(const std::string& str)
-		{
-			try
-			{
-				std::string trimmed = str;
-				trimmed.erase(trimmed.begin(), std::ranges::find_if(trimmed.begin(), trimmed.end(), [](unsigned char ch) { return !std::isspace(ch); }));
-				trimmed.erase(std::ranges::find_if(trimmed.rbegin(), trimmed.rend(), [](unsigned char ch) {	return !std::isspace(ch); }).base(), trimmed.end());
-				std::ranges::replace(trimmed.begin(), trimmed.end(), ',', ' ');
-				std::istringstream iss(trimmed);
-				float x, y, z;
-				if (!(iss >> x >> y >> z)) {
-					throw std::invalid_argument("Invalid input format. Expected format: 'x, y, z'");
-				}
+		glm::vec3 StringToVec3(const std::string& str) const;
+		std::string Vec3ToString(const glm::vec3& vec) const;
 
-				return glm::vec3(x, y, z);
-			}
-			catch (const std::invalid_argument& e)
-			{
-				std::cerr << "Error parsing vector string '" << str << "': " << e.what() << std::endl;
-				return glm::vec3(0.0f);
-			}
-		}
-		
-		static inline std::string Vec3ToString(const glm::vec3& vec)
-		{
-			std::string result = std::format("{}, {}, {}", vec.x, vec.y, vec.z);
-			return result;
-		}
-
+		std::shared_ptr<Teapot::ModelHandler> mp_modelHandler;
+		std::shared_ptr<Teapot::DebugModelHandler> mp_debugModelHandler;
 	};
 }
