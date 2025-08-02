@@ -50,11 +50,11 @@ namespace Teapot
 		Light(Teapot::Shader& shader, Teapot::Shader& shaderDepthBasic);
 		void RunShader();
 
-		inline int GetShadowID() const { return m_Shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
+		inline int GetShadowID() const { return mv_shadows[m_selectedShadowMap]->shadowMapping->GetShadowMapTexture(); }
 		inline void ActivateShadow(bool activateShadow) { m_activateShadow = activateShadow;  }
 		inline bool IsShadowActive() const { return m_activateShadow; }
 
-		inline const std::vector<std::unique_ptr<Shadow>>& GetShadows() const { return m_Shadows; };
+		inline const std::vector<std::unique_ptr<Shadow>>& GetShadows() const { return mv_shadows; };
 
 		void CreateDirectionalLight(const DirectionalLight& directionalLight);
 		void CreateSpotLight(const SpotLight& spotLight);
@@ -74,10 +74,10 @@ namespace Teapot
 		Teapot::Shader& m_shader;
 		Teapot::Shader& m_shaderDepthBasic;
 
-		std::vector<std::unique_ptr<Shadow>> m_Shadows;
+		std::vector<std::unique_ptr<Shadow>> mv_shadows;
 
-		std::vector<DirectionalLight> m_DirectionalLights;
-		std::vector<PointLight> m_pointLights;
-		std::vector<SpotLight> m_SpotLights;
+		std::vector<DirectionalLight> mv_directionalLights;
+		std::vector<PointLight> mv_pointLights;
+		std::vector<SpotLight> mv_spotLights;
 	};
 }

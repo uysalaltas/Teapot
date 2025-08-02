@@ -29,7 +29,7 @@ namespace Teapot
 		glm::vec3 StringToVec3(const std::string& str) const;
 		std::string Vec3ToString(const glm::vec3& vec) const;
 
-		std::shared_ptr<Teapot::ModelHandler> m_modelHandler;
-		std::shared_ptr<Teapot::DebugModelHandler> m_debugModelHandler;
+		std::shared_ptr<Teapot::ModelHandler> mp_modelHandler;
+		std::shared_ptr<Teapot::DebugModelHandler> mp_debugModelHandler;
 	};
 }

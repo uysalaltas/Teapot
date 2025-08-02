@@ -38,9 +38,9 @@ namespace Teapot
 		unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader) const;
 
 	private:
-		std::string m_Filepath;
-		unsigned int m_RendererID{};
-		std::unordered_map<std::string, int> m_UniformLocationCache;
+		std::string m_filepath;
+		unsigned int m_rendererID{};
+		std::unordered_map<std::string, int> m_uniformLocationCache;
 
 	};
 }

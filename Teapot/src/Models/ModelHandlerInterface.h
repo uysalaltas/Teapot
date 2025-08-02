@@ -15,8 +15,8 @@ namespace Teapot
 		{
 			models = std::make_shared<ModelVector>();
 			Teapot::ModelManager::PushModel(models);
-			m_runAwakeFuncVec.emplace_back([this]() {this->RunAwake(); });
-			m_drawModelsFuncVec.emplace_back([this]() {this->DrawModels(); });
+			mv_runAwakeFuncVec.emplace_back([this]() {this->RunAwake(); });
+			mv_drawModelsFuncVec.emplace_back([this]() {this->DrawModels(); });
 		}
 
 		virtual ~ModelHandlerInterface() = default;
@@ -32,7 +32,7 @@ namespace Teapot
 
 		inline static void RunAwakeModels()
 		{
-			for (const auto& runAwake : m_runAwakeFuncVec)
+			for (const auto& runAwake : mv_runAwakeFuncVec)
 			{
 				runAwake();
 			}
@@ -40,14 +40,14 @@ namespace Teapot
 		
 		inline static void RunDrawModels() 
 		{
-			for (const auto& drawModels : m_drawModelsFuncVec)
+			for (const auto& drawModels : mv_drawModelsFuncVec)
 			{
 				drawModels();
 			}
 		}
 
 	private:
-		inline static std::vector<std::function<void()>> m_runAwakeFuncVec;
-		inline static std::vector<std::function<void()>> m_drawModelsFuncVec;
+		inline static std::vector<std::function<void()>> mv_runAwakeFuncVec;
+		inline static std::vector<std::function<void()>> mv_drawModelsFuncVec;
 	};
 }

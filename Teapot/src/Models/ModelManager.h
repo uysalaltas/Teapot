@@ -24,7 +24,7 @@ namespace Teapot
 
 	private:
 
-		inline static std::vector<ModelVectorPtr> s_AllModels;
-		inline static std::weak_ptr<Teapot::ModelInterface> s_SelectedModel;
+		inline static std::vector<ModelVectorPtr> sv_allModels;
+		inline static std::weak_ptr<Teapot::ModelInterface> sv_selectedModel;
 	};
 }

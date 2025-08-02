@@ -32,15 +32,15 @@ namespace Teapot
 
 	bool SceneContext::CreateWindow(Teapot::WindowProps& props)
 	{
-		m_Window = std::make_unique<Teapot::ApplicationWindow>(props);
-		if(m_Window) return true;
+		mp_window = std::make_unique<Teapot::ApplicationWindow>(props);
+		if(mp_window) return true;
 		return false;
 	}
 
 	bool SceneContext::CreateCamera()
 	{
-		m_Camera = std::make_unique<Teapot::Camera>(m_cameraPos, m_cameraCenter, m_cameraUp, m_Window->GetWidthRef(), m_Window->GetHeightRef());
-		if (m_Camera) return true;
+		mp_camera = std::make_unique<Teapot::Camera>(m_cameraPos, m_cameraCenter, m_cameraUp, mp_window->GetWidthRef(), mp_window->GetHeightRef());
+		if (mp_camera) return true;
 		return false;
 	}
 }

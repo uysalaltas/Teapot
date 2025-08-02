@@ -26,23 +26,23 @@ namespace Teapot
 
 		inline Window& GetWindow() { return Teapot::SceneContext::Get().GetWindow(); }
 		inline Camera& GetCamera() { return Teapot::SceneContext::Get().GetCamera(); }
-		inline WindowControlUI& GetUI() { return *m_windowUI; }
-		inline Light& GetLight() { return m_modelHandler->light; }
-		inline std::shared_ptr<Teapot::ModelHandler> GetModelHandler() { return m_modelHandler; }
-		inline std::shared_ptr<Teapot::DebugModelHandler> GetDebugModelHandler() { return m_debugModelHandler; }
+		inline WindowControlUI& GetUI() { return *mp_windowUI; }
+		inline Light& GetLight() { return mp_modelHandler->light; }
+		inline std::shared_ptr<Teapot::ModelHandler> GetModelHandler() { return mp_modelHandler; }
+		inline std::shared_ptr<Teapot::DebugModelHandler> GetDebugModelHandler() { return mp_debugModelHandler; }
 
-		inline void CreateModel(Shapes::Shape& shapes, const std::string& nameObject){ m_modelHandler->CreateModel(shapes, nameObject); };
-		inline void CreateDebugModel(Shapes::Shape& shapes, const std::string& nameObject) { m_debugModelHandler->CreateModel(shapes, nameObject); };
-		inline void CreateModelsFromXML(const std::string& path) { m_modelReader->CreateSceneFromXML(path); };
+		inline void CreateModel(Shapes::Shape& shapes, const std::string& nameObject){ mp_modelHandler->CreateModel(shapes, nameObject); };
+		inline void CreateDebugModel(Shapes::Shape& shapes, const std::string& nameObject) { mp_debugModelHandler->CreateModel(shapes, nameObject); };
+		inline void CreateModelsFromXML(const std::string& path) { mp_modelReader->CreateSceneFromXML(path); };
 
 	private:
-		std::unique_ptr<Teapot::WindowControlUI> m_windowUI;
-		std::shared_ptr<Teapot::ModelHandler> m_modelHandler;
-		std::shared_ptr<Teapot::DebugModelHandler> m_debugModelHandler;
-		std::unique_ptr<Teapot::ModelReader> m_modelReader;
+		std::unique_ptr<Teapot::WindowControlUI> mp_windowUI;
+		std::shared_ptr<Teapot::ModelHandler> mp_modelHandler;
+		std::shared_ptr<Teapot::DebugModelHandler> mp_debugModelHandler;
+		std::unique_ptr<Teapot::ModelReader> mp_modelReader;
 
 
-		bool m_Running = true;
+		bool m_running = true;
 		static Application* s_Instance;
 	};
 }

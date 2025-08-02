@@ -9,15 +9,15 @@
 namespace Teapot
 {
     Shader::Shader(const std::string& filepath)
-        : m_Filepath(filepath)
+        : m_filepath(filepath)
     {
         ShaderProgramSource source = ParseShader(filepath);
-        m_RendererID = CreateShader(source.VertexSource, source.FragmentSource);
+        m_rendererID = CreateShader(source.VertexSource, source.FragmentSource);
     }
 
     Shader::~Shader()
     {
-        glDeleteProgram(m_RendererID);
+        glDeleteProgram(m_rendererID);
     }
 
     ShaderProgramSource Shader::ParseShader(const std::string& filepath) const
@@ -52,7 +52,7 @@ namespace Teapot
 
     void Shader::Bind() const
     {
-        glUseProgram(m_RendererID);
+        glUseProgram(m_rendererID);
     }
 
     void Shader::Unbind() const
@@ -92,13 +92,13 @@ namespace Teapot
 
     int  Shader::GetUniformLocation(const std::string& name)
     {
-        if (m_UniformLocationCache.contains(name))
-            return m_UniformLocationCache[name];
-        int location = glGetUniformLocation(m_RendererID, name.c_str());
+        if (m_uniformLocationCache.contains(name))
+            return m_uniformLocationCache[name];
+        int location = glGetUniformLocation(m_rendererID, name.c_str());
         if (location == -1)
             std::cout << "No active uniform variable with name " << name << " found" << std::endl;
 
-        m_UniformLocationCache[name] = location;
+        m_uniformLocationCache[name] = location;
         return location;
     }
 

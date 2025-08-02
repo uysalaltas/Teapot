@@ -25,12 +25,12 @@ namespace Teapot
 		void PushTexture(const Texture& texture);
 
 	private:
-		std::vector<Teapot::Vertex> m_vertices;
-		std::vector<GLuint> m_indices;
-		std::vector<Teapot::Texture> m_textures;
+		std::vector<Teapot::Vertex> mv_vertices;
+		std::vector<GLuint> mv_indices;
+		std::vector<Teapot::Texture> mv_textures;
 
 		VertexArray m_va;
-		std::unique_ptr<Teapot::VertexBuffer> m_vb;
-		std::unique_ptr<Teapot::IndexBuffer> m_ib;
+		std::unique_ptr<Teapot::VertexBuffer> mp_vb;
+		std::unique_ptr<Teapot::IndexBuffer> mp_ib;
 	};
 }

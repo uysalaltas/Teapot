@@ -5,8 +5,8 @@ namespace Teapot
 {
 	ModelReader::ModelReader(std::shared_ptr<Teapot::ModelHandler> modelHandler
 							,std::shared_ptr<Teapot::DebugModelHandler> debugModelHandler)
-		: m_modelHandler(modelHandler)
-		, m_debugModelHandler(debugModelHandler)
+		: mp_modelHandler(modelHandler)
+		, mp_debugModelHandler(debugModelHandler)
 	{
 	}
 
@@ -36,8 +36,8 @@ namespace Teapot
 			switch (modelType)
 			{
 				using enum Teapot::ModelType;
-				case model: modelHandlerInterface = m_modelHandler; break;
-				case debugModel: modelHandlerInterface = m_debugModelHandler; break;
+				case model: modelHandlerInterface = mp_modelHandler; break;
+				case debugModel: modelHandlerInterface = mp_debugModelHandler; break;
 				default: break;
 			}
 

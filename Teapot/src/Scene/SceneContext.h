@@ -20,8 +20,8 @@ namespace Teapot
 		bool CreateCamera();
 		void ActivateSnap(const float x, const float y, const float z);
 
-		inline Window& GetWindow() { return *m_Window; }
-		inline Camera& GetCamera() { return *m_Camera; }
+		inline Window& GetWindow() { return *mp_window; }
+		inline Camera& GetCamera() { return *mp_camera; }
 		inline int& GetSelectedGizmo() { return m_selectedGizmo; }
 		inline bool& IsGizmoActive() { return m_isGizmoActive; }
 
@@ -29,8 +29,8 @@ namespace Teapot
 	private:
 		static std::unique_ptr<SceneContext> s_SceneContext;
 
-		std::unique_ptr<Window> m_Window;
-		std::unique_ptr<Camera> m_Camera;
+		std::unique_ptr<Window> mp_window;
+		std::unique_ptr<Camera> mp_camera;
 
 		glm::vec3 m_cameraPos{ 3.0f, 3.0f, 3.0f };
 		glm::vec3 m_cameraCenter{ 0.0f, 0.0f, 0.0f };

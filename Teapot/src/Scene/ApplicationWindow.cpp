@@ -6,7 +6,7 @@ namespace Teapot
 	static bool s_GLFWInitialized = false;
 
 	ApplicationWindow::ApplicationWindow(WindowProps& props) :
-		m_WindowData(props)
+		m_windowData(props)
 	{
 		Init();
 	}
@@ -30,9 +30,9 @@ namespace Teapot
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #endif
-		m_Window = glfwCreateWindow((int)m_WindowData.Width, (int)m_WindowData.Height, m_WindowData.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
-		glfwSetWindowUserPointer(m_Window, &m_WindowData);
+		m_window = glfwCreateWindow((int)m_windowData.Width, (int)m_windowData.Height, m_windowData.Title.c_str(), nullptr, nullptr);
+		glfwMakeContextCurrent(m_window);
+		glfwSetWindowUserPointer(m_window, &m_windowData);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -48,7 +48,7 @@ namespace Teapot
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
-		ImGui_ImplGlfw_InitForOpenGL(m_Window, true);
+		ImGui_ImplGlfw_InitForOpenGL(m_window, true);
 		ImGui_ImplOpenGL3_Init(glsl_version);
 	}
 
@@ -86,10 +86,10 @@ namespace Teapot
 
 		glClearColor
 		(
-			m_WindowData.BackgroundColor.x,
-			m_WindowData.BackgroundColor.y, 
-			m_WindowData.BackgroundColor.z, 
-			m_WindowData.BackgroundColor.w
+			m_windowData.BackgroundColor.x,
+			m_windowData.BackgroundColor.y, 
+			m_windowData.BackgroundColor.z, 
+			m_windowData.BackgroundColor.w
 		);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
@@ -104,8 +104,8 @@ namespace Teapot
 		{
 			float width = ImGui::GetContentRegionAvail().x;
 			float height = ImGui::GetContentRegionAvail().y;
-			m_WindowData.Height = static_cast<int>(height);
-			m_WindowData.Width = static_cast<int>(width);
+			m_windowData.Height = static_cast<int>(height);
+			m_windowData.Width = static_cast<int>(width);
 			ImGui::BeginChild("GameRender");
 			ImGui::Image(
 				(ImTextureID)sceneBuffer->GetFrameTexture(),
@@ -123,26 +123,26 @@ namespace Teapot
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		glfwSwapBuffers(m_window);
 	}
 
 	void ApplicationWindow::UpdateViewport()
 	{
-		glViewport(0, 0, m_WindowData.Width, m_WindowData.Height);
+		glViewport(0, 0, m_windowData.Width, m_windowData.Height);
 		glClearColor
 		(
-			m_WindowData.BackgroundColor.x,
-			m_WindowData.BackgroundColor.y,
-			m_WindowData.BackgroundColor.z,
-			m_WindowData.BackgroundColor.w
+			m_windowData.BackgroundColor.x,
+			m_windowData.BackgroundColor.y,
+			m_windowData.BackgroundColor.z,
+			m_windowData.BackgroundColor.w
 		);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		sceneBuffer->RescaleFrameBuffer(m_WindowData.Width, m_WindowData.Height);
+		sceneBuffer->RescaleFrameBuffer(m_windowData.Width, m_windowData.Height);
 	}
 
 	void ApplicationWindow::RenderSceneOnImGuiWindow()
 	{
-		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_WindowData.Width, m_WindowData.Height);
+		sceneBuffer = std::make_unique<Teapot::FrameBuffer>(m_windowData.Width, m_windowData.Height);
 	}
 
 	void ApplicationWindow::RenderGizmo()
@@ -151,7 +151,7 @@ namespace Teapot
 		if (Teapot::SceneContext::Get().IsGizmoActive() && selected)
 		{
 			ImGuizmo::SetDrawlist();
-			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_WindowData.Width), static_cast<float>(m_WindowData.Height));
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, static_cast<float>(m_windowData.Width), static_cast<float>(m_windowData.Height));
 			ImGuizmo::Manipulate(
 				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetViewMatrix()),
 				glm::value_ptr(Teapot::SceneContext::Get().GetCamera().GetProjMatrix()),
@@ -199,6 +199,6 @@ namespace Teapot
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 
-		glfwDestroyWindow(m_Window);
+		glfwDestroyWindow(m_window);
 	}
 }
