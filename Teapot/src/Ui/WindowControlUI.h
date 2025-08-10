@@ -1,5 +1,6 @@
 #pragma once
 #include <imgui.h>
+#include <format>
 
 #include "Teapot/Window.h"
 #include "Models/ModelManager.h"

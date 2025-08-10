@@ -12,8 +12,8 @@ namespace Teapot
 	{
 		shadowMapping = std::make_unique<ShadowMapping>();
 		m_shaderShadow.Bind();
-		auto shadowMapArr = std::format("shadowMapArr[{}]", std::to_string(shadowMapIndex));
-		m_shaderShadow.SetUniform1i(shadowMapArr, shadowMapping->GetShadowMapTexture());
+		auto shadowMap = std::format("shadowMaps.map{}", std::to_string(shadowMapIndex));
+		m_shaderShadow.SetUniform1i(shadowMap, shadowMapping->GetShadowMapTexture());
 		shadowMapIndex++;
 	}
 

@@ -38,6 +38,11 @@ void main()
 #version 410 core
 out vec4 FragColor;
 
+struct ShadowMaps {
+    sampler2D map0;
+    sampler2D map1;
+};
+
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
@@ -91,8 +96,6 @@ in VS_OUT
     vec4 CrntPosLightSpace[2];
 } fs_in;
 
-uniform sampler2D shadowMapArr[2];
-
 uniform int pointLightCount;
 uniform int directionalLightCount;
 uniform int spotLightCount;
@@ -104,6 +107,7 @@ uniform DirLight dirLights[NR_LIGHTS];
 uniform PointLight pointLights[NR_LIGHTS];
 uniform SpotLight spotLights[NR_LIGHTS];
 uniform Material material;
+uniform ShadowMaps shadowMaps;
 
 // function prototypes
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, int index);
@@ -177,10 +181,10 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, int index)
     {
         switch (index) {
         case 0:
-            shadow = ShadowCalculation(shadowMapArr[0], fs_in.CrntPosLightSpace[0], lightDir);
+            shadow = ShadowCalculation(shadowMaps.map0, fs_in.CrntPosLightSpace[0], lightDir);
             break;
         case 1:
-            shadow = ShadowCalculation(shadowMapArr[1], fs_in.CrntPosLightSpace[1], lightDir);
+            shadow = ShadowCalculation(shadowMaps.map1, fs_in.CrntPosLightSpace[1], lightDir);
             break;
         }
     }
@@ -266,10 +270,10 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir, int
     {
         switch (index) {
         case 0:
-            shadow = ShadowCalculation(shadowMapArr[0], fs_in.CrntPosLightSpace[0], lightDir);
+            shadow = ShadowCalculation(shadowMaps.map0, fs_in.CrntPosLightSpace[0], lightDir);
             break;
         case 1:
-            shadow = ShadowCalculation(shadowMapArr[1], fs_in.CrntPosLightSpace[1], lightDir);
+            shadow = ShadowCalculation(shadowMaps.map1, fs_in.CrntPosLightSpace[1], lightDir);
             break;
         }
     }

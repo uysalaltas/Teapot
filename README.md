@@ -1,7 +1,12 @@
 # Teapot
 OpenGL Engine - Create graphics apps! 
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=uysalaltas_Teapot&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=uysalaltas_Teapot)
+
+<img src="Teapot/images/TeapotApp2.png" width="800">
+
 <img src="Teapot/images/TeapotApp1.png" width="800">
+
 
 ## Features
 * Camera features
