@@ -49,8 +49,8 @@ namespace Teapot
 	{
 		if (!handler1 && !handler2) return;
 
-		Shapes::ShapeObjects selectedType = Shapes::ShapeObjects::Cube;
-		glm::vec3 shapeColor = { 1.0f, 0.5f, 0.0f };
+		static Shapes::ShapeObjects selectedType = Shapes::ShapeObjects::Cube;
+		static glm::vec3 shapeColor = { 1.0f, 0.5f, 0.0f };
 
 		ImGui::ColorEdit3("Color", &shapeColor[0]);
 		const char* comboPreviewValue = Shapes::shapeCreationMap.at(selectedType).name;
@@ -75,12 +75,12 @@ namespace Teapot
 
 		if (handler1)
 		{
-			CreateShapeButton(handler1, selectedType, shapeColor);
+			CreateShapeButton(handler1, selectedType, m_shapeColor);
 		}
 		
 		if (handler2)
 		{
-			CreateShapeButton(handler2, selectedType, shapeColor);
+			CreateShapeButton(handler2, selectedType, m_shapeColor);
 		}
 
 		ImGui::SameLine();

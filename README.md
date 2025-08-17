@@ -7,6 +7,7 @@ OpenGL Engine - Create graphics apps!
 
 <img src="Teapot/images/TeapotApp1.png" width="800">
 
+### To see the progress, click [here](https://uysalaltas.notion.site/Teapot-Project-fa7fabe4c63e4feca1a3a28768aebd1c) for kanban board. 
 
 ## Features
 * Camera features
@@ -67,7 +68,11 @@ git clone --recursive https://github.com/uysalaltas/Teapot.git
 ./premake5 gmake2
 make
 ```
-* Then run the executable
+* Then run the executable with bash script
+```
+bash LinuxRunProject.sh
+```
+* or run it directly
 ```
 sudo ./bin/Debug-linux-x86_64/TeapotApp/TeapotApp
 ```
