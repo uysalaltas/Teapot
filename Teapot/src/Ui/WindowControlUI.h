@@ -29,7 +29,7 @@ namespace Teapot
     private:
         void CreateShapeButton(
             std::shared_ptr<Teapot::ModelHandlerInterface> handler,
-            Shapes::ShapeObjects& selectedType,
-            glm::vec3& shapeColor);
+            const Shapes::ShapeObjects& selectedType,
+            const glm::vec3& shapeColor);
     };
 }

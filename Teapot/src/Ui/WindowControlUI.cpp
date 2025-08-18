@@ -57,12 +57,12 @@ namespace Teapot
 
 		if (ImGui::BeginCombo("Shapes", comboPreviewValue))
 		{
-			for (const auto& pair : Shapes::shapeCreationMap)
+			for (const auto& [key, value] : Shapes::shapeCreationMap)
 			{
-				const bool isSelected = (selectedType == pair.first);
-				if (ImGui::Selectable(pair.second.name, isSelected))
+				const bool isSelected = (selectedType == key);
+				if (ImGui::Selectable(value.name, isSelected))
 				{
-					selectedType = pair.first;
+					selectedType = key;
 				}
 
 				if (isSelected)
@@ -75,12 +75,12 @@ namespace Teapot
 
 		if (handler1)
 		{
-			CreateShapeButton(handler1, selectedType, m_shapeColor);
+			CreateShapeButton(handler1, selectedType, shapeColor);
 		}
 		
 		if (handler2)
 		{
-			CreateShapeButton(handler2, selectedType, m_shapeColor);
+			CreateShapeButton(handler2, selectedType, shapeColor);
 		}
 
 		ImGui::SameLine();
@@ -89,8 +89,8 @@ namespace Teapot
 
 	void WindowControlUI::CreateShapeButton(
 		std::shared_ptr<Teapot::ModelHandlerInterface> handler,
-		Shapes::ShapeObjects& selectedType,
-		glm::vec3& shapeColor)
+		const Shapes::ShapeObjects& selectedType,
+		const glm::vec3& shapeColor)
 	{
 		static unsigned int counter = 0;
 		std::string buttonLabel = std::format("Create {} for {}", Shapes::shapeCreationMap.at(selectedType).name, handler->modelHandlerName);
