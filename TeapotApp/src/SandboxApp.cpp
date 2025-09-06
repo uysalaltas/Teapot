@@ -43,12 +43,9 @@ public:
 		GetUI().UIBegin("Control");
 		GetUI().UIGizmos();
 		GetUI().UIFocusToObject();
+		GetUI().UICreateButton("Save Scene", [&](){ SaveModelsToXML("TeapotApp/Objects.xml");});
 		GetUI().UIShape(GetModelHandler(), GetDebugModelHandler());
 		GetUI().UIEnd();
-
-		//AddShape();
-
-		//ImGui::ShowDemoWindow();
 	}
 
 private:

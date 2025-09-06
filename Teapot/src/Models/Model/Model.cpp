@@ -13,10 +13,12 @@ namespace Teapot
     Model::Model(Shapes::Shape& shapes, const std::string& nameObject)
     {
         std::vector<Teapot::Texture> textures;
+        shapeObjectType = shapes.shapeObjectType;
 
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         name = nameObject;
         modelType = Teapot::ModelType::model;
+        modelColor = shapes.colors[0];
         meshes.push_back(std::make_unique<Teapot::Renderer>(
             std::move(shapes.vertices), 
             std::move(shapes.indices), 

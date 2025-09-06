@@ -8,6 +8,7 @@ namespace Shapes
 		, m_sliceSize(sliceSize)
 		, m_color(color)
 	{
+		shapeObjectType = ShapeObjects::Plane;
 		BuildVertices();
 		BuildIndices();
 	}

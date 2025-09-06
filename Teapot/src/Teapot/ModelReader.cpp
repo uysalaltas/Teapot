@@ -121,6 +121,7 @@ namespace Teapot
 			auto modelType = static_cast<unsigned int>(model->modelType);
 			pugi::xml_node object = objects.append_child("object");
 			object.append_attribute("type") = modelType;
+			object.append_attribute("shape") = static_cast<int>(model->shapeObjectType);
 			object.append_attribute("alias") = model->name.c_str();
 			object.append_attribute("pos") = Vec3ToString(model->objTranslation).c_str();
 			object.append_attribute("color") = Vec3ToString(model->modelColor).c_str();

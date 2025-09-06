@@ -8,6 +8,7 @@ namespace Shapes
 		, m_sectorCount(sectorCount)
         , m_stackCount(stackCount)
 	{
+        shapeObjectType = ShapeObjects::Sphere;
         BuildVertexData();
 	}
 

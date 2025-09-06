@@ -4,6 +4,8 @@ namespace Teapot
 {
 	void WindowControlUI::UIGizmos() const
 	{
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::Checkbox("Activate Gizmo", &Teapot::SceneContext::Get().IsGizmoActive());
 
@@ -34,10 +36,9 @@ namespace Teapot
 
 	void WindowControlUI::UIFocusToObject() const
 	{
-		static bool isFocusToObjChecked = false;
-		ImGui::Checkbox("Focus Object", &isFocusToObjChecked);
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-		if (isFocusToObjChecked)
+		if (ImGui::Button("Focus Object"))
 		{
 			Teapot::SceneContext::Get().GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation);
 		}
@@ -52,6 +53,7 @@ namespace Teapot
 		static Shapes::ShapeObjects selectedType = Shapes::ShapeObjects::Cube;
 		static glm::vec3 shapeColor = { 1.0f, 0.5f, 0.0f };
 
+		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 		ImGui::ColorEdit3("Color", &shapeColor[0]);
 		const char* comboPreviewValue = Shapes::shapeCreationMap.at(selectedType).name;
 
@@ -87,10 +89,10 @@ namespace Teapot
 		if (ImGui::Button("Remove Shape")) { Teapot::ModelManager::RemoveSelectedModel(); }
 	}
 
-	void WindowControlUI::CreateShapeButton(
+    void WindowControlUI::CreateShapeButton(
 		std::shared_ptr<Teapot::ModelHandlerInterface> handler,
 		const Shapes::ShapeObjects& selectedType,
-		const glm::vec3& shapeColor)
+		const glm::vec3& shapeColor) const
 	{
 		static unsigned int counter = 0;
 		std::string buttonLabel = std::format("Create {} for {}", Shapes::shapeCreationMap.at(selectedType).name, handler->modelHandlerName);

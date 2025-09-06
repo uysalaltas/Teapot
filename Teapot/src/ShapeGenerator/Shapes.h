@@ -24,6 +24,7 @@ namespace Shapes
 		std::vector<glm::vec3> positions = {};
 		std::vector<glm::vec3> colors = {};
 		std::vector<glm::vec3> normals = {};
+		ShapeObjects shapeObjectType{};
 	};
 
 	class ShapeInterface : public Shape
