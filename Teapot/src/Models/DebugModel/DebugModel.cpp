@@ -9,7 +9,7 @@ namespace Teapot
 		name = nameObject;
 		modelType = ModelType::debugModel;
 		shapeObjectType = shapes.shapeObjectType;
-        modelColor = shapes.colors[0];
+        modelColor = shapes.colors.empty() ? glm::vec3(1.0f) : shapes.colors[0];
 		meshes.push_back(std::make_unique<Renderer>(
 			std::move(shapes.vertices), 
 			std::move(shapes.indices), 

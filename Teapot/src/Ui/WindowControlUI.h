@@ -21,7 +21,7 @@ namespace Teapot
 		inline void ActivateGizmos(const bool activate) const { Teapot::SceneContext::Get().IsGizmoActive() = activate; }
 		inline void UIBegin(const char* sectionName) const { ImGui::Begin(sectionName, nullptr, 0); }
 		inline void UIEnd() const { ImGui::End(); }
-		inline void UICreateButton(const std::string& buttonName, const std::function<void()>& callback) 
+		inline void UICreateButton(const std::string& buttonName, const std::function<void()>& callback) const
 		{ 
 			ImGui::Dummy(ImVec2(0.0f, 10.0f));
 			if (ImGui::Button(buttonName.c_str())) { callback(); } 
@@ -31,7 +31,7 @@ namespace Teapot
 		void UIFocusToObject() const;
 		void UIShape(
 			std::shared_ptr<Teapot::ModelHandlerInterface> handler1 = nullptr,
-			std::shared_ptr<Teapot::ModelHandlerInterface> handler2 = nullptr);
+			std::shared_ptr<Teapot::ModelHandlerInterface> handler2 = nullptr) const;
 
     private:
         void CreateShapeButton(

@@ -18,7 +18,7 @@ namespace Teapot
         std::cout << nameObject << " Pos Size: " << shapes.positions.size() << std::endl;
         name = nameObject;
         modelType = Teapot::ModelType::model;
-        modelColor = shapes.colors[0];
+        modelColor = shapes.colors.empty() ? glm::vec3(1.0f) : shapes.colors[0];
         meshes.push_back(std::make_unique<Teapot::Renderer>(
             std::move(shapes.vertices), 
             std::move(shapes.indices), 
@@ -34,10 +34,10 @@ namespace Teapot
         }
     }
 
-    void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit)
+    void Model::LoadTextureToModel(const std::string& textureType, const std::string& texturePath, int unit) const
     {
         Teapot::Texture texture(texturePath.c_str(), textureType, unit);
-        for(auto& mesh : meshes)
+        for(const auto& mesh : meshes)
         {
             mesh->PushTexture(texture);
 		}

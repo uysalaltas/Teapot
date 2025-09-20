@@ -38,7 +38,7 @@ namespace Teapot
 	{
 		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-		if (ImGui::Button("Focus Object"))
+		if (ImGui::Button("Focus Object") && Teapot::ModelManager::GetSelectedModel())
 		{
 			Teapot::SceneContext::Get().GetCamera().SetLookAt(Teapot::ModelManager::GetSelectedModel()->objTranslation);
 		}
@@ -46,7 +46,7 @@ namespace Teapot
 
 	void WindowControlUI::UIShape(
 		std::shared_ptr<Teapot::ModelHandlerInterface> handler1,
-		std::shared_ptr<Teapot::ModelHandlerInterface> handler2)
+		std::shared_ptr<Teapot::ModelHandlerInterface> handler2) const
 	{
 		if (!handler1 && !handler2) return;
 
@@ -55,9 +55,8 @@ namespace Teapot
 
 		ImGui::Dummy(ImVec2(0.0f, 10.0f));
 		ImGui::ColorEdit3("Color", &shapeColor[0]);
-		const char* comboPreviewValue = Shapes::shapeCreationMap.at(selectedType).name;
 
-		if (ImGui::BeginCombo("Shapes", comboPreviewValue))
+		if (ImGui::BeginCombo("Shapes", Shapes::shapeCreationMap.at(selectedType).name))
 		{
 			for (const auto& [key, value] : Shapes::shapeCreationMap)
 			{

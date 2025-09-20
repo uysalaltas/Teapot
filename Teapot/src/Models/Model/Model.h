@@ -19,7 +19,7 @@ namespace Teapot
 			const std::string& textureType, 
 			const std::string& texturePath, 
 			int unit
-		);
+		) const;
 
 	private:
 		void LoadModel(const std::string& modelPath);
