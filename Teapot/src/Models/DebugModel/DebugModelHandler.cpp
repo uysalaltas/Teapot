@@ -1,5 +1,4 @@
 #include "DebugModelHandler.h"
-#include "DebugModel.h"
 #include "Scene/SceneContext.h"
 
 namespace Teapot
@@ -7,18 +6,7 @@ namespace Teapot
 	DebugModelHandler::DebugModelHandler()
 	{
 		modelHandlerName = "Debug Model";
-	}
-
-	std::shared_ptr<Teapot::ModelInterface> DebugModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
-	{
-		auto model = std::make_shared<Teapot::DebugModel>(shapes, nameObject);
-		models->push_back(model);
-		return model;
-	}
-
-	std::shared_ptr<Teapot::ModelInterface> DebugModelHandler::CreateModel(const std::string& pathObject, const std::string& nameObject)
-	{
-		return std::shared_ptr<Teapot::ModelInterface>();
+		modelType = ModelType::debugModel;
 	}
 
 	void DebugModelHandler::RunAwake()

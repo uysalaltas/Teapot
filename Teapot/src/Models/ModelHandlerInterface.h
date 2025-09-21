@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
 #include <functional>
+#include <future>
 
 #include "ModelManager.h"
+#include "Model/Model.h"
 
 namespace Teapot
 {
@@ -21,14 +23,27 @@ namespace Teapot
 
 		virtual ~ModelHandlerInterface() = default;
 
-		virtual std::shared_ptr<Teapot::ModelInterface> CreateModel(Shapes::Shape& shapes, const std::string& nameObject) = 0;
-		virtual std::shared_ptr<Teapot::ModelInterface> CreateModel(const std::string& pathObject, const std::string& nameObject) = 0;
+		inline std::shared_ptr<Teapot::ModelInterface> CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
+		{
+			auto model = std::make_shared<Teapot::Model>(shapes, nameObject, modelType);
+			models->push_back(model);
+			return model;
+		}
+
+		inline std::shared_ptr<Teapot::ModelInterface> CreateModel(const std::string& pathObject, const std::string& nameObject)
+		{
+			auto model = std::make_shared<Teapot::Model>(pathObject, nameObject, modelType);
+			models->push_back(model);
+			return model;
+		}
+
 		virtual void RunAwake() = 0;
 		virtual void DrawModels() = 0;
 
 		std::string modelHandlerName{};
 
 		ModelVectorPtr models;
+		ModelType modelType;
 
 		inline static void RunAwakeModels()
 		{
@@ -45,7 +60,7 @@ namespace Teapot
 				drawModels();
 			}
 		}
-
+	
 	private:
 		inline static std::vector<std::function<void()>> mv_runAwakeFuncVec;
 		inline static std::vector<std::function<void()>> mv_drawModelsFuncVec;

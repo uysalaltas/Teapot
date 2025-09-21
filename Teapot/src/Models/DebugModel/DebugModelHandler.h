@@ -9,9 +9,6 @@ namespace Teapot
 	public:
 		DebugModelHandler();
 
-		std::shared_ptr<Teapot::ModelInterface> CreateModel(Shapes::Shape& shapes, const std::string& nameObject) override;
-		std::shared_ptr<Teapot::ModelInterface> CreateModel(const std::string& pathObject, const std::string& nameObject) override;
-
 		void RunAwake() override;
 		void DrawModels() override;
 
