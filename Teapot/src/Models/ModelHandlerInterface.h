@@ -43,7 +43,7 @@ namespace Teapot
 		std::string modelHandlerName{};
 
 		ModelVectorPtr models;
-		ModelType modelType;
+		ModelType modelType{};
 
 		inline static void RunAwakeModels()
 		{
