@@ -26,6 +26,7 @@ namespace Teapot
 		void SaveSceneToXML(const std::string& xmlPath) const;
 
 	private:
+		void CreateAndModifyModel(pugi::xml_node object);
 		glm::vec3 StringToVec3(const std::string& str) const;
 		std::string Vec3ToString(const glm::vec3& vec) const;
 

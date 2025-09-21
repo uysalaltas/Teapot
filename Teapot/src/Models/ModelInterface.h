@@ -33,6 +33,7 @@ namespace Teapot
 		ModelType modelType{};
 		std::string path{};
 		bool hasTexture{};
+		Shapes::ShapeObjects shapeObjectType{};
 
 		glm::mat4 objModel{ glm::mat4(1.0f) };
 		glm::vec3 modelColor{ glm::vec3(1.0f) };

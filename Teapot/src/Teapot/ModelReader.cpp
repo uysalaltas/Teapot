@@ -1,5 +1,6 @@
 #include "ModelReader.h"
 #include "ShapeGenerator/Shapes.h"
+#include <future>
 
 namespace Teapot
 {
@@ -22,74 +23,79 @@ namespace Teapot
 
 		for (pugi::xml_node object : m_doc.child("objects"))
 		{
-			auto modelType = static_cast<Teapot::ModelType>(object.attribute("type").as_int());
-			auto shapeType = static_cast<Shapes::ShapeObjects>(object.attribute("shape").as_int());
-			auto pos = StringToVec3(object.attribute("pos").as_string());
-			auto color = StringToVec3(object.attribute("color").as_string());
-			auto scale = StringToVec3(object.attribute("scale").as_string());
-			auto rot = StringToVec3(object.attribute("rot").as_string());
-			auto alias = object.attribute("alias").as_string();
-
-			std::shared_ptr<Teapot::ModelInterface> modelInt;
-			std::shared_ptr<Teapot::ModelHandlerInterface> modelHandlerInterface;
-			
-			switch (modelType)
-			{
-				using enum Teapot::ModelType;
-				case model: modelHandlerInterface = mp_modelHandler; break;
-				case debugModel: modelHandlerInterface = mp_debugModelHandler; break;
-				default: break;
-			}
-
-			if (!modelHandlerInterface)
-			{
-				std::cerr << "Invalid model type: " << static_cast<int>(modelType) << " for object: " << alias << std::endl;
-				continue;
-			}
-
-			switch (shapeType)
-			{
-				using enum Shapes::ShapeObjects;
-				case NoShape:
-				{
-					modelInt = modelHandlerInterface->CreateModel(object.attribute("path").as_string(), alias); 
-					break;
-				}
-				case Cube:    
-				{
-					Shapes::Cube cube(1.0f, color);
-					modelInt = modelHandlerInterface->CreateModel(cube, alias);
-					break;
-				}
-				case Cylinder:
-				{
-					Shapes::Cylinder cylinder(1.0f, color, 30, 30);
-					modelInt = modelHandlerInterface->CreateModel(cylinder, alias);
-					break;
-				}
-				case Plane:
-				{
-					Shapes::Plane plane(30, 30, 1.0f, color); 
-					modelInt = modelHandlerInterface->CreateModel(plane, alias);
-					break;
-				}
-				case Sphere:
-				{
-					Shapes::Sphere sphere(1.0f, color, 30, 30);
-					modelInt = modelHandlerInterface->CreateModel(sphere, alias);
-					break;
-				}
-			}
-
-			if (modelInt)
-			{
-				modelInt->Translate(pos);
-				modelInt->Rotate(rot);
-				modelInt->Scale(scale);
-			}
+			CreateAndModifyModel(object);
 		}
 
 		return true;
+	}
+
+	void ModelReader::CreateAndModifyModel(pugi::xml_node object)
+	{
+		auto modelType = static_cast<Teapot::ModelType>(object.attribute("type").as_int());
+		auto shapeType = static_cast<Shapes::ShapeObjects>(object.attribute("shape").as_int());
+		auto pos = StringToVec3(object.attribute("pos").as_string());
+		auto color = StringToVec3(object.attribute("color").as_string());
+		auto scale = StringToVec3(object.attribute("scale").as_string());
+		auto rot = StringToVec3(object.attribute("rot").as_string());
+		auto alias = object.attribute("alias").as_string();
+
+		std::shared_ptr<Teapot::ModelInterface> modelInt;
+		std::shared_ptr<Teapot::ModelHandlerInterface> modelHandlerInterface;
+
+		switch (modelType)
+		{
+			using enum Teapot::ModelType;
+			case model: modelHandlerInterface = mp_modelHandler; break;
+			case debugModel: modelHandlerInterface = mp_debugModelHandler; break;
+			default: break;
+		}
+
+		if (!modelHandlerInterface)
+		{
+			std::cerr << "Invalid model type: " << static_cast<int>(modelType) << " for object: " << alias << std::endl;
+			return;
+		}
+
+		switch (shapeType)
+		{
+			using enum Shapes::ShapeObjects;
+		case NoShape:
+		{
+			modelInt = modelHandlerInterface->CreateModel(object.attribute("path").as_string(), alias);
+			break;
+		}
+		case Cube:
+		{
+			Shapes::Cube cube(1.0f, color);
+			modelInt = modelHandlerInterface->CreateModel(cube, alias);
+			break;
+		}
+		case Cylinder:
+		{
+			Shapes::Cylinder cylinder(1.0f, color, 30, 30);
+			modelInt = modelHandlerInterface->CreateModel(cylinder, alias);
+			break;
+		}
+		case Plane:
+		{
+			Shapes::Plane plane(30, 30, 1.0f, color);
+			modelInt = modelHandlerInterface->CreateModel(plane, alias);
+			break;
+		}
+		case Sphere:
+		{
+			Shapes::Sphere sphere(1.0f, color, 30, 30);
+			modelInt = modelHandlerInterface->CreateModel(sphere, alias);
+			break;
+		}
+		}
+
+		if (modelInt)
+		{
+			modelInt->Translate(pos);
+			modelInt->Rotate(rot);
+			modelInt->Scale(scale);
+		}
 	}
 
 	void ModelReader::SaveSceneToXML(const std::string& xmlPath) const
@@ -121,6 +127,7 @@ namespace Teapot
 			auto modelType = static_cast<unsigned int>(model->modelType);
 			pugi::xml_node object = objects.append_child("object");
 			object.append_attribute("type") = modelType;
+			object.append_attribute("shape") = static_cast<int>(model->shapeObjectType);
 			object.append_attribute("alias") = model->name.c_str();
 			object.append_attribute("pos") = Vec3ToString(model->objTranslation).c_str();
 			object.append_attribute("color") = Vec3ToString(model->modelColor).c_str();

@@ -31,9 +31,8 @@ namespace Teapot
 		inline std::shared_ptr<Teapot::ModelHandler> GetModelHandler() { return mp_modelHandler; }
 		inline std::shared_ptr<Teapot::DebugModelHandler> GetDebugModelHandler() { return mp_debugModelHandler; }
 
-		inline void CreateModel(Shapes::Shape& shapes, const std::string& nameObject){ mp_modelHandler->CreateModel(shapes, nameObject); };
-		inline void CreateDebugModel(Shapes::Shape& shapes, const std::string& nameObject) { mp_debugModelHandler->CreateModel(shapes, nameObject); };
-		inline void CreateModelsFromXML(const std::string& path) { mp_modelReader->CreateSceneFromXML(path); };
+		inline void CreateModelsFromXML(const std::string& path) const { mp_modelReader->CreateSceneFromXML(path); };
+		inline void SaveModelsToXML(const std::string& path) const { mp_modelReader->SaveSceneToXML(path); };
 
 	private:
 		std::unique_ptr<Teapot::WindowControlUI> mp_windowUI;

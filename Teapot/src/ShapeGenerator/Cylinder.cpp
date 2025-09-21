@@ -17,6 +17,7 @@ namespace Shapes
 		, m_baseRadius(baseRadius)
 		, m_topRadius(topRadius)
 	{
+		shapeObjectType = ShapeObjects::Cylinder;
 		BuildUnitCircleVertices();
 		BuildVertexData();
 	}

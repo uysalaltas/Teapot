@@ -34,11 +34,11 @@ namespace Teapot
 
         while (getline(stream, line))
         {
-            if (line.contains("#shader"))
+            if (line.find("#shader") != std::string::npos)
             {
-                if (line.contains("vertex"))
+                if (line.find("vertex") != std::string::npos)
                     type = ShaderType::VERTEX;
-                else if (line.contains("fragment"))
+                else if (line.find("fragment") != std::string::npos)
                     type = ShaderType::FRAGMENT;
             }
             else

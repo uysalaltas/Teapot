@@ -74,10 +74,10 @@ namespace Teapot
 		Teapot::Shader& m_shader;
 		Teapot::Shader& m_shaderDepthBasic;
 
-		std::vector<std::unique_ptr<Shadow>> mv_shadows;
+		std::vector<std::unique_ptr<Teapot::Shadow>> mv_shadows;
 
-		std::vector<DirectionalLight> mv_directionalLights;
-		std::vector<PointLight> mv_pointLights;
-		std::vector<SpotLight> mv_spotLights;
+		std::vector<Teapot::DirectionalLight> mv_directionalLights;
+		std::vector<Teapot::PointLight> mv_pointLights;
+		std::vector<Teapot::SpotLight> mv_spotLights;
 	};
 }

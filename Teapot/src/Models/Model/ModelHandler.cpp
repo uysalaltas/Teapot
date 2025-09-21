@@ -7,20 +7,7 @@ namespace Teapot
 		: light(m_shader, m_shaderDepthBasic)
 	{
 		modelHandlerName = "Model";
-	}
-
-	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(Shapes::Shape& shapes, const std::string& nameObject)
-	{
-		auto model = std::make_shared<Teapot::Model>(shapes, nameObject);
-		models->push_back(model);
-		return model;
-	}
-
-	std::shared_ptr<Teapot::ModelInterface> ModelHandler::CreateModel(const std::string& pathObject, const std::string& nameObject)
-	{
-		auto model = std::make_shared<Teapot::Model>(pathObject, nameObject);
-		models->push_back(model);
-		return model;
+		modelType = ModelType::model;
 	}
 
 	void ModelHandler::RunAwake()

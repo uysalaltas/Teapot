@@ -6,6 +6,7 @@ namespace Shapes
 		: m_size(size)
 		, m_color(color)
 	{
+		shapeObjectType = ShapeObjects::Cube;
 		BuildVertexData();
 	}
 
